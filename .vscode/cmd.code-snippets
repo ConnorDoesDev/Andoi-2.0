@@ -1,0 +1,33 @@
+{
+  "generates the command": {
+    "prefix": "cmd",
+    "body": [
+      "const Command = require('../../struct/Command');",
+      "",
+      "module.exports = class extends Command {",
+      "",
+      "constructor(...args) {",
+      "super(...args, {",
+      "name: 'test',",
+      "desc: 'test a member',",
+      "usage: '[member]',",
+      "example: ['@mom'],",
+      "category: 'general',",
+      "guildOnly: true,",
+      "ownerOnly: false,",
+      "userPerms: [],",
+      "botPerms: [],",
+      "nsfw: false,",
+      "args: false,",
+      "voice: false,",
+      "sameVoice: false",
+      "})",
+      "}",
+      "",
+      "run(message, args) {",
+      "}",
+      "}"
+    ],
+    "description": "generates the command"
+  }
+}
