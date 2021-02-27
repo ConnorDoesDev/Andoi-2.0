@@ -6,7 +6,7 @@ const Logger = require("./utils/Logger");
 const Wrapper = require("./utils/DBWrapper");
 const wrapper = require("./models/wrapper");
 const settings = require("../settings");
-
+const { deezer, vscode } = require("./apis/index");
 class Bot extends Client {
   constructor() {
     super({
@@ -24,7 +24,10 @@ class Bot extends Client {
     this.utils = new ClientUtil(this);
 
     this.db = new Wrapper(this, wrapper);
-
+    this.apis = {
+      vscodeextensions: new vscode(),
+      deezer: new deezer(),
+    };
     this.defaultPerms = new Permissions([
       "SEND_MESSAGES",
       "VIEW_CHANNEL",
