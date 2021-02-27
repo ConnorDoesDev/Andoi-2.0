@@ -6,6 +6,7 @@ const Logger = require("./utils/Logger");
 const Wrapper = require("./utils/DBWrapper");
 const wrapper = require("./models/wrapper");
 const settings = require("../settings");
+const emotes = require("./assets/json/emotes.json");
 const { deezer, vscode } = require("./apis/index");
 class Bot extends Client {
   constructor() {
@@ -22,7 +23,7 @@ class Bot extends Client {
     this.events = new Collection();
 
     this.utils = new ClientUtil(this);
-
+    this.emotes = emotes;
     this.db = new Wrapper(this, wrapper);
     this.apis = {
       vscodeextensions: new vscode(),

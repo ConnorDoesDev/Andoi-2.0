@@ -15,7 +15,7 @@ module.exports = class extends Command {
       userPerms: [],
       botPerms: [],
       nsfw: false,
-      args: true,
+      args: ["number"],
       voice: false,
       sameVoice: false,
     });

@@ -19,8 +19,10 @@ module.exports = class extends Command {
     });
   }
 
-  run(message, args) {
-    const data = await fetch("https://api.adviceslip.com/advice").then(res => res.json());
+  async run(message, args) {
+    const data = await fetch("https://api.adviceslip.com/advice").then((res) =>
+      res.json()
+    );
 
     message.channel.send(data.slip.advice);
   }

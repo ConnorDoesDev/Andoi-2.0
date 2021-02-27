@@ -17,7 +17,7 @@ module.exports = class VSCodeExtensions extends SearchCommand {
       userPerms: [],
       botPerms: [],
       nsfw: false,
-      args: true,
+      args: ["extension"],
       voice: false,
       sameVoice: false,
     });
