@@ -13,11 +13,24 @@
     "discord.js": "^12.5.1",
     "glob": "^7.1.6",
     "mathjs": "^9.2.0",
+    "module-alias": "^2.2.2",
     "moment": "^2.29.1",
     "mongoose": "^5.11.15",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "path": "^0.12.7",
+    "perf_hooks": "0.0.1",
+    "some-random-cat": "^2.2.1",
+    "srod-v2": "^1.0.2",
+    "util": "^0.12.3"
   },
   "devDependencies": {
     "dotenv": "^8.2.0"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@bot": "./src/",
+    "@utils": "./src/utils",
+    "@structures": "./src/structures",
+    "@assets": "./src/assets"
   }
 }

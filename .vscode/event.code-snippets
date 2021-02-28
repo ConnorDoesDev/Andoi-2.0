@@ -1,0 +1,22 @@
+{
+  "pog": {
+    "prefix": "event",
+    "body": [
+      "const Event = require('../../struct/Event')",
+      "",
+      "module.exports = class extends Event {",
+      "",
+      "constructor(...args) {",
+      "super(...args, {",
+      "name: 'message',",
+      "})",
+      "}",
+      "",
+      "run(message) {",
+      "",
+      "}",
+      "}"
+    ],
+    "description": "pog"
+  }
+}

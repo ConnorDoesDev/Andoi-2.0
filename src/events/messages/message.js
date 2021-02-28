@@ -141,7 +141,7 @@ module.exports = class MessageEvent extends Event {
       } catch (err) {
         this.client.log.error(`${command.name}`, err);
         return message.channel.send(
-          `> ${this.client.emotes.warning} There was an error while executing this command: \`${err.message}\``
+          `> ${this.client.emotes.warn} There was an error while executing this command: \`${err.message}\``
         );
       }
     }

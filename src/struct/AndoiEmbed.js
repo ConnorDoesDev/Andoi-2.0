@@ -9,10 +9,18 @@ const { MessageEmbed } = require("discord.js");
 module.exports = class AndoiEbed extends MessageEmbed {
   constructor(user, data = {}) {
     super(data);
-    this.setColor("BLUE").setTimestamp();
+    this.setTimestamp();
     if (user) this.setFooter(user.tag);
   }
-
+  error() {
+    this.setColor("RED");
+  }
+  succes() {
+    this.setColor("GREEN");
+  }
+  warning() {
+    this.setColor("ORANGE");
+  }
   /**
    * Sets the description of this embed based on an array of arrays of strings
    * @param {Array<Array>} Array containing arrays (blocks) of and strings

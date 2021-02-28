@@ -25,7 +25,7 @@
       "})",
       "}",
       "",
-      "run(message, args) {",
+      "async run(message, args) {",
       "}",
       "}"
     ],
