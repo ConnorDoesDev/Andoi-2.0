@@ -3,19 +3,19 @@ const { Client, Collection, Permissions } = require("discord.js");
 const { connect } = require("mongoose");
 const ClientUtil = require("../utils/ClientUtil");
 const Logger = require("../utils/Logger");
-const Wrapper = require("../utils/DBWrapper");
-const wrapper = require("../models/wrapper");
 const settings = require("../../settings");
 const emotes = require("../assets/json/emotes.json");
 const { performance } = require("perf_hooks");
 const { deezer, vscode } = require("../apis/index");
+const langManager = require("./LanguageManager");
 require("../extenders/Message");
+require("../extenders/Guild");
 class Bot extends Client {
   constructor() {
     super({
       disableMentions: "everyone",
     });
-
+    this.lang = new langManager(this);
     this.commands = new Collection();
 
     this.aliases = new Collection();
@@ -26,7 +26,7 @@ class Bot extends Client {
 
     this.utils = new ClientUtil(this);
     this.emotes = emotes;
-    this.db = new Wrapper(this, wrapper);
+
     this.apis = {
       vscodeextensions: new vscode(),
       deezer: new deezer(),
@@ -55,8 +55,12 @@ class Bot extends Client {
   }
   embed() {}
 
-  getPrefix(message) {
-    return this.db.get(message.guild.id, "prefix", "a!");
+  async getPrefix(message) {
+    try {
+      return await message.guild.get("prefix", "a!");
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   isOwner(id) {
@@ -74,7 +78,6 @@ class Bot extends Client {
 
   build() {
     this.connectDB();
-    this.db.init();
     this.utils.handleCommands();
     this.utils.handleEvents();
     process.env.dev

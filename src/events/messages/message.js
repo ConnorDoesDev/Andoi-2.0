@@ -2,7 +2,7 @@ const Event = require("../../struct/Event");
 const { Collection, MessageEmbed } = require("discord.js");
 
 module.exports = class MessageEvent extends Event {
-  run(message) {
+  async run(message) {
     if (!message.channel.permissionsFor(this.client.user).has("SEND_MESSAGES"))
       return;
 
@@ -11,7 +11,7 @@ module.exports = class MessageEvent extends Event {
 
     if (message.author.bot) return;
 
-    const dataPrefix = this.client.getPrefix(message);
+    const dataPrefix = await this.client.getPrefix(message);
 
     if (message.content.match(mentionRegex))
       return message.channel.send(`My current prefix is \`${dataPrefix}\``);

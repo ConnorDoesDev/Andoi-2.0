@@ -27,13 +27,31 @@ module.exports = class Wrapper {
 
   async set(id, key, value) {
     const data = this.items.get(id);
-    data[key] = value;
-    this.items.set(id, data);
+    if (!data) {
+      this.items.set(id, { key: value });
+    } else {
+      data[key] = value;
+      this.items.set(id, data);
+    }
 
     const doc = await this.getDocument(id);
     doc.wrapper[key] = value;
     doc.markModifed("wrapper");
     return doc.save();
+  }
+  async push(id, key, value) {
+    const data = await this.get(id, key);
+    if (data == null) {
+      if (!Array.isArray(value)) return await this.set(id, key, [value]);
+      return await this.set(key, value);
+    }
+    if (!Array.isArray(data))
+      throw new Error(
+        `Expected target type to be Array, received ${typeof data}!`
+      );
+    if (Array.isArray(value)) return await this.set(key, data.concat(value));
+    data.push(value);
+    return await this.set(key, data);
   }
 
   async delete(id, key) {

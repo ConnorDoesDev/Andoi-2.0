@@ -1,6 +1,7 @@
 const SearchCommand = require("../../struct/searchCommand");
 const moment = require("moment");
 const AndoiEmbed = require("../../struct/AndoiEmbed");
+const { Message } = require("discord.js");
 
 const EXTENSION_URL = "https://marketplace.visualstudio.com/items/";
 
@@ -22,7 +23,12 @@ module.exports = class VSCodeExtensions extends SearchCommand {
       sameVoice: false,
     });
   }
-
+  /**
+   *
+   * @param {Message} context
+   * @param {String} param1
+   * @returns
+   */
   async search(context, [query]) {
     const res = await this.client.apis.vscodeextensions.search(query);
     return res.data.results[0].extensions;
@@ -37,7 +43,7 @@ module.exports = class VSCodeExtensions extends SearchCommand {
   }
 
   async handleResult(
-    { author, channel },
+    { author, channel, guild },
     {
       displayName,
       shortDescription,
@@ -64,7 +70,7 @@ module.exports = class VSCodeExtensions extends SearchCommand {
       new AndoiEmbed(author)
         .setColor("BLUE")
         .setAuthor(
-          "Visual studio code marketplace",
+          await this.client.lang.get(guild, "UTILITY/VS_MARKET"),
           null,
           "https://marketplace.visualstudio.com/vscode"
         )
@@ -75,18 +81,36 @@ module.exports = class VSCodeExtensions extends SearchCommand {
         .setTitle(displayName)
         .setDescriptionFromBlockArray([
           [shortDescription],
-          ["Made by", publisher.publisherName],
           [
-            "Installs",
+            await this.client.lang.get(guild, "UTILITY/MADE_BY"),
+            publisher.publisherName,
+          ],
+          [
+            await this.client.lang.get(guild, "UTILITY/INSTALLS"),
             installs.toLocaleString(),
             `${stars} (${Math.round(ratingCount)})`,
           ],
           [categories.join(", "), tags.map((t) => `\`${t}\``).join(", ")],
-          ["Last Update", moment(lastUpdated).fromNow(), version],
           [
-            `[License](${url}/license)`,
-            `[Changelog](${url}/changelog)`,
-            `[Install](https://vscoderedirect.switchblade.xyz/${publisher.publisherName}.${extensionName})`,
+            await this.client.lang.get(guild, "UTILITY/LAST_UPDATE"),
+            moment(lastUpdated).fromNow(),
+            version,
+          ],
+          [
+            `[${await this.client.lang.get(
+              guild,
+              "UTILITY/LICENSE"
+            )}](${url}/license)`,
+            `[${await this.client.lang.get(
+              guild,
+              "UTILITY/CHANGELOG"
+            )}](${url}/changelog)`,
+            `[${await this.client.lang.get(
+              guild,
+              "UTILITY/INSTALL"
+            )}](https://vscode.andoi.workers.dev/${
+              publisher.publisherName
+            }.${extensionName})`,
           ],
         ])
     );

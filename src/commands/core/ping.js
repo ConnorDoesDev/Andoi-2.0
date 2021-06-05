@@ -6,7 +6,9 @@ module.exports = class PingCommand extends Command {
       desc: "Get the bot latency",
     });
   }
-
+  /**
+   * @param {Message} message
+   */
   async run(message) {
     const msg = await message.channel.send("Pinging...");
     const timeDiff = msg.createdTimestamp - message.createdTimestamp;
@@ -15,14 +17,26 @@ module.exports = class PingCommand extends Command {
     await model.findOne({});
     let dataPingNow = Date.now();
     let dataRealPing = dataPingNow - dataPing;
+    const api_laten = await this.client.lang.get(
+      message.guild,
+      "CORE/API_LATENCY"
+    );
+    const msg_laten = await this.client.lang.get(
+      message.guild,
+      "CORE/MESSAGE_LATENCY"
+    );
+    const db_laten = await this.client.lang.get(
+      message.guild,
+      "CORE/DATABASE_LATENCY"
+    );
     const embed = this.client.utils
       .embed()
       .setColor(this.client.settings.embed_main)
       .setDescription(
         [
-          `**Websocket:** \`${wsp}ms\``,
-          `**Delay:** \`${timeDiff}ms\``,
-          `**Database:** \`${dataRealPing}ms\``,
+          `**${api_laten}** \`${wsp}ms\``,
+          `**${msg_laten}** \`${timeDiff}ms\``,
+          `**${db_laten}** \`${dataRealPing}ms\``,
         ].join("\n")
       )
       .setTimestamp();

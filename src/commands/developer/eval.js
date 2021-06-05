@@ -23,7 +23,7 @@ module.exports = class extends Command {
   async run(message, args) {
     const toEval = args.join(" ");
     try {
-      eval("(async () =>  { " + toEval + " } )();").then((e) => {
+      await eval("(async () =>  { " + toEval + " } )();").then((e) => {
         let evaluated = e;
         evaluated = util.inspect(evaluated, { depth: 0 });
         const type = typeof evaluated;
