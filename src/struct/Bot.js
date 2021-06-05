@@ -57,7 +57,7 @@ class Bot extends Client {
 
   async getPrefix(message) {
     try {
-      return await message.guild.get("prefix", "a!");
+      return await message.guild.get("prefix", "a.");
     } catch (err) {
       console.log(err);
     }

@@ -21,16 +21,7 @@
     "perf_hooks": "0.0.1",
     "some-random-cat": "^2.2.1",
     "srod-v2": "^1.0.2",
-    "util": "^0.12.3"
-  },
-  "devDependencies": {
+    "util": "^0.12.3",
     "dotenv": "^8.2.0"
-  },
-  "_moduleAliases": {
-    "@root": ".",
-    "@bot": "./src/",
-    "@utils": "./src/utils",
-    "@structures": "./src/structures",
-    "@assets": "./src/assets"
   }
 }
