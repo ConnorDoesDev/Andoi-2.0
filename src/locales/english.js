@@ -14,7 +14,7 @@ module.exports = {
       `For additional info about a command use \`${prefix}help [command]\``,
     API_LATENCY: "Api latency: ",
     MESSAGE_LATENCY: "Message latency: ",
-    DABATASE_LATENCY: "Database latency: ",
+    DABABASE_LATENCY: "Database latency: ",
   },
   UTILITY: {
     VS_MARKET: "Visual Studio Code MarketPlace",
