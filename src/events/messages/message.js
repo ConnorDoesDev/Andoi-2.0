@@ -9,8 +9,6 @@ module.exports = class MessageEvent extends Event {
     const mentionRegex = new RegExp(`^<@!?${this.client.user.id}>$`);
     const mentionRegexPrefix = new RegExp(`^<@!?${this.client.user.id}> `);
 
-    if (message.author.bot) return;
-
     const dataPrefix = await this.client.getPrefix(message);
 
     if (message.content.match(mentionRegex))
@@ -137,7 +135,7 @@ module.exports = class MessageEvent extends Event {
       }
 
       try {
-        command.run(message, args);
+        await command.run(message, args);
       } catch (err) {
         this.client.log.error(`${command.name}`, err);
         return message.channel.send(

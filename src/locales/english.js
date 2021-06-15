@@ -25,4 +25,7 @@ module.exports = {
     INSTALL: "Install",
     INSTALLS: "Installs",
   },
+  FUN: {
+    MC_ACHIEVEMENT: "Minecraft achievement",
+  },
 };

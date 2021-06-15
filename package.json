@@ -10,7 +10,9 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
+    "chroma-js": "^2.1.2",
     "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
     "glob": "^7.1.6",
     "mathjs": "^9.2.0",
     "module-alias": "^2.2.2",
@@ -21,7 +23,6 @@
     "perf_hooks": "0.0.1",
     "some-random-cat": "^2.2.1",
     "srod-v2": "^1.0.2",
-    "util": "^0.12.3",
-    "dotenv": "^8.2.0"
+    "util": "^0.12.3"
   }
 }
