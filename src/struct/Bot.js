@@ -1,5 +1,5 @@
 require("dotenv/config");
-const { Client, Collection, Permissions } = require("discord.js");
+const { Client, Collection, Permissions, Intents } = require("discord.js");
 const { connect } = require("mongoose");
 const ClientUtil = require("../utils/ClientUtil");
 const Logger = require("../utils/Logger");
@@ -13,7 +13,8 @@ require("../extenders/Guild");
 class Bot extends Client {
   constructor() {
     super({
-      disableMentions: "everyone",
+      allowedMentions: { parse: ["users", "roles"], repliedUser: true },
+      intents: Intents.ALL,
     });
     this.lang = new langManager(this);
     this.commands = new Collection();

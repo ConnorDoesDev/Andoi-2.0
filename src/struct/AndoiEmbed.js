@@ -10,16 +10,22 @@ module.exports = class AndoiEbed extends MessageEmbed {
   constructor(user, data = {}) {
     super(data);
     this.setTimestamp();
-    if (user) this.setFooter(user.tag);
+    if (user) {
+      this.setFooter(user.tag);
+      this.setAuthor(user.username, user.displayAvatarURL({ format: "png" }));
+    }
   }
-  error() {
-    this.setColor("RED");
-  }
-  succes() {
+  setSuccess() {
     this.setColor("GREEN");
+    return this;
   }
-  warning() {
+  setError() {
+    this.setColor("RED");
+    return this;
+  }
+  setWarning() {
     this.setColor("ORANGE");
+    return this;
   }
   /**
    * Sets the description of this embed based on an array of arrays of strings

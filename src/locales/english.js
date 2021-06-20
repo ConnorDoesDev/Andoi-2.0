@@ -1,4 +1,5 @@
 module.exports = {
+  ERROR: "An error has occured please contact the developer!",
   CORE: {
     OPTIONAL_HELP:
       "Everything in <> is a required parameter, [] is a optional parameter",
@@ -15,6 +16,10 @@ module.exports = {
     API_LATENCY: "Api latency: ",
     MESSAGE_LATENCY: "Message latency: ",
     DATABASE_LATENCY: "Database latency: ",
+    HAS_PREMIUM: "This server already has premium enabled.",
+    INVALID_PREMIUM: "The code that was provided is invalid.",
+    REDEEMED_SUCCESSFULLY: ({ id, guildname, expires }) =>
+      `Congrats! This server (${guildname}) is now a premium server! The reciept ID is ${id}. The premium plan expires at: ${expires}`,
   },
   UTILITY: {
     VS_MARKET: "Visual Studio Code MarketPlace",

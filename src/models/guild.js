@@ -5,5 +5,11 @@ module.exports = model(
     guild: String,
     prefix: { type: String, default: "a." },
     language: { type: String, default: "english" },
+    premium: {
+      enabled: { type: Boolean, default: false },
+      redeemedAt: String,
+      expiresAt: String,
+      plan: String,
+    },
   })
 );

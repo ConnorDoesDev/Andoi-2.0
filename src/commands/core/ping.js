@@ -8,8 +8,9 @@ module.exports = class PingCommand extends Command {
   }
   /**
    * @param {Message} message
+   * @param {Array} args
    */
-  async run(message) {
+  async run(message, args) {
     const msg = await message.channel.send("Pinging...");
     const timeDiff = msg.createdTimestamp - message.createdTimestamp;
     const wsp = this.client.ws.ping;

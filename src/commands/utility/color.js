@@ -1,6 +1,8 @@
 const Command = require("../../struct/Command");
-const { MessageEmbed, Message } = require(`discord.js`);
+const { Message } = require(`discord.js`);
 const chroma = require("chroma-js");
+
+const AndoiEmbed = require("../../struct/AndoiEmbed");
 module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
@@ -8,7 +10,7 @@ module.exports = class extends Command {
       desc: "Color info",
       usage: "[color]",
       example: ["red"],
-      category: "general",
+      category: "utility",
       guildOnly: true,
       ownerOnly: false,
       userPerms: [],
@@ -30,14 +32,13 @@ module.exports = class extends Command {
       color.hex().split("#")[1]
     }`;
 
-    const embed = new MessageEmbed()
+    const embed = new AndoiEmbed(mssage.author)
       .setThumbnail(preview)
       .setTimestamp()
       .addField("Hex", color.hex())
       .addField("Rgb", `rgb(${color.rgb().join(", ")})`)
       .addField("Rgba", `rgba(${color.rgba().join(", ")})`)
-      .setColor(color.num())
-      .setColor(color);
+      .setColor(color.num());
 
     message.channel.send(embed);
   }

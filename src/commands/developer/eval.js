@@ -1,6 +1,6 @@
 const Command = require("../../struct/Command");
 const util = require("util");
-const { MessageEmbed } = require("discord.js");
+const AndoiEmbed = require("../../struct/AndoiEmbed");
 module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
@@ -27,7 +27,7 @@ module.exports = class extends Command {
         let evaluated = e;
         evaluated = util.inspect(evaluated, { depth: 0 });
         const type = typeof evaluated;
-        const embed = new MessageEmbed()
+        const embed = new AndoiEmbed(message.author)
           .setTitle("Eval Command")
           .addField("**Input:**", `\`\`\`js\n${toEval}\`\`\``)
           .addField("**Output:**", ` \`\`\`js\n${evaluated}\`\`\``)

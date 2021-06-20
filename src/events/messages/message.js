@@ -8,9 +8,12 @@ module.exports = class MessageEvent extends Event {
 
     const mentionRegex = new RegExp(`^<@!?${this.client.user.id}>$`);
     const mentionRegexPrefix = new RegExp(`^<@!?${this.client.user.id}> `);
-
-    const dataPrefix = await this.client.getPrefix(message);
-
+    let dataPrefix;
+    if (message.channel.type === "dm") {
+      dataPrefix = "!";
+    } else {
+      dataPrefix = await this.client.getPrefix(message);
+    }
     if (message.content.match(mentionRegex))
       return message.channel.send(`My current prefix is \`${dataPrefix}\``);
 
@@ -22,7 +25,6 @@ module.exports = class MessageEvent extends Event {
 
     const [commandName, ...args] = message.content
       .slice(prefix.length)
-      .toLowerCase()
       .trim()
       .split(/ +/g);
 
@@ -47,7 +49,7 @@ module.exports = class MessageEvent extends Event {
         );
       }
 
-      if (command.args && !args.length) {
+      if (command.args.length > args.length || (command.args && !args.length)) {
         const ee = command.args;
         const ex = `${prefix}${command.name} ${ee
           .map((e) => `<${e}>`)

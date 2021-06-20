@@ -1,4 +1,5 @@
 const { Structures, APIMessage, MessageEmbed } = require("discord.js");
+const AndoiEmbed = require("../struct/AndoiEmbed");
 module.exports = Structures.extend(
   "Message",
   (Message) =>
@@ -9,9 +10,20 @@ module.exports = Structures.extend(
         this.lastResponse = null;
         this.flags = [];
       }
+      /**
+       *
+       * @returns {AndoiEmbed} embed
+       */
       embed() {
-        return new MessageEmbed();
+        return new AndoiEmbed();
       }
+      /**
+       *
+       * @param {String} lang
+       * @param {String} content
+       * @param {Object} options
+       * @returns {<Promise>}
+       */
       sendCode(lang, content, options) {
         return this.send({
           content: content,
@@ -20,28 +32,7 @@ module.exports = Structures.extend(
           code: lang,
         });
       }
-      async reply(content, options) {
-        const reference = {
-          message_id:
-            (!!content && !options
-              ? typeof content === "object" && content.messageID
-              : options && options.messageID) || this.id,
-          message_channel: this.channel.id,
-        };
 
-        const { data: parsed, files } = await APIMessage.create(
-          this,
-          content,
-          options
-        )
-          .resolveData()
-          .resolveFiles();
-
-        this.client.api.channels[this.channel.id].messages.post({
-          data: { ...parsed, message_reference: reference },
-          files,
-        });
-      }
       async send(content, options) {
         const transformedOptions = APIMessage.transformOptions(
           content,

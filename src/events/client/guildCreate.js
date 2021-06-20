@@ -1,5 +1,5 @@
 const Event = require("../../struct/Event");
-
+const AndoiEmbed = require("../../struct/AndoiEmbed");
 module.exports = class extends Event {
   constructor(...args) {
     super(...args, {
@@ -15,7 +15,7 @@ module.exports = class extends Event {
     const embed = this.client
       .embed()
       .setTitle("New server here is some info!")
-      .addField("Owner:", this.client.users.cache.get(guild.ownerID).tag)
+      .addField("Owner:", this.client.users.cache.get(guild.fetchOwnerID()).tag)
       .addField("Members:", guild.members.cache.size);
 
     channel.send(embed);
@@ -24,7 +24,7 @@ module.exports = class extends Event {
     const channels = guild.channels.cache.array();
     const channel = channels.first();
 
-    const embed = new this.client.embed()
+    const embed = new AndoiEmbed(this.client.user)
       .setTitle("Hi there!")
       .setDescription("My prefix is `a!` and to see my commands use `a!help`");
 
