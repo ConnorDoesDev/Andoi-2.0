@@ -1,3 +1,4 @@
+const ms = require("ms");
 module.exports = {
   ERROR: "An error has occured please contact the developer!",
   CORE: {
@@ -32,5 +33,57 @@ module.exports = {
   },
   FUN: {
     MC_ACHIEVEMENT: "Minecraft achievement",
+  },
+  GIVEAWAY: {
+    WHAT_PRIZE: "What is the prize?",
+    WHAT_CHANNEL: (prize) =>
+      `The prize is **${prize}**! What channel do you want to host the giveaway in`,
+    HOW_WINNERS: (id) =>
+      `Channel is <#${id}>! Now how many winners do you want?`,
+    LESS_WINNERS: "You cannot have more then 10 winners.",
+    WHAT_TIME: (winners) =>
+      `${winners} winner(s) will be chosen for this giveaway! How much time do you want?`,
+    WHAT_HOST: (time) =>
+      `The time is now set to ${time}! Who is hosting the giveaway?`,
+    WHAT_REQ: (host) =>
+      `The host is ${host.user.username}! Now do you want any requirements for the giveaway?`,
+    IS_CORRECT: ({ giveaway, message }) =>
+      `Is this correct?\n\`\`\`Prize: ${giveaway.prize}\nWinner(s): ${
+        giveaway.winners
+      }\nTime: ${ms(giveaway.time)}\nhost: ${
+        message.guild.members.cache.get(giveaway.host).user.username
+      }\nRequirements: ${
+        giveaway.reqEnabled ? "Yes" : "No"
+      }\n\`\`\`Reply with \`yes\` or \`no\`!`,
+    NOT_TIME: "You did not respond in time.",
+    ERROR: "You did not provide valid option!",
+    WRONG_INFO: "Cancelled giveaway setup due to wrong info!",
+    HIGH_TIME: "The time cannot be more than 14 days!",
+    ROLE_REQ:
+      "You can use role requirements by providing the id. Example: 853232801398128640",
+    INVALID_ROLE: "That is not a valid role!",
+    IS_REQ_CORRECT: ({ giveaway, message }) =>
+      `Added the role to requirements!\n\`\`\`\n${
+        message.guild.roles.cache.get(giveaway.requirements.role).name
+      }\n\`\`\``,
+    CREAT_GIV: "Created the giveaway!",
+  },
+  GWMSG: {
+    GIVEAWAY_START:
+      "<:bgift:851096270038761482> **GIVEAWAY** <:bgift:851096270038761482>",
+    GIVEAWAY_END:
+      "<:bgift:851096270038761482> **GIVEAWAY** <:bgift:851096270038761482>",
+    TIME: "Time remaining: **{duration}**!",
+    REACT: "React with 🎉 to participate!",
+    WIN: "Congratulations, {winners}! You won **{prize}**!",
+    NO_WINNER: "Giveaway cancelled, no valid participations.",
+    HOST: "Hosted by: {user}",
+    WINNER: "winner(s)",
+    END_AT: "Ended at",
+    SECOND: "seconds",
+    MINUTE: "Minutes",
+    HOUR: "Hours",
+    DAY: "Days",
+    ROLE_REQ: "Role requirements:",
   },
 };

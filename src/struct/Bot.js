@@ -6,6 +6,7 @@ const Logger = require("../utils/Logger");
 const settings = require("../../settings");
 const emotes = require("../assets/json/emotes.json");
 const { performance } = require("perf_hooks");
+const GiveawaysManager = require("./Mongogiveaways");
 const { deezer, vscode } = require("../apis/index");
 const langManager = require("./LanguageManager");
 require("../extenders/Message");
@@ -15,6 +16,18 @@ class Bot extends Client {
     super({
       allowedMentions: { parse: ["users", "roles"], repliedUser: true },
       intents: Intents.ALL,
+    });
+    this.giveaway = new GiveawaysManager(this, {
+      storage: false,
+      updateCountdownEvery: 10000,
+      hasGuildMembersIntent: true,
+      default: {
+        botsCanWin: false,
+        exemptPermissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
+        embedColor: "#FF0000",
+        embedColorEnd: "#000000",
+        reaction: "🎉",
+      },
     });
     this.lang = new langManager(this);
     this.commands = new Collection();

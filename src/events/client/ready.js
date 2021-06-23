@@ -1,5 +1,4 @@
 const Event = require("../../struct/Event");
-
 module.exports = class ReadyEvent extends Event {
   constructor(...args) {
     super(...args, {
