@@ -11,7 +11,6 @@
   "dependencies": {
     "axios": "^0.21.1",
     "chroma-js": "^2.1.2",
-    "discord-buttons": "^3.2.1",
     "discord-giveaways": "^4.5.1",
     "discord.js": "github:tovade/discord.js",
     "dotenv": "^8.2.0",
