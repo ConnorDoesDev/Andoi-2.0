@@ -139,7 +139,7 @@ module.exports = class MessageEvent extends Event {
       try {
         await command.run(message, args);
       } catch (err) {
-        this.client.log.error(`${command.name}`, err);
+        this.client.log.error(`${command.name}`, err.stack);
         return message.channel.send(
           `> ${this.client.emotes.warn} There was an error while executing this command: \`${err.message}\``
         );
