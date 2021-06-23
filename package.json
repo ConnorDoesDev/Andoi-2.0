@@ -4,7 +4,8 @@
   "description": "official andoi bot!",
   "main": "./src/bot.js",
   "scripts": {
-    "start": "node ./src/bot.js"
+    "start": "node ./src/bot.js",
+    "host-start": "git pull && npm install && node ./src/bot.js"
   },
   "author": "Tovade",
   "license": "MIT",

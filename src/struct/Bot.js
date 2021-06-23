@@ -100,9 +100,11 @@ class Bot extends Client {
     this.connectDB();
     this.utils.handleCommands();
     this.utils.handleEvents();
-    process.env.dev
-      ? super.login(process.env.dev_token)
-      : super.login(process.env.bot_token);
+    if (process.env.dev === "true") {
+      super.login(process.env.dev_token);
+    } else {
+      super.login(process.env.bot_token);
+    }
   }
   async resolveUser(search) {
     if (!search || typeof search !== "string") return null;
