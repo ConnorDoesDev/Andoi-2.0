@@ -265,3 +265,86 @@ module.exports.start = async (client, message, args) => {
     }
   });
 };
+module.exports.end = async (client, message, args) => {
+  if (!args[0]) {
+    return message.channel.send(
+      await client.lang.get(message.guild, "GIVEAWAY/PROVIDE_ID")
+    );
+  }
+
+  let giveaway =
+    client.giveaway.giveaways.find(
+      (g) => g.prize === args.join(" ") && g.guildID === message.guild.id
+    ) ||
+    client.giveaway.giveaways.find(
+      (g) => g.messageID === args[0] && g.guildID === message.guild.id
+    );
+  if (!giveaway) {
+    return message.channel.send(
+      await client.lang.get(message.guild, "GIVEAWAY/UNABLE_FIND", args)
+    );
+  }
+  client.giveaway
+    .edit(giveaway.messageID, {
+      setEndTimestamp: Date.now(),
+    })
+    .then(() => {
+      message.channel.send(
+        await client.lang.get(message.guild, "GIVEAWAY/WILL_END", client)
+      );
+    })
+    .catch((e) => {
+      if (
+        e.startsWith(
+          `Giveaway with message ID ${giveaway.messageID} is already ended.`
+        )
+      ) {
+        message.channel.send(
+          await client.lang.get(message.guild, "GIVEAWAY/ALREADY_END")
+        );
+      } else {
+        console.error(e);
+        message.channel.send(await client.lang.get(message.guild, "ERROR"));
+      }
+    });
+};
+module.exports.reroll = async (client, message, args) => {
+  if (!args[0]) {
+    return message.channel.send(
+      await client.lang.get(message.guild, "GIVEAWAY/PROVIDE_ID")
+    );
+  }
+  let giveaway =
+    client.giveawaysManager.giveaways.find(
+      (g) => g.prize === args.join(" ") && g.guildID === message.guild.id
+    ) ||
+    client.giveawaysManager.giveaways.find(
+      (g) => g.messageID === args[0] && g.guildID === message.guild.id
+    );
+  if (!giveaway) {
+    return message.channel.send(
+      await client.lang.get(message.guild, "GIVEAWAY/UNABLE_FIND", args)
+    );
+  }
+  client.giveaway
+    .reroll(giveaway.messageID)
+    .then(() => {
+      message.channel.send(
+        await client.lang.get(message.guild, "GIVEAWAY/REROLL")
+      );
+    })
+    .catch((e) => {
+      if (
+        e.startsWith(
+          `Giveaway with message ID ${giveaway.messageID} is not ended.`
+        )
+      ) {
+        message.channel.send(
+          await client.lang.get(message.guild, "GIVEAWAY/ALREADY_END")
+        );
+      } else {
+        console.error(e);
+        message.channel.send(await client.lang.get(message.guild, "ERROR"));
+      }
+    });
+};

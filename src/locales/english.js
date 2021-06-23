@@ -67,6 +67,16 @@ module.exports = {
         message.guild.roles.cache.get(giveaway.requirements.role).name
       }\n\`\`\``,
     CREAT_GIV: "Created the giveaway!",
+    PROVIDE_ID: "You have to specify a valid message ID!",
+    UNABLE_FIND: (args) =>
+      "Unable to find a giveaway for `" + args.join(" ") + "`.",
+    WILL_END: (client) =>
+      "Giveaway will end in less than " +
+      client.giveaway.options.updateCountdownEvery / 1000 +
+      " seconds...",
+    ALREADY_END: "This giveaway is already ended!",
+    REROLL: "The giveaway has been re-rolled",
+    NOT_END: "The giveaway hasn't ended yet!",
   },
   GWMSG: {
     GIVEAWAY_START:

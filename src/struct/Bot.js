@@ -19,14 +19,20 @@ class Bot extends Client {
     });
     this.giveaway = new GiveawaysManager(this, {
       storage: false,
-      updateCountdownEvery: 10000,
+      updateCountdownEvery: 5000,
       hasGuildMembersIntent: true,
       default: {
         botsCanWin: false,
-        exemptPermissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
+        exemptPermissions: [],
         embedColor: "#FF0000",
         embedColorEnd: "#000000",
         reaction: "🎉",
+        lastChance: {
+          enabled: true,
+          content: "⚠️ **LAST CHANCE TO ENTER !** ⚠️",
+          threshold: 5000,
+          embedColor: "#FF0000",
+        },
       },
     });
     this.lang = new langManager(this);
