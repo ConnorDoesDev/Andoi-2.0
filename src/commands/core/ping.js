@@ -11,7 +11,6 @@ module.exports = class PingCommand extends Command {
    * @param {Array} args
    */
   async run(message, args) {
-    const msg = await message.channel.send("Pinging...");
     const timeDiff = msg.createdTimestamp - message.createdTimestamp;
     const wsp = this.client.ws.ping;
     let dataPing = Date.now();

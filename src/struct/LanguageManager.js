@@ -1,7 +1,16 @@
+const { Guild } = require("discord.js");
+const file = require("../locales/english");
 module.exports = class languageManager {
   constructor(client) {
     this.client = client;
   }
+  /**
+   *
+   * @param {Guild} guild
+   * @param {String} value
+   * @param {any} extra_args
+   * @returns {String}
+   */
   async get(guild, value, extra_args) {
     const lang = await guild.get("language", "english");
     const file = require(`../locales/${lang}.js`);
@@ -20,5 +29,15 @@ module.exports = class languageManager {
         return file[value](extra_args);
       }
     }
+  }
+  /**
+   *
+   * @param {Guild} guild
+   * @returns {file} Language
+   */
+  async getFile(guild) {
+    const lang = await guild.get("language", "english");
+
+    return require(`../locales/${lang}.js`);
   }
 };

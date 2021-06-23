@@ -1,10 +1,11 @@
 {
   "name": "andoi",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "official andoi bot!",
   "main": "./src/bot.js",
   "scripts": {
-    "start": "node ./src/bot.js"
+    "start": "node ./src/bot.js",
+    "host-start": "git pull && npm install && node ./src/bot.js"
   },
   "author": "Tovade",
   "license": "MIT",
