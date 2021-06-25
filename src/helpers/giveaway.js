@@ -167,11 +167,9 @@ module.exports.start = async (client, message, args) => {
               // The giveaway winner count
               winnerCount: giveaway.winners,
               hostedBy: giveaway.hostedBy,
-
-              exemptMembers: (member) =>
-                !member.roles.cache.some(
-                  (r) => r.id === giveaway.requirements.role
-                ),
+              extraData: {
+                role: giveaway.requirements.role,
+              },
 
               messages: {
                 giveaway: await client.lang.get(
@@ -199,6 +197,10 @@ module.exports.start = async (client, message, args) => {
                 hostedBy: await client.lang.get(message.guild, "GWMSG/HOST"),
                 winners: await client.lang.get(message.guild, "GWMSG/WINNER"),
                 endedAt: await client.lang.get(message.guild, "GWMSG/END_AT"),
+                requirements: await client.lang.get(
+                  message.guild,
+                  "GWMSG/ROLE_REQ"
+                ),
                 units: {
                   seconds: await client.lang.get(message.guild, "GWMSG/SECOND"),
                   minutes: await client.lang.get(message.guild, "GWMSG/MINUTE"),
@@ -212,12 +214,6 @@ module.exports.start = async (client, message, args) => {
           await message.channel
             .send(await client.lang.get(message.guild, "GIVEAWAY/CREAT_GIV"))
             .then((m) => setTimeout(() => m.delete(), 2000));
-          const embed = new MessageEmbed().setDescription(
-            `**Required role:** ${
-              message.guild.roles.cache.get(giveaway.requirements.role).name
-            }`
-          );
-          client.channels.cache.get(giveaway.channel).send(embed);
         }
       });
     } else {
@@ -288,12 +284,12 @@ module.exports.end = async (client, message, args) => {
     .edit(giveaway.messageID, {
       setEndTimestamp: Date.now(),
     })
-    .then(() => {
+    .then(async () => {
       message.channel.send(
         await client.lang.get(message.guild, "GIVEAWAY/WILL_END", client)
       );
     })
-    .catch((e) => {
+    .catch(async (e) => {
       if (
         e.startsWith(
           `Giveaway with message ID ${giveaway.messageID} is already ended.`
@@ -328,12 +324,12 @@ module.exports.reroll = async (client, message, args) => {
   }
   client.giveaway
     .reroll(giveaway.messageID)
-    .then(() => {
+    .then(async () => {
       message.channel.send(
         await client.lang.get(message.guild, "GIVEAWAY/REROLL")
       );
     })
-    .catch((e) => {
+    .catch(async (e) => {
       if (
         e.startsWith(
           `Giveaway with message ID ${giveaway.messageID} is not ended.`

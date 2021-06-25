@@ -98,6 +98,8 @@ module.exports = {
     ALREADY_END: "This giveaway is already ended!",
     REROLL: "The giveaway has been re-rolled",
     NOT_END: "The giveaway hasn't ended yet!",
+    INCORRECT_ENTER: ({ role, link }) =>
+      `Your entry for this [giveaway](${link}) has been denied you are missing the role \`${role.name}\``,
   },
   GWMSG: {
     GIVEAWAY_START:
