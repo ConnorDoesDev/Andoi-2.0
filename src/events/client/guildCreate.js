@@ -22,7 +22,7 @@ module.exports = class extends Event {
   }
   sendMessage(guild) {
     const channels = guild.channels.cache.array();
-    const channel = channels.first();
+    const channel = channels[0];
 
     const embed = new AndoiEmbed(this.client.user)
       .setTitle("Hi there!")

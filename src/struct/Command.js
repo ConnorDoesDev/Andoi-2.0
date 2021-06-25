@@ -1,5 +1,6 @@
 const { Permissions } = require("discord.js");
 const path = require("path");
+const langManager = require("./LanguageManager");
 module.exports = class Command {
   constructor(client, name, options = {}) {
     this.client = client;
@@ -19,6 +20,7 @@ module.exports = class Command {
     this.voice = Boolean(options.voice) || false;
     this.sameVoice = Boolean(options.sameVoice) || false;
     this.premium = Boolean(options.premium) || false;
+    this.lang = new langManager(this.client);
   }
 
   async run(message, args) {
@@ -26,5 +28,47 @@ module.exports = class Command {
       "command",
       `Command ${this.name} doesn't have a default run method.`
     );
+  }
+  findMember(message, args, allowAuthor = false) {
+    let member;
+
+    member =
+      message.mentions.members.first() ||
+      message.guild.members.cache.get(args[0]) ||
+      message.guild.members.cache.find((m) => m.user.id === args[0]) ||
+      message.guild.members.cache.find((m) => m.user.tag === args[0]) ||
+      message.guild.members.cache.find((m) => m.user.username === args[0]);
+
+    if (!member && allowAuthor) {
+      member = message.member;
+    }
+
+    return member;
+  }
+  findChannel(message, args, allowauthor = false) {
+    let channel;
+
+    channel =
+      message.mentions.channels.first() ||
+      message.guild.channels.cache.get(args[0]) ||
+      message.guild.channels.cache.find((r) => r.name === args[0]) ||
+      message.guild.channels.cache.find((r) => r.name.startsWith(args[0]));
+
+    if (!channel && allowauthor) {
+      channel = message.channel;
+    }
+    return channel;
+  }
+  findRole(message, args, allowChannel = false) {
+    let role;
+    role =
+      message.mentions.roles.first() ||
+      message.guild.roles.cache.get(args[0]) ||
+      message.guild.roles.cache.find((r) => r.name === args[0]) ||
+      message.guild.roles.cache.find((r) => r.name.startsWith(args[0]));
+    if (!role && allowChannel) {
+      role = message.member.roles.highest;
+    }
+    return role;
   }
 };

@@ -2,6 +2,26 @@ const ms = require("ms");
 module.exports = {
   ERROR: "An error has occured please contact the developer!",
   CORE: {
+    DAY: "day",
+    DAYS: "days",
+    HOUR: "Hour",
+    HOURS: "Hours",
+    SERVERS: "Servers",
+    COMMANDS: "Commands",
+    EVENTS: "Events",
+    USERS: "Users",
+    CHANNELS: "Channels",
+    CLIENT: "Client",
+    SERVER: "Server",
+    PING: "Ping",
+    UPTIME: "Uptime",
+    OS: "Os",
+    CPU: "CPU",
+    CORES: "Cores",
+    CPU_USAGE: "CPU usage",
+    RAM: "Ram",
+    RAM_USAGE: "Ram Usage",
+    ANDOI_STATS: "Andoi's Statistics",
     OPTIONAL_HELP:
       "Everything in <> is a required parameter, [] is a optional parameter",
     INVALID_COMMAND: "Invalid command.",
@@ -33,6 +53,7 @@ module.exports = {
   },
   FUN: {
     MC_ACHIEVEMENT: "Minecraft achievement",
+    SOLVE_CAPTCHA: "Solve the captcha!",
   },
   GIVEAWAY: {
     WHAT_PRIZE: "What is the prize?",
@@ -77,6 +98,8 @@ module.exports = {
     ALREADY_END: "This giveaway is already ended!",
     REROLL: "The giveaway has been re-rolled",
     NOT_END: "The giveaway hasn't ended yet!",
+    INCORRECT_ENTER: ({ role, link }) =>
+      `Your entry for this [giveaway](${link}) has been denied you are missing the role \`${role.name}\``,
   },
   GWMSG: {
     GIVEAWAY_START:

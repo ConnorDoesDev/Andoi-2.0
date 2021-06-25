@@ -1,4 +1,4 @@
-const { GiveawaysManager } = require("discord-giveaways");
+const { GiveawaysManager } = require("@tovade/discord-giveaways");
 const GiveawayModel = require("../models/giveaway");
 module.exports = class MongoGiveawayManager extends GiveawaysManager {
   async getAllGiveaways() {

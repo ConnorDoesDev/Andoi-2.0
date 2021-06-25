@@ -11,12 +11,14 @@ const { deezer, vscode } = require("../apis/index");
 const langManager = require("./LanguageManager");
 require("../extenders/Message");
 require("../extenders/Guild");
+const pack = require("../../package.json");
 class Bot extends Client {
   constructor() {
     super({
       allowedMentions: { parse: ["users", "roles"], repliedUser: true },
       intents: Intents.ALL,
     });
+    this.pack = pack;
     this.giveaway = new GiveawaysManager(this, {
       storage: false,
       updateCountdownEvery: 5000,

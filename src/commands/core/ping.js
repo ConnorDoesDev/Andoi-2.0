@@ -11,6 +11,7 @@ module.exports = class PingCommand extends Command {
    * @param {Array} args
    */
   async run(message, args) {
+    const msg = await message.channel.send(`${this.client.emotes.loading}`);
     const timeDiff = msg.createdTimestamp - message.createdTimestamp;
     const wsp = this.client.ws.ping;
     let dataPing = Date.now();
@@ -41,6 +42,6 @@ module.exports = class PingCommand extends Command {
       )
       .setTimestamp();
 
-    return message.channel.send(embed);
+    return msg.edit("_ _", embed);
   }
 };
