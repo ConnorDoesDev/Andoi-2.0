@@ -18,6 +18,7 @@ const GiveawaySchema = new Mongoose.Schema({
     winMessage: String,
     embedFooter: String,
     noWinner: String,
+    requirements: String,
     winners: String,
     endedAt: String,
     hostedBy: String,
