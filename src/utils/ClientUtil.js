@@ -27,6 +27,13 @@ module.exports = class ClientUtil {
     return [...new Set(array)];
   }
 
+  formatNumber(number, minimumFractionDigits = 0) {
+    return Number.parseFloat(number).toLocaleString(undefined, {
+      minimumFractionDigits,
+      maximumFractionDigits: 2,
+    });
+  }
+
   capitalise(string) {
     return string
       .split(" ")
