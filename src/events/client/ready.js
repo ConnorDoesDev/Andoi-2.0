@@ -23,15 +23,17 @@ module.exports = class ReadyEvent extends Event {
       const channel = this.client.channels.cache.get(
         this.client.settings.channels.ready
       );
-      const bot = client.user.username;
-      const icon = client.emotes.success;
-      const servers = client.utils.formatNumber(client.guilds.cache.size);
-      const members = client.utils.formatNumber(
-        client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)
+      const bot = this.client.user.username;
+      const icon = this.client.emotes.success;
+      const servers = this.client.utils.formatNumber(
+        this.client.guilds.cache.size
       );
-      const commands = client.commands.size;
-      const boot = client.bootTime;
-      const message = `${icon} \`[ ${client.version} ]\` **REBOOT**`;
+      const members = this.client.utils.formatNumber(
+        this.client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)
+      );
+      const commands = this.client.commands.size;
+      const boot = this.client.bootTime;
+      const message = `${icon} \`[ ${this.client.pack.version} ]\` **REBOOT**`;
       const embed = {
         title: bot,
         color: "GREY",
