@@ -3,39 +3,91 @@ const WIDTH = 15;
 const HEIGHT = 10;
 const gameBoard = [];
 const apple = { x: 1, y: 1 };
+const { MessageButton } = require("discord.js");
+function getRandomString(length) {
+  var randomChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  var result = "";
+  for (var i = 0; i < length; i++) {
+    result += randomChars.charAt(
+      Math.floor(Math.random() * randomChars.length)
+    );
+  }
+  return result;
+}
+let w1 =
+  getRandomString(4) +
+  "-" +
+  getRandomString(4) +
+  "-" +
+  getRandomString(4) +
+  "-" +
+  getRandomString(4);
+let a1 =
+  getRandomString(4) +
+  "-" +
+  getRandomString(4) +
+  "-" +
+  getRandomString(4) +
+  "-" +
+  getRandomString(4);
+let s1 =
+  getRandomString(4) +
+  "-" +
+  getRandomString(4) +
+  "-" +
+  getRandomString(4) +
+  "-" +
+  getRandomString(4);
+let d1 =
+  getRandomString(4) +
+  "-" +
+  getRandomString(4) +
+  "-" +
+  getRandomString(4) +
+  "-" +
+  getRandomString(4);
+let stop1 =
+  getRandomString(4) +
+  "-" +
+  getRandomString(4) +
+  "-" +
+  getRandomString(4) +
+  "-" +
+  getRandomString(4);
 
-class SnakeGame {
+class Snake {
   constructor(options = {}) {
     this.snake = [{ x: 5, y: 5 }];
     this.snakeLength = 1;
     this.score = 0;
     this.gameEmbed = null;
     this.inGame = false;
+    this.emojis = options.emojis;
     this.options = options;
+    this.message = options.message;
     for (let y = 0; y < HEIGHT; y++) {
       for (let x = 0; x < WIDTH; x++) {
-        gameBoard[y * WIDTH + x] = "🟦";
+        gameBoard[y * WIDTH + x] = this.emojis.empty;
       }
     }
   }
-
   gameBoardToString() {
     let str = "";
     for (let y = 0; y < HEIGHT; y++) {
       for (let x = 0; x < WIDTH; x++) {
         if (x == apple.x && y == apple.y) {
-          str += "🍎";
+          str += this.emojis.food;
           continue;
         }
 
         let flag = true;
         for (let s = 0; s < this.snake.length; s++) {
           if (x == this.snake[s].x && y == this.snake[s].y) {
-            str += "🟩";
+            str += this.emojis.snakeBody;
+
             flag = false;
           }
         }
-
         if (flag) {
           str += gameBoard[y * WIDTH + x];
         }
@@ -61,11 +113,8 @@ class SnakeGame {
     apple.x = newApplePos.x;
     apple.y = newApplePos.y;
   }
-  start(msg) {
-    this.newGame(msg);
-  }
 
-  newGame(msg) {
+  start() {
     if (this.inGame) return;
 
     this.inGame = true;
@@ -74,24 +123,111 @@ class SnakeGame {
     this.snake = [{ x: 5, y: 5 }];
     this.newAppleLoc();
     const embed = new Discord.MessageEmbed()
-      .setColor(this.options.color || "RANDOM")
-      .setTitle(this.options.title || "Snake Game")
+      .setColor(this.options.embed.color || "RANDOM")
+      .setTitle(this.options.embed.title || "Snake Game")
       .setDescription(this.gameBoardToString());
 
     if (this.options.timestamp) embed.setTimestamp();
+    let lock1 = new MessageButton()
+      .setLabel("\u200b")
+      .setStyle("SECONDARY")
+      .setCustomID("saybye")
+      .setDisabled(true);
 
-    msg.channel.send({ embed }).then((emsg) => {
-      this.gameEmbed = emsg;
-      this.gameEmbed.react("⬅️");
-      this.gameEmbed.react("⬆️");
-      this.gameEmbed.react("⬇️");
-      this.gameEmbed.react("➡️");
+    let w = new MessageButton()
+      .setEmoji(this.options.emojis.up)
+      .setStyle("PRIMARY")
+      .setCustomID(w1);
 
-      this.waitForReaction();
-    });
+    let lock2 = new MessageButton()
+      .setLabel("\u200b")
+      .setStyle("SECONDARY")
+      .setCustomID("h")
+      .setDisabled(true);
+
+    let a = new MessageButton()
+      .setEmoji(this.options.emojis.right)
+      .setStyle("PRIMARY")
+      .setCustomID(a1);
+
+    let s = new MessageButton()
+      .setEmoji(this.options.emojis.down)
+      .setStyle("PRIMARY")
+      .setCustomID(s1);
+
+    let d = new MessageButton()
+      .setEmoji(this.options.emojis.left)
+      .setStyle("PRIMARY")
+      .setCustomID(d1);
+    let stopy = new MessageButton()
+      .setLabel("Stop")
+      .setStyle("DANGER")
+      .setCustomID(stop1);
+    this.message.channel
+      .send("_ _", {
+        embed,
+        components: [
+          {
+            type: 1,
+            components: [lock1, w, lock2, stopy],
+          },
+          {
+            type: 1,
+            components: [a, s, d],
+          },
+        ],
+      })
+      .then(async (m) => {
+        const filter = (m) => m.user.id == this.options.message.author.id;
+        const collector = m.createMessageComponentInteractionCollector(filter);
+        collector.on("collect", async (btn) => {
+          btn.defer();
+          btn.deleteReply();
+          const snakeHead = this.snake[0];
+          const nextPos = { x: snakeHead.x, y: snakeHead.y };
+          if (btn.customID === a1) {
+            let nextX = snakeHead.x - 1;
+            if (nextX < 0) {
+              nextX = WIDTH - 1;
+            }
+            nextPos.x = nextX;
+          } else if (btn.customID === w1) {
+            let nextY = snakeHead.y - 1;
+            if (nextY < 0) {
+              nextY = HEIGHT - 1;
+            }
+            nextPos.y = nextY;
+          } else if (btn.customID === s1) {
+            let nextY = snakeHead.y + 1;
+            if (nextY >= HEIGHT) {
+              nextY = 0;
+            }
+            nextPos.y = nextY;
+          } else if (btn.customID === d1) {
+            let nextX = snakeHead.x + 1;
+            if (nextX >= WIDTH) {
+              nextX = 0;
+            }
+            nextPos.x = nextX;
+          } else if (btn.customID === stop1) {
+            this.gameOver(m);
+            collector.stop();
+          }
+
+          if (this.isLocInSnake(nextPos)) {
+            this.gameOver(m);
+          } else {
+            this.snake.unshift(nextPos);
+            if (this.snake.length > this.snakeLength) {
+              this.snake.pop();
+            }
+            this.step(m);
+          }
+        });
+      });
   }
 
-  step() {
+  step(msg) {
     if (apple.x == this.snake[0].x && apple.y == this.snake[0].y) {
       this.score += 1;
       this.snakeLength++;
@@ -99,118 +235,123 @@ class SnakeGame {
     }
 
     const editEmbed = new Discord.MessageEmbed()
-      .setColor(this.options.color || "RANDOM")
-      .setTitle(this.options.title || "Snake Game")
-      .setDescription(this.gameBoardToString());
+      .setColor(this.options.embed.color || "RANDOM")
+      .setTitle(this.options.embed.title || "Snake Game")
+      .setDescription(this.gameBoardToString())
+      .setTimestamp();
+    let lock1 = new MessageButton()
+      .setLabel("\u200b")
+      .setStyle("SECONDARY")
+      .setCustomID("saybye")
+      .setDisabled(true);
 
-    if (this.options.timestamp) editEmbed.setTimestamp();
+    let w = new MessageButton()
+      .setEmoji(this.options.emojis.up)
+      .setStyle("PRIMARY")
+      .setCustomID(w1);
 
-    this.gameEmbed.edit(editEmbed);
+    let lock2 = new MessageButton()
+      .setLabel("\u200b")
+      .setStyle("SECONDARY")
+      .setCustomID("h")
+      .setDisabled(true);
 
-    this.waitForReaction();
+    let a = new MessageButton()
+      .setEmoji(this.options.emojis.right)
+      .setStyle("PRIMARY")
+      .setCustomID(a1);
+
+    let s = new MessageButton()
+      .setEmoji(this.options.emojis.down)
+      .setStyle("PRIMARY")
+      .setCustomID(s1);
+
+    let d = new MessageButton()
+      .setEmoji(this.options.emojis.left)
+      .setStyle("PRIMARY")
+      .setCustomID(d1);
+    let stopy = new MessageButton()
+      .setLabel("Stop")
+      .setStyle("DANGER")
+      .setCustomID(stop1);
+    msg.edit("_ _", {
+      embed: editEmbed,
+      components: [
+        {
+          type: 1,
+          components: [lock1, w, lock2, stopy],
+        },
+        {
+          type: 1,
+          components: [a, s, d],
+        },
+      ],
+    });
   }
 
-  gameOver() {
+  gameOver(m) {
+    let lock1 = new MessageButton()
+      .setLabel("\u200b")
+      .setStyle("SECONDARY")
+      .setCustomID("saybye")
+      .setDisabled(true);
+
+    let lock2 = new MessageButton()
+      .setLabel("\u200b")
+      .setStyle("SECONDARY")
+      .setCustomID("h")
+      .setDisabled(true);
+    let w = new MessageButton()
+      .setEmoji(this.options.emojis.up)
+      .setStyle("PRIMARY")
+      .setCustomID(w1)
+      .setDisabled(true);
+
+    let a = new MessageButton()
+      .setEmoji(this.options.emojis.right)
+      .setStyle("PRIMARY")
+      .setCustomID(a1)
+      .setDisabled(true);
+
+    let s = new MessageButton()
+      .setEmoji(this.options.emojis.down)
+      .setStyle("PRIMARY")
+      .setCustomID(s1)
+      .setDisabled(true);
+
+    let d = new MessageButton()
+      .setEmoji(this.options.emojis.left)
+      .setStyle("PRIMARY")
+      .setCustomID(d1)
+      .setDisabled(true);
+
+    let stopy = new MessageButton()
+      .setLabel("Stop")
+      .setStyle("DANGER")
+      .setCustomID(stop1)
+      .setDisabled(true);
+
     this.inGame = false;
     const editEmbed = new Discord.MessageEmbed()
-      .setColor(this.options.color || "RANDOM")
-      .setTitle(this.options.gameOverTitle || "Game Over")
-      .setDescription(this.options.score + this.score);
+      .setColor(this.options.embed.gameOverTitle || "RANDOM")
+      .setTitle(this.options.embed.gameOverTitle || "Game Over")
+      .setDescription(this.options.embed.score + this.score)
+      .setTimestamp();
 
-    if (this.options.timestamp) editEmbed.setTimestamp();
-    this.gameEmbed.edit(editEmbed);
-
-    this.gameEmbed.reactions.removeAll();
-  }
-
-  filter(reaction, user) {
-    return (
-      ["⬅️", "⬆️", "⬇️", "➡️"].includes(reaction.emoji.name) &&
-      user.id !== this.gameEmbed.author.id
-    );
-  }
-
-  waitForReaction() {
-    this.gameEmbed
-      .awaitReactions((reaction, user) => this.filter(reaction, user), {
-        max: 1,
-        time: 60000,
-        errors: ["time"],
-      })
-      .then((collected) => {
-        const reaction = collected.first();
-
-        const snakeHead = this.snake[0];
-        const nextPos = { x: snakeHead.x, y: snakeHead.y };
-        if (reaction.emoji.name === "⬅️") {
-          let nextX = snakeHead.x - 1;
-          if (nextX < 0) {
-            nextX = WIDTH - 1;
-          }
-          nextPos.x = nextX;
-        } else if (reaction.emoji.name === "⬆️") {
-          let nextY = snakeHead.y - 1;
-          if (nextY < 0) {
-            nextY = HEIGHT - 1;
-          }
-          nextPos.y = nextY;
-        } else if (reaction.emoji.name === "⬇️") {
-          let nextY = snakeHead.y + 1;
-          if (nextY >= HEIGHT) {
-            nextY = 0;
-          }
-          nextPos.y = nextY;
-        } else if (reaction.emoji.name === "➡️") {
-          let nextX = snakeHead.x + 1;
-          if (nextX >= WIDTH) {
-            nextX = 0;
-          }
-          nextPos.x = nextX;
-        }
-
-        reaction.users
-          .remove(
-            reaction.users.cache
-              .filter((user) => user.id !== this.gameEmbed.author.id)
-              .first().id
-          )
-          .then(() => {
-            if (this.isLocInSnake(nextPos)) {
-              this.gameOver();
-            } else {
-              this.snake.unshift(nextPos);
-              if (this.snake.length > this.snakeLength) {
-                this.snake.pop();
-              }
-
-              this.step();
-            }
-          });
-      })
-      .catch((collected) => {
-        this.gameOver();
-      });
-  }
-
-  setTitle(title) {
-    this.options.title = title || "Hangman";
-    return this;
-  }
-
-  setColor(color) {
-    this.options.color = color || "RANDOM";
-    return this;
-  }
-
-  setTimestamp() {
-    this.options.timestamp = true;
-    return this;
-  }
-
-  setGameOverTitle() {
-    this.options.gameOverTitle = title || "Game Over";
-    return this;
+    m.edit("_ _", {
+      embed: editEmbed,
+      components: [
+        {
+          type: 1,
+          components: [lock1, w, lock2, stopy],
+        },
+        {
+          type: 1,
+          components: [a, s, d],
+        },
+      ],
+    });
   }
 }
 
-module.exports = SnakeGame;
+module.exports = Snake;
