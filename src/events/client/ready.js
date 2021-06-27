@@ -18,7 +18,7 @@ module.exports = class ReadyEvent extends Event {
     this.sendMessage();
     this.client.log.info("startMessage", "Sended message");
   }
-  sendMessage() {
+  async sendMessage() {
     if (process.env.dev === "false") {
       const channel = this.client.channels.cache.get(
         this.client.settings.channels.ready
