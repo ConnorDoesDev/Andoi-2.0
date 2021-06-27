@@ -32,7 +32,7 @@ module.exports = class extends Command {
       color.hex().split("#")[1]
     }`;
 
-    const embed = new AndoiEmbed(mssage.author)
+    const embed = new AndoiEmbed(message.author)
       .setThumbnail(preview)
       .setTimestamp()
       .addField("Hex", color.hex())

@@ -11,9 +11,14 @@
     "error": "🚫",
     "success": "✅"
   },
+  "links": {
+    "server": "https://discord.gg/DXWq4Pt",
+    "bot": "",
+    "github": "https://github.com/tovade/Andoi-2.0"
+  },
   "channels": {
-    "bugs": "BUG_CHANNEL_ID",
-    "guild_log": "GUILD_LOG_CHANNEL_ID",
-    "ready": "READY_CHANNELID "
+    "bugs": "744273920722599987",
+    "guild_log": "858693716239187972",
+    "ready": "803706448784785488 "
   }
 }

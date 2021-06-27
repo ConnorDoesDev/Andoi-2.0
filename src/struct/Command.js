@@ -21,6 +21,7 @@ module.exports = class Command {
     this.sameVoice = Boolean(options.sameVoice) || false;
     this.premium = Boolean(options.premium) || false;
     this.lang = new langManager(this.client);
+    this.options = options;
   }
 
   async run(message, args) {

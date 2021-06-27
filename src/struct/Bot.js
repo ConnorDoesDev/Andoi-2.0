@@ -7,7 +7,7 @@ const settings = require("../../settings");
 const emotes = require("../assets/json/emotes.json");
 const { performance } = require("perf_hooks");
 const GiveawaysManager = require("./Mongogiveaways");
-const { deezer, vscode } = require("../apis/index");
+const apiLoader = require("../loaders/ApiLoader");
 const langManager = require("./LanguageManager");
 require("../extenders/Message");
 require("../extenders/Guild");
@@ -49,10 +49,7 @@ class Bot extends Client {
     this.utils = new ClientUtil(this);
     this.emotes = emotes;
 
-    this.apis = {
-      vscodeextensions: new vscode(),
-      deezer: new deezer(),
-    };
+    this.apis = {};
     this.defaultPerms = new Permissions([
       "SEND_MESSAGES",
       "VIEW_CHANNEL",
@@ -99,6 +96,8 @@ class Bot extends Client {
   }
 
   build() {
+    const api = new apiLoader(this);
+    api.load();
     this.connectDB();
     this.utils.handleCommands();
     this.utils.handleEvents();
