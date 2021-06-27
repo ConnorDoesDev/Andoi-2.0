@@ -42,6 +42,16 @@ module.exports = {
     REDEEMED_SUCCESSFULLY: ({ id, guildname, expires }) =>
       `Congrats! This server (${guildname}) is now a premium server! The reciept ID is ${id}. The premium plan expires at: ${expires}`,
   },
+  SEARCHER: {
+    NO_SONG: "No song was found.",
+    NO_SONG_PRO: "No song was provided.",
+    FULL_LYRICS: "Full lyrics",
+  },
+  GAMES: {
+    SNAKE: "Snake Game",
+    END: "Game Over",
+    SCORE: "Score: ",
+  },
   UTILITY: {
     VS_MARKET: "Visual Studio Code MarketPlace",
     MADE_BY: "Made by",
@@ -50,6 +60,7 @@ module.exports = {
     CHANGELOG: "Changelog",
     INSTALL: "Install",
     INSTALLS: "Installs",
+    INSTALL_WITH: "Install with",
   },
   FUN: {
     MC_ACHIEVEMENT: "Minecraft achievement",

@@ -4,6 +4,7 @@ const glob = promisify(require("glob"));
 const { MessageEmbed, MessageAttachment } = require("discord.js");
 const Command = require("../struct/Command");
 const Event = require("../struct/Event");
+const moment = require("moment");
 
 module.exports = class ClientUtil {
   constructor(client) {
@@ -17,6 +18,9 @@ module.exports = class ClientUtil {
       typeof input.prototype === "object" &&
       input.toString().substring(0, 5) === "class"
     );
+  }
+  formatDuration(duration) {
+    return moment.duration(duration).format("hh:mm:ss", { stopTrim: "m" });
   }
 
   get directory() {

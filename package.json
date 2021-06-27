@@ -17,6 +17,7 @@
   "dependencies": {
     "@tovade/discord-giveaways": "^4.5.6",
     "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.10",
     "chroma-js": "^2.1.2",
     "common-tags": "^1.8.0",
     "discord-giveaways": "^4.5.1",

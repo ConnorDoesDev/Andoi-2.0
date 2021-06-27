@@ -15,8 +15,42 @@ module.exports = class ReadyEvent extends Event {
     this.client.log.info("event", `Loaded ${this.client.events.size} events`);
     this.startPresence();
     this.client.log.info("status", "Started presence");
+    this.sendMessage();
+    this.client.log.info("startMessage", "Sended message");
   }
-  sendMessage() {}
+  sendMessage() {
+    if (process.env.dev === "false") {
+      const channel = this.client.channels.cache.get(
+        this.client.settings.channels.ready
+      );
+      const bot = client.user.username;
+      const icon = client.emotes.success;
+      const servers = client.utils.formatNumber(client.guilds.cache.size);
+      const members = client.utils.formatNumber(
+        client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)
+      );
+      const commands = client.commands.size;
+      const boot = client.bootTime;
+      const message = `${icon} \`[ ${client.version} ]\` **REBOOT**`;
+      const embed = {
+        title: bot,
+        color: "GREY",
+        description: [
+          "```properties",
+          `Servers: ${servers}`,
+          `Members: ${members}`,
+          `Commands: ${commands}`,
+          `Boot: ${boot}ms`,
+          "```",
+        ].join("\n"),
+      };
+
+      await channel
+        ?.send(message, { embed: embed })
+        .then((msg) => msg.crosspost())
+        .catch(() => {});
+    }
+  }
   startPresence() {
     let i = 0;
     const members = this.client.utils.formatNumber(

@@ -10,6 +10,15 @@ module.exports = Structures.extend(
         this.lastResponse = null;
         this.flags = [];
       }
+      /*
+      alias for translate
+      */
+      async t(thing, extra_args) {
+        return this.client.lang.get(this.guild, thing, extra_args);
+      }
+      async translate(thing, extra_args) {
+        return this.client.lang.get(this.guild, thing, extra_args);
+      }
       /**
        *
        * @returns {AndoiEmbed} embed

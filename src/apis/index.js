@@ -1,5 +1,5 @@
 module.exports = {
-  APIWapper: require("./api"),
+  APIWrapper: require("./api"),
   deezer: require("./deezer"),
   vscode: require("./vscode"),
 };
