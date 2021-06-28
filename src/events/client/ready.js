@@ -23,8 +23,6 @@ module.exports = class ReadyEvent extends Event {
       const channel = this.client.channels.cache.get(
         this.client.settings.channels.ready
       );
-      const bot = this.client.user.username;
-      const icon = this.client.emotes.success;
       const servers = this.client.utils.formatNumber(
         this.client.guilds.cache.size
       );
@@ -33,9 +31,8 @@ module.exports = class ReadyEvent extends Event {
       );
       const commands = this.client.commands.size;
       const boot = this.client.bootTime;
-      const message = `${icon} \`[ ${this.client.pack.version} ]\` **REBOOT**`;
       const embed = {
-        title: bot,
+        title: `\`[ ${this.client.pack.version} ]\` **REBOOT**`,
         color: "GREY",
         description: [
           "```properties",
@@ -48,7 +45,7 @@ module.exports = class ReadyEvent extends Event {
       };
 
       await channel
-        ?.send(message, { embed: embed })
+        ?.send({ embeds: [embed] })
         .then((msg) => msg.crosspost())
         .catch(() => {});
     }

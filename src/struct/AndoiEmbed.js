@@ -27,6 +27,36 @@ module.exports = class AndoiEbed extends MessageEmbed {
     this.setColor("ORANGE");
     return this;
   }
+  setDescription(description) {
+    this.description = verifyString(description);
+    return this;
+  }
+  setFooter(text, iconURL) {
+    this.footer = {
+      text: verifyString(text),
+      iconURL,
+    };
+    return this;
+  }
+  setTitle(title) {
+    this.title = verifyString(title);
+    return this;
+  }
+  static normalizeField(name, value, inline = false) {
+    return {
+      name: verifyString(name),
+      value: verifyString(value),
+      inline,
+    };
+  }
+  setAuthor(name, iconURL, url) {
+    this.author = {
+      name: verifyString(name),
+      iconURL,
+      url,
+    };
+    return this;
+  }
   /**
    * Sets the description of this embed based on an array of arrays of strings
    * @param {Array<Array>} Array containing arrays (blocks) of and strings
@@ -40,3 +70,8 @@ module.exports = class AndoiEbed extends MessageEmbed {
     return this;
   }
 };
+function verifyString(data) {
+  if (typeof data === "string") return data;
+  if (Array.isArray(data)) return data.join("\n");
+  return String(data);
+}

@@ -46,7 +46,7 @@ module.exports = class extends Command {
         .setImage(image)
         .setFooter(message.author.username)
         .setTimestamp();
-      message.channel.send(embed);
+      message.channel.send({ embeds: [embed] });
     } catch (err) {
       console.log(err);
       return message.channel.send(this.client.lang.get(message.guild, "ERROR"));

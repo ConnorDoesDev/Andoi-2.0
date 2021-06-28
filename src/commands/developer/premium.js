@@ -69,6 +69,6 @@ module.exports = class PremiumCommand extends Command {
           "dddd, MMMM Do YYYY"
         )} `
       );
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   }
 };

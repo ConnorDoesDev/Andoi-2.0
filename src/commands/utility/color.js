@@ -40,6 +40,6 @@ module.exports = class extends Command {
       .addField("Rgba", `rgba(${color.rgba().join(", ")})`)
       .setColor(color.num());
 
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   }
 };

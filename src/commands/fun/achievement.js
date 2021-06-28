@@ -1,6 +1,6 @@
 const Command = require("../../struct/Command");
-const { MessageEmbed, Message } = require(`discord.js`);
-
+const { Message } = require(`discord.js`);
+const AndoiEmbed = require("../../struct/AndoiEmbed");
 module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
@@ -24,11 +24,11 @@ module.exports = class extends Command {
    */
   async run(message, args) {
     const text = args.join("+");
-    const embed = new MessageEmbed()
+    const embed = new AndoiEmbed()
       .setTitle(await this.client.lang.get(message.guild, "FUN/MC_ACHIEVEMENT"))
       .setImage(
         `https://minecraftskinstealer.com/achievement/12/Achievement%20Get!/${text}`
       );
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   }
 };

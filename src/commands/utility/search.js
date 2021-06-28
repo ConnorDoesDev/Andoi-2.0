@@ -65,54 +65,50 @@ module.exports = class VSCodeExtensions extends SearchCommand {
     const stars = this.getRatingEmojis(averageRating);
 
     const url = `${EXTENSION_URL}${publisher.publisherName}.${extensionName}`;
-
-    channel.send(
-      new AndoiEmbed(author)
-        .setColor("BLUE")
-        .setAuthor(
-          await this.client.lang.get(guild, "UTILITY/VS_MARKET"),
-          null,
-          "https://marketplace.visualstudio.com/vscode"
-        )
-        .setURL(url)
-        .setThumbnail(
-          `${assetUri}/Microsoft.VisualStudio.Services.Icons.Default`
-        )
-        .setTitle(displayName)
-        .setDescriptionFromBlockArray([
-          [shortDescription],
-          [
-            await this.client.lang.get(guild, "UTILITY/MADE_BY"),
-            publisher.publisherName,
-          ],
-          [
-            await this.client.lang.get(guild, "UTILITY/INSTALLS"),
-            installs.toLocaleString(),
-            `${stars} (${Math.round(ratingCount)})`,
-          ],
-          [categories.join(", "), tags.map((t) => `\`${t}\``).join(", ")],
-          [
-            await this.client.lang.get(guild, "UTILITY/LAST_UPDATE"),
-            moment(lastUpdated).fromNow(),
-            version,
-          ],
-          [
-            `[${await this.client.lang.get(
-              guild,
-              "UTILITY/LICENSE"
-            )}](${url}/license)`,
-            `[${await this.client.lang.get(
-              guild,
-              "UTILITY/CHANGELOG"
-            )}](${url}/changelog)`,
-            `[${await this.client.lang.get(
-              guild,
-              "UTILITY/INSTALL"
-            )}](https://vscode.andoi.workers.dev/${
-              publisher.publisherName
-            }.${extensionName})`,
-          ],
-        ])
-    );
+    const embed = new AndoiEmbed(author)
+      .setColor("BLUE")
+      .setAuthor(
+        await this.client.lang.get(guild, "UTILITY/VS_MARKET"),
+        null,
+        "https://marketplace.visualstudio.com/vscode"
+      )
+      .setURL(url)
+      .setThumbnail(`${assetUri}/Microsoft.VisualStudio.Services.Icons.Default`)
+      .setTitle(displayName)
+      .setDescriptionFromBlockArray([
+        [shortDescription],
+        [
+          await this.client.lang.get(guild, "UTILITY/MADE_BY"),
+          publisher.publisherName,
+        ],
+        [
+          await this.client.lang.get(guild, "UTILITY/INSTALLS"),
+          installs.toLocaleString(),
+          `${stars} (${Math.round(ratingCount)})`,
+        ],
+        [categories.join(", "), tags.map((t) => `\`${t}\``).join(", ")],
+        [
+          await this.client.lang.get(guild, "UTILITY/LAST_UPDATE"),
+          moment(lastUpdated).fromNow(),
+          version,
+        ],
+        [
+          `[${await this.client.lang.get(
+            guild,
+            "UTILITY/LICENSE"
+          )}](${url}/license)`,
+          `[${await this.client.lang.get(
+            guild,
+            "UTILITY/CHANGELOG"
+          )}](${url}/changelog)`,
+          `[${await this.client.lang.get(
+            guild,
+            "UTILITY/INSTALL"
+          )}](https://vscode.andoi.workers.dev/${
+            publisher.publisherName
+          }.${extensionName})`,
+        ],
+      ]);
+    channel.send({ embeds: [embed] });
   }
 };

@@ -74,6 +74,6 @@ module.exports = class RedeeemCommand extends Command {
         )
       )
       .setFooter(message.guild.name);
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   }
 };

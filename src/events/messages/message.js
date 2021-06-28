@@ -1,6 +1,6 @@
 const Event = require("../../struct/Event");
-const { Collection, MessageEmbed } = require("discord.js");
-
+const { Collection } = require("discord.js");
+const AndoiEmbed = require("../../struct/AndoiEmbed");
 module.exports = class MessageEvent extends Event {
   async run(message) {
     if (!message.channel.permissionsFor(this.client.user).has("SEND_MESSAGES"))
@@ -15,7 +15,9 @@ module.exports = class MessageEvent extends Event {
       dataPrefix = await this.client.getPrefix(message);
     }
     if (message.content.match(mentionRegex))
-      return message.channel.send(`My current prefix is \`${dataPrefix}\``);
+      return message.channel.send({
+        content: `My current prefix is \`${dataPrefix}\``,
+      });
 
     const prefix = message.content.match(mentionRegexPrefix)
       ? message.content.match(mentionRegexPrefix)[0]
@@ -38,15 +40,15 @@ module.exports = class MessageEvent extends Event {
       }
 
       if (command.guildOnly && !message.guild) {
-        return message.reply(
-          `${this.client.settings.emotes.warning} This command can only be run in a server.`
-        );
+        return message.reply({
+          content: `${this.client.settings.emotes.warning} This command can only be run in a server.`,
+        });
       }
 
       if (command.nsfw && !message.channel.nsfw) {
-        return message.channel.send(
-          `${this.client.settings.emotes.warning} This command can only be run in a nsfw channel.`
-        );
+        return message.channel.send({
+          content: `${this.client.settings.emotes.warning} This command can only be run in a nsfw channel.`,
+        });
       }
 
       if (command.args.length > args.length || (command.args && !args.length)) {
@@ -54,7 +56,7 @@ module.exports = class MessageEvent extends Event {
         const ex = `${prefix}${command.name} ${ee
           .map((e) => `<${e}>`)
           .join(", ")}`;
-        const embed = new MessageEmbed()
+        const embed = new AndoiEmbed(message.author)
           .setTitle("Incorrect usage!")
           .setColor("RED")
           .setDescription(
@@ -64,22 +66,22 @@ module.exports = class MessageEvent extends Event {
           )
           .addField("Example: ", ex);
 
-        return message.channel.send(embed);
+        return message.channel.send({ embeds: [embed] });
       }
 
       if (command.voice && !message.member.voice.channel) {
-        return message.channel.send(
-          `${this.client.settings.emotes.warning} You must be in a voice channel to use this command.`
-        );
+        return message.channel.send({
+          content: `${this.client.settings.emotes.warning} You must be in a voice channel to use this command.`,
+        });
       }
 
       if (
         command.sameVoice &&
         message.member.voice.channel.id !== message.guild.me.voice.channel.id
       ) {
-        return message.channel.send(
-          `${this.client.settings.emotes.warning} You need to be in the same voice channel as mine to use this command.`
-        );
+        return message.channel.send({
+          content: `${this.client.settings.emotes.warning} You need to be in the same voice channel as mine to use this command.`,
+        });
       }
 
       if (message.guild) {
@@ -91,11 +93,11 @@ module.exports = class MessageEvent extends Event {
             .permissionsFor(message.member)
             .missing(userPermCheck);
           if (missing.length && !this.client.isOwner(message.author.id)) {
-            return message.reply(
-              `You are missing ${this.client.utils.formatArray(
+            return message.reply({
+              content: `You are missing ${this.client.utils.formatArray(
                 missing.map(this.client.utils.formatPerms)
-              )} permissions, you need them to use this command!`
-            );
+              )} permissions, you need them to use this command!`,
+            });
           }
         }
         const botPermCheck = command.botPerms
@@ -106,11 +108,11 @@ module.exports = class MessageEvent extends Event {
             .permissionsFor(this.client.user)
             .missing(botPermCheck);
           if (missing.length) {
-            return message.reply(
-              `I am missing ${this.client.utils.formatArray(
+            return message.reply({
+              content: `I am missing ${this.client.utils.formatArray(
                 missing.map(this.client.utils.formatPerms)
-              )} permissions, I need them to run this command!`
-            );
+              )} permissions, I need them to run this command!`,
+            });
           }
         }
       }
@@ -127,9 +129,9 @@ module.exports = class MessageEvent extends Event {
             timestamps.get(message.author.id) + cooldownAmount;
           if (now < expirationTime) {
             const timeLeft = ((expirationTime - now) / 1000).toFixed(1);
-            return message.channel.send(
-              `Please wait ${timeLeft} more second(s) before reusing the \`${command.name}\` command.`
-            );
+            return message.channel.send({
+              content: `Please wait ${timeLeft} more second(s) before reusing the \`${command.name}\` command.`,
+            });
           }
         }
         timestamps.set(message.author.id, now);
@@ -140,9 +142,9 @@ module.exports = class MessageEvent extends Event {
         await command.run(message, args);
       } catch (err) {
         this.client.log.error(`${command.name}`, err.stack);
-        return message.channel.send(
-          `> ${this.client.emotes.warn} There was an error while executing this command: \`${err.message}\``
-        );
+        return message.channel.send({
+          content: `> ${this.client.emotes.warn} There was an error while executing this command: \`${err.message}\``,
+        });
       }
     }
   }

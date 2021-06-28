@@ -39,10 +39,12 @@ module.exports = class extends Command {
           .setTimestamp()
           .setFooter(message.author.username);
 
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
       });
     } catch (e) {
-      return message.channel.send(`Something went wrong!  \`\`\`${e}\`\`\`  `);
+      return message.channel.send({
+        content: `Something went wrong!  \`\`\`${e}\`\`\`  `,
+      });
     }
   }
 };

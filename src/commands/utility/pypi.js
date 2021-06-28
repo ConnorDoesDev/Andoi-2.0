@@ -35,16 +35,15 @@ module.exports = class MDN extends SearchCommand {
     const res = await this.client.apis.pypiapi.info(id);
     const { description, name, command, date, packageLink } = res;
 
-    channel.send(
-      new AndoiEmbed(author)
-        .setAuthor("PyPi", null, "https://pypi.org/")
-        .setURL(packageLink)
-        .setTitle(name)
-        .setDescriptionFromBlockArray([
-          [description.slice(0, 1024)],
-          [`${date}`],
-          [`${await this.lang.get(guild, "UTILITY/INSTALL_WITH")} ${command}`],
-        ])
-    );
+    const embed = new AndoiEmbed(author)
+      .setAuthor("PyPi", null, "https://pypi.org/")
+      .setURL(packageLink)
+      .setTitle(name)
+      .setDescriptionFromBlockArray([
+        [description.slice(0, 1024)],
+        [`${date}`],
+        [`${await this.lang.get(guild, "UTILITY/INSTALL_WITH")} ${command}`],
+      ]);
+    channel.send({ embeds: [embed] });
   }
 };
