@@ -1,4 +1,10 @@
-const { Permissions } = require("discord.js");
+const {
+  Permissions,
+  Message,
+  GuildMember,
+  TextChannel,
+  Role,
+} = require("discord.js");
 const path = require("path");
 const langManager = require("./LanguageManager");
 module.exports = class Command {
@@ -30,6 +36,13 @@ module.exports = class Command {
       `Command ${this.name} doesn't have a default run method.`
     );
   }
+  /**
+   *
+   * @param {Message} message
+   * @param {Array} args
+   * @param {Boolean} allowAuthor
+   * @returns {GuildMember} GuildMember
+   */
   findMember(message, args, allowAuthor = false) {
     let member;
 
@@ -46,6 +59,13 @@ module.exports = class Command {
 
     return member;
   }
+  /**
+   *
+   * @param {Message} message
+   * @param {Array} args
+   * @param {Boolean} allowauthor
+   * @returns {TextChannel} channel
+   */
   findChannel(message, args, allowauthor = false) {
     let channel;
 
@@ -60,6 +80,13 @@ module.exports = class Command {
     }
     return channel;
   }
+  /**
+   *
+   * @param {Message} message
+   * @param {Array} args
+   * @param {Boolean} allowChannel
+   * @returns {Role} role
+   */
   findRole(message, args, allowChannel = false) {
     let role;
     role =

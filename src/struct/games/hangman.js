@@ -2121,16 +2121,18 @@ class hangman {
         index++;
         if (index < letters.length) {
           if (index == 13) {
-            message.channel.send(generateMessage(word, [])).then((m) => {
-              games.push({
-                stage: 0,
-                msg0: message,
-                msg1: m,
-                phrase: word,
-                guesses: [],
+            message.channel
+              .send({ content: generateMessage(word, []) })
+              .then((m) => {
+                games.push({
+                  stage: 0,
+                  msg0: message,
+                  msg1: m,
+                  phrase: word,
+                  guesses: [],
+                });
+                nextLetter(m, index);
               });
-              nextLetter(m, index);
-            });
           } else {
             nextLetter(message, index, word);
           }
@@ -2175,12 +2177,14 @@ class hangman {
                 }
 
                 if (sik) {
-                  game.msg0.edit(
-                    stages[game.stage].replace("o", "o ~ u won gg")
-                  );
+                  game.msg0.edit({
+                    content: stages[game.stage].replace("o", "o ~ u won gg"),
+                  });
                 }
 
-                game.msg1.edit(generateMessage(game.phrase, game.guesses));
+                game.msg1.edit({
+                  content: generateMessage(game.phrase, game.guesses),
+                });
               }
             }
           }
@@ -2190,14 +2194,14 @@ class hangman {
     });
     if (this.permission) {
       if (!this.message.member.permissions.has(this.permission))
-        return this.message.reply(
-          `You need ${this.permission} permission to use this command.`
-        );
-      this.channel.send(stages[0]).then((m) => {
+        return this.message.reply({
+          content: `You need ${this.permission} permission to use this command.`,
+        });
+      this.channel.send({ content: stages[0] }).then((m) => {
         nextLetter(m, 0, this.word);
       });
     } else {
-      this.channel.send(stages[0]).then((m) => {
+      this.channel.send({ content: stages[0] }).then((m) => {
         nextLetter(m, 0, this.word);
       });
     }

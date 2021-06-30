@@ -1,5 +1,6 @@
 const Command = require("../../struct/Command");
 const { Message } = require("discord.js");
+const AndoiEmbed = require("../../struct/AndoiEmbed");
 module.exports = class HelpCommand extends Command {
   constructor(...args) {
     super(...args, {
@@ -13,8 +14,7 @@ module.exports = class HelpCommand extends Command {
    */
   async run(message, [command]) {
     const prefix = await this.client.getPrefix(message);
-    const embed = this.client.utils
-      .embed()
+    const embed = new AndoiEmbed()
       .setColor(this.client.settings.embed_main)
       .setAuthor(
         `${message.guild.name} Help`,
@@ -28,9 +28,12 @@ module.exports = class HelpCommand extends Command {
         this.client.commands.get(this.client.aliases.get(command));
 
       if (!cmd)
-        return message.channel.send(
-          await this.client.lang.get(message.guild, "CORE/INVALID_COMMAND")
-        );
+        return message.channel.send({
+          content: await this.client.lang.get(
+            message.guild,
+            "CORE/INVALID_COMMAND"
+          ),
+        });
 
       embed.setAuthor(
         await this.client.lang.get(message.guild, "CORE/OPTIONAL_HELP"),
@@ -62,7 +65,7 @@ module.exports = class HelpCommand extends Command {
           : await this.client.lang.get(message.guild, "CORE/NO_EXAMPLE")
       );
 
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     } else {
       embed.setDescription(
         await this.client.lang.get(message.guild, "CORE/MORE_CMD_INFO", prefix)
@@ -90,8 +93,7 @@ module.exports = class HelpCommand extends Command {
             .join(" ")
         );
       }
-
-      return message.channel.send(embed);
     }
+    return message.channel.send({ embeds: [embed] });
   }
 };

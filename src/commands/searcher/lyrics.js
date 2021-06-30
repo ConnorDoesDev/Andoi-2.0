@@ -28,7 +28,9 @@ module.exports = class PingCommand extends Command {
 
     const playingSong = song;
     if (!playingSong)
-      return message.reply(await message.t("SEARCHER/NO_SONG_PRO"));
+      return message.reply({
+        content: await message.t("SEARCHER/NO_SONG_PRO"),
+      });
     const embed = new AndoiEmbed(message.author);
     const {
       response: {
@@ -61,10 +63,10 @@ module.exports = class PingCommand extends Command {
         .setTitle(`${title} - ${artist}`)
         .setURL(`http://genius.com${path}`);
       return message.channel
-        .send(embed)
+        .send({ embeds: [embed] })
         .then(() => message.channel.stopTyping());
     } else {
-      return message.reply(message.t("SEARCHER/NO_SONG"));
+      return message.reply({ content: message.t("SEARCHER/NO_SONG") });
     }
   }
 };

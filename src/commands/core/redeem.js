@@ -52,6 +52,7 @@ module.exports = class RedeeemCommand extends Command {
     guildConfig.premium = {
       enabled: true,
       redeemedAt: Date.now(),
+      redeemedBy: message.author.id,
       expiresAt: premium.expires,
       plan: premium.plan,
     };
@@ -74,6 +75,6 @@ module.exports = class RedeeemCommand extends Command {
         )
       )
       .setFooter(message.guild.name);
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   }
 };

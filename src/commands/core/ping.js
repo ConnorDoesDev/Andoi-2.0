@@ -1,5 +1,6 @@
 const Command = require("../../struct/Command");
 const model = require("../../models/wrapper");
+const AndoiEmbed = require("../../struct/AndoiEmbed");
 module.exports = class PingCommand extends Command {
   constructor(...args) {
     super(...args, {
@@ -11,7 +12,9 @@ module.exports = class PingCommand extends Command {
    * @param {Array} args
    */
   async run(message, args) {
-    const msg = await message.channel.send(`${this.client.emotes.loading}`);
+    const msg = await message.channel.send({
+      content: `${this.client.emotes.loading}`,
+    });
     const timeDiff = msg.createdTimestamp - message.createdTimestamp;
     const wsp = this.client.ws.ping;
     let dataPing = Date.now();
@@ -30,8 +33,7 @@ module.exports = class PingCommand extends Command {
       message.guild,
       "CORE/DATABASE_LATENCY"
     );
-    const embed = this.client.utils
-      .embed()
+    const embed = new AndoiEmbed()
       .setColor(this.client.settings.embed_main)
       .setDescription(
         [
@@ -42,6 +44,9 @@ module.exports = class PingCommand extends Command {
       )
       .setTimestamp();
 
-    return msg.edit("_ _", embed);
+    return msg.edit({
+      content: `${this.client.emotes.success}`,
+      embeds: [embed],
+    });
   }
 };

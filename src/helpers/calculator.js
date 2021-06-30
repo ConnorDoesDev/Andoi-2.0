@@ -217,7 +217,8 @@ module.exports = async (message) => {
   //-----------------------
   const filter = (m) => m.user.id == message.author.id;
   message.channel
-    .send(stringify, {
+    .send({
+      content: stringify,
       components: [
         { type: 1, components: [ac, e1, e2, uppercase] },
         { type: 1, components: [seven, eight, nine, slash] },
@@ -228,7 +229,8 @@ module.exports = async (message) => {
     })
     .then(async (msg) => {
       async function edit() {
-        msg.edit(stringify, {
+        msg.edit({
+          content: stringify,
           components: [
             { type: 1, components: [ac, e1, e2, uppercase] },
             { type: 1, components: [seven, eight, nine, slash] },
@@ -330,7 +332,7 @@ module.exports = async (message) => {
             stringify = "```\n" + str + "\n```";
           } catch (e) {
             message.channel
-              .send(" An invalid equation was entered!")
+              .send({ content: " An invalid equation was entered!" })
               .then((m) => m.delete({ timeout: 2000 }));
 
             stringify = "```\n" + str + "\n```";

@@ -83,8 +83,9 @@ module.exports = class PingCommand extends Command {
         `\`\`\`asciidoc\n${serverStats}\`\`\``
       )
       .setTimestamp()
+      .setImage("https://share.creavite.co/xlDP4VYcm1hSpUnu.gif")
       .setColor("BLUE");
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
     message.channel.stopTyping();
   }
 };
