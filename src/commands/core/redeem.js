@@ -52,6 +52,7 @@ module.exports = class RedeeemCommand extends Command {
     guildConfig.premium = {
       enabled: true,
       redeemedAt: Date.now(),
+      redeemedBy: message.author.id,
       expiresAt: premium.expires,
       plan: premium.plan,
     };

@@ -11,7 +11,7 @@ module.exports = class AndoiEbed extends MessageEmbed {
     super(data);
     this.setTimestamp();
     if (user) {
-      this.setFooter(user.tag);
+      this.setFooter(user.tag, user.displayAvatarURL({ format: "png" }));
       this.setAuthor(user.username, user.displayAvatarURL({ format: "png" }));
     }
   }

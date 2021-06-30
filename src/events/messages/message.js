@@ -94,9 +94,9 @@ module.exports = class MessageEvent extends Event {
             .missing(userPermCheck);
           if (missing.length && !this.client.isOwner(message.author.id)) {
             return message.reply({
-              content: `You are missing ${this.client.utils.formatArray(
+              content: `You are missing \`${this.client.utils.formatArray(
                 missing.map(this.client.utils.formatPerms)
-              )} permissions, you need them to use this command!`,
+              )}\` permissions, you need them to use this command!`,
             });
           }
         }

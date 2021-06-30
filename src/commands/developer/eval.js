@@ -17,6 +17,7 @@ module.exports = class extends Command {
       args: ["code"],
       voice: false,
       sameVoice: false,
+      aliases: ["e"],
     });
   }
 

@@ -69,10 +69,10 @@ module.exports = Structures.extend(
       }
       async awaitReply(question, filter, limit = 60000) {
         let e = new MessageEmbed().setDescription(question).setColor("RANDOM");
-        await this.channel.send(e);
+        await this.channel.send({ embeds: [e] });
 
         return this.channel
-          .awaitMessages(filter, { max: 1, time: limit, errors: ["time"] })
+          .awaitMessages({ filter, max: 1, time: limit, errors: ["time"] })
           .then((collected) => collected.first().content)
           .catch(() => false);
       }
