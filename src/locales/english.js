@@ -17,6 +17,8 @@ module.exports = {
     BTN: "Andoi Button Roles",
   },
   CORE: {
+    PREM_EXPIRE: ({ user, guildPremium }) =>
+      `Hey ${user.username}, Premium in ${guildPremium.name} has Just expired.\n\nThank you for purchasing premium Previously! We hope you enjoyed what you purchased.`,
     DAY: "day",
     DAYS: "days",
     HOUR: "Hour",
