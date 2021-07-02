@@ -40,7 +40,7 @@ module.exports = class RedeeemCommand extends Command {
       code: code,
     });
     if (!premium) {
-      return message.send({
+      return message.channel.send({
         content: await this.client.lang.get(
           message.guild,
           "CORE/INVALID_PREMIUM"
