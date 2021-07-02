@@ -1,5 +1,5 @@
 const Bot = require("./struct/Bot");
-
+const AndoiEmbed = require("./struct/AndoiEmbed");
 const bot = new Bot();
 
 bot.build();
@@ -14,7 +14,9 @@ bot.giveaway.on("giveawayReactionAdded", async (giveaway, member, reaction) => {
         link: url,
         role,
       });
-      await member.send(toSend).catch(() => {});
+      await member
+        .send({ embeds: [new AndoiEmbed(member.user).setDescription(toSend)] })
+        .catch(() => {});
     } else {
       return;
     }

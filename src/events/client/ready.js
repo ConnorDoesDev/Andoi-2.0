@@ -1,4 +1,6 @@
 const Event = require("../../struct/Event");
+const Guild = require("../../models/guild");
+const AndoiEmbed = require("../../struct/AndoiEmbed");
 module.exports = class ReadyEvent extends Event {
   constructor(...args) {
     super(...args, {
@@ -17,14 +19,61 @@ module.exports = class ReadyEvent extends Event {
     this.client.log.info("status", "Started presence");
     this.sendMessage();
     this.client.log.info("startMessage", "Sended message");
+    this.checkPrem;
+  }
+  async checkPrem() {
+    setInterval(async () => {
+      const conditional = {
+        premium: {
+          enabled: true,
+        },
+      };
+      const results = await Guild.find(conditional);
+
+      if (results && results.length) {
+        for (const result of results) {
+          if (
+            Number(result.premium.redeemedAt) >=
+            Number(result.premium.expiresAt)
+          ) {
+            const guildPremium = this.client.guilds.cache.get(result.guild);
+            if (guildPremium) {
+              const user = await this.client.users.cache.get(
+                result.premium.redeemedBy
+              );
+
+              if (user) {
+                const embed = new AndoiEmbed()
+                  .setWarning()
+                  .setDescription(
+                    await this.client.lang.get(
+                      guildPremium,
+                      "CORE/PREM_EXPIRE",
+                      { user, guildPremium }
+                    )
+                  );
+
+                user.send({ embeds: [embed]}).catch(() => {});
+              }
+
+              result.premium.enabled = false;
+              result.premium.redeemedBy = null;
+              result.premium.redeemedAt = null;
+              result.premium.expiresAt = null;
+              result.premium.plan = null;
+
+              await result.save().catch(() => {});
+            }
+          }
+        }
+      }
+    }, 500000);
   }
   async sendMessage() {
     if (process.env.dev === "false") {
       const channel = this.client.channels.cache.get(
         this.client.settings.channels.ready
       );
-      const bot = this.client.user.username;
-      const icon = this.client.emotes.success;
       const servers = this.client.utils.formatNumber(
         this.client.guilds.cache.size
       );
@@ -33,9 +82,8 @@ module.exports = class ReadyEvent extends Event {
       );
       const commands = this.client.commands.size;
       const boot = this.client.bootTime;
-      const message = `${icon} \`[ ${this.client.pack.version} ]\` **REBOOT**`;
       const embed = {
-        title: bot,
+        title: `\`[ ${this.client.pack.version} ]\` **REBOOT**`,
         color: "GREY",
         description: [
           "```properties",
@@ -48,7 +96,7 @@ module.exports = class ReadyEvent extends Event {
       };
 
       await channel
-        ?.send(message, { embed: embed })
+        ?.send({ embeds: [embed] })
         .then((msg) => msg.crosspost())
         .catch(() => {});
     }

@@ -1,7 +1,24 @@
 const ms = require("ms");
 module.exports = {
   ERROR: "An error has occured please contact the developer!",
+  BUTTON_ROLES: {
+    REMOVED_ROLE: (role) => `I have removed the <@&${role}> from you!`,
+    ADDED_ROLE: (role) => `I have added the role <@&${role}> to you!`,
+    REMOVE_WAIT: "Please wait 5 seconds...",
+    REMOVE_GOOD: "Successfully removed the role from reaction roles.",
+    ADD_GOOD: "Successfully added the button roles.",
+    DELETE_GOOD: "Deleted the button roles.",
+    PROVIDE_CHANNEL: "Please provide an channel.",
+    PROVIDE_ROLE:
+      "Please send your roles by id below, separate by space. E.G.: 389730847098379087 9876096987980987 7867869876689766",
+    PROVIDE_EMOJI:
+      "Please send your emojis below. The order will match with the order of the roles. Separate with a space",
+    CHANNEL_NOT: "Channel was not found.",
+    BTN: "Andoi Button Roles",
+  },
   CORE: {
+    PREM_EXPIRE: ({ user, guildPremium }) =>
+      `Hey ${user.username}, Premium in ${guildPremium.name} has Just expired.\n\nThank you for purchasing premium Previously! We hope you enjoyed what you purchased.`,
     DAY: "day",
     DAYS: "days",
     HOUR: "Hour",
@@ -21,7 +38,7 @@ module.exports = {
     CPU_USAGE: "CPU usage",
     RAM: "Ram",
     RAM_USAGE: "Ram Usage",
-    ANDOI_STATS: "Andoi's Statistics",
+    ANDOI_STATS: (pack) => `Andoi v${pack.version}`,
     OPTIONAL_HELP:
       "Everything in <> is a required parameter, [] is a optional parameter",
     INVALID_COMMAND: "Invalid command.",

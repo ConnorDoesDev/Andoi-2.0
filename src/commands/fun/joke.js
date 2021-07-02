@@ -1,34 +1,34 @@
 const Command = require("../../struct/Command");
-const { Message } = require(`discord.js`);
 const AndoiEmbed = require("../../struct/AndoiEmbed");
-module.exports = class extends Command {
+const fetch = require("node-fetch");
+const { Message } = require("discord.js");
+module.exports = class PingCommand extends Command {
   constructor(...args) {
     super(...args, {
-      name: "achievement",
-      desc: "Minecraft :D",
+      name: "joke",
+      desc: "Laugh",
       category: "fun",
       guildOnly: true,
       ownerOnly: false,
       userPerms: [],
       botPerms: [],
       nsfw: false,
-      args: ["text"],
+      args: false,
       voice: false,
       sameVoice: false,
     });
   }
   /**
-   *
    * @param {Message} message
    * @param {Array} args
    */
   async run(message, args) {
-    const text = args.join("+");
-    const embed = new AndoiEmbed()
-      .setTitle(await this.client.lang.get(message.guild, "FUN/MC_ACHIEVEMENT"))
-      .setImage(
-        `https://minecraftskinstealer.com/achievement/12/Achievement%20Get!/${text}`
-      );
+    const data = await fetch("https://api.tovade.xyz/v1/fun/joke").then((res) =>
+      res.json()
+    );
+    const embed = new AndoiEmbed(message.member.user).setDescription(
+      `${data.question} ||${data.answer}||`
+    );
     message.channel.send({ embeds: [embed] });
   }
 };

@@ -19,19 +19,22 @@ module.exports.start = async (client, message, args) => {
   });
   let step = 0;
 
-  message.channel.send(
-    await client.lang.get(message.guild, "GIVEAWAY/WHAT_PRIZE")
-  );
+  message.channel.send({
+    content: await client.lang.get(message.guild, "GIVEAWAY/WHAT_PRIZE"),
+  });
   collector.on("collect", async (msg) => {
     if (!msg.content) return collector.stop("error");
 
     step++;
     if (step == 1) {
       const prize = msg.content;
-      message.channel.send(
-        await client.lang.get(message.guild, "GIVEAWAY/WHAT_CHANNEL", prize),
-        { allowedMentions: { roles: [], users: [], parse: [] } }
-      );
+      message.channel.send({
+        content: await client.lang.get(
+          message.guild,
+          "GIVEAWAY/WHAT_CHANNEL",
+          prize
+        ),
+      });
       giveaway.prize = prize;
     } else if (step == 2) {
       const channel =
@@ -39,30 +42,45 @@ module.exports.start = async (client, message, args) => {
         msg.guild.channels.cache.get(msg.content);
       if (!channel) return collector.stop("error");
       giveaway.channel = channel.id;
-      message.channel.send(
-        await client.lang.get(message.guild, "GIVEAWAY/HOW_WINNERS", channel.id)
-      );
+      message.channel.send({
+        content: await client.lang.get(
+          message.guild,
+          "GIVEAWAY/HOW_WINNERS",
+          channel.id
+        ),
+      });
     } else if (step == 3) {
       const winners = msg.content;
       if (isNaN(winners)) return collector.stop("error");
       if (parseInt(winners) > 10) {
-        message.reply(
-          await client.lang.get(message.guild, "GIVEAWAY/LESS_WINNERS")
-        );
+        message.reply({
+          content: await client.lang.get(
+            message.guild,
+            "GIVEAWAY/LESS_WINNERS"
+          ),
+        });
         return collector.stop("error");
       }
       giveaway.winners = parseInt(winners);
-      message.channel.send(
-        await client.lang.get(message.guild, "GIVEAWAY/WHAT_TIME", winners)
-      );
+      message.channel.send({
+        content: await client.lang.get(
+          message.guild,
+          "GIVEAWAY/WHAT_TIME",
+          winners
+        ),
+      });
     } else if (step == 4) {
       const time = msg.content;
       if (!ms(time)) return collector.stop("error");
       giveaway.time = time;
       if (ms(giveaway.time) > ms("14d")) return collector.stop("HIGH_TIME");
-      message.channel.send(
-        await client.lang.get(message.guild, "GIVEAWAY/WHAT_HOST", time)
-      );
+      message.channel.send({
+        content: await client.lang.get(
+          message.guild,
+          "GIVEAWAY/WHAT_HOST",
+          time
+        ),
+      });
     } else if (step == 5) {
       const host =
         msg.mentions.members.first() ||
@@ -70,19 +88,23 @@ module.exports.start = async (client, message, args) => {
         message.member;
 
       giveaway.host = host.id;
-      message.channel.send(
-        await client.lang.get(message.guild, "GIVEAWAY/WHAT_REQ", host)
-      );
+      message.channel.send({
+        content: await client.lang.get(
+          message.guild,
+          "GIVEAWAY/WHAT_REQ",
+          host
+        ),
+      });
     } else if (step == 6) {
       if (!["yes", "no"].includes(msg.content.toLowerCase()))
         return collector.stop("error");
       giveaway.reqEnabled = true;
-      return message.channel.send(
-        await client.lang.get(message.guild, "GIVEAWAY/IS_CORRECT", {
+      return message.channel.send({
+        content: await client.lang.get(message.guild, "GIVEAWAY/IS_CORRECT", {
           giveaway,
           message,
-        })
-      );
+        }),
+      });
     } else if (step == 7) {
       if (!["yes", "no"].includes(msg.content.toLowerCase()))
         return collector.stop("error");
@@ -93,26 +115,26 @@ module.exports.start = async (client, message, args) => {
 
   collector.on("end", async (msgs, reason) => {
     if (reason == "time")
-      return message.channel.send(
-        await client.lang.get(message.guild, "GIVEAWAY/NOT_TIME")
-      );
+      return message.channel.send({
+        content: await client.lang.get(message.guild, "GIVEAWAY/NOT_TIME"),
+      });
     if (reason == "error")
-      return message.channel.send(
-        await client.lang.get(message.guild, "GIVEAWAY/ERROR")
-      );
+      return message.channel.send({
+        content: await client.lang.get(message.guild, "GIVEAWAY/ERROR"),
+      });
     if (reason == "cancel")
-      return message.channel.send(
-        await client.lang.get(message.guild, "GIVEAWAY/WRONG_INFO")
-      );
+      return message.channel.send({
+        content: await client.lang.get(message.guild, "GIVEAWAY/WRONG_INFO"),
+      });
     if (reason == "HIGH_TIME")
-      return message.channel.send(
-        await client.lang.get(message.guild, "GIVEAWAY/HIGH_TIME")
-      );
+      return message.channel.send({
+        content: await client.lang.get(message.guild, "GIVEAWAY/HIGH_TIME"),
+      });
 
     if (reason == "done" && giveaway.reqEnabled) {
-      message.channel.send(
-        await client.lang.get(message.guild, "GIVEAWAY/ROLE_REQ")
-      );
+      message.channel.send({
+        content: await client.lang.get(message.guild, "GIVEAWAY/ROLE_REQ"),
+      });
       const rcollector = message.channel.createMessageCollector(filter, {
         time: 60 * 1000,
         max: 1000,
@@ -128,33 +150,43 @@ module.exports.start = async (client, message, args) => {
         const id = m.content;
 
         if (!message.guild.roles.cache.get(id))
-          return message.channel.send(
-            await client.lang.get(message.guild, "GIVEAWAY/INVALID_ROLE")
-          );
+          return message.channel.send({
+            content: await client.lang.get(
+              message.guild,
+              "GIVEAWAY/INVALID_ROLE"
+            ),
+          });
         giveaway.requirements.role = m.content;
-        message.channel.send(
-          await client.lang.get(message.guild, "GIVEAWAY/IS_REQ_CORRECT", {
-            giveaway,
-            message,
-          }),
-          { allowedMentions: { roles: [], parse: [], users: [] } }
-        );
+        message.channel.send({
+          content: await client.lang.get(
+            message.guild,
+            "GIVEAWAY/IS_REQ_CORRECT",
+            {
+              giveaway,
+              message,
+            }
+          ),
+          allowedMentions: { roles: [], parse: [], users: [] },
+        });
         return rcollector.stop("done");
       });
 
       rcollector.on("end", async (msg, r) => {
         if (r == "time")
-          return message.channel.send(
-            await client.lang.get(message.guild, "GIVEAWAY/NOT_TIME")
-          );
+          return message.channel.send({
+            content: await client.lang.get(message.guild, "GIVEAWAY/NOT_TIME"),
+          });
         if (r == "error")
-          return message.channel.send(
-            await client.lang.get(message.guild, "GIVEAWAY/ERROR")
-          );
+          return message.channel.send({
+            content: await client.lang.get(message.guild, "GIVEAWAY/ERROR"),
+          });
         if (r == "cancel")
-          return message.channel.send(
-            await client.lang.get(message.guild, "GIVEAWAY/WRONG_INFO")
-          );
+          return message.channel.send({
+            content: await client.lang.get(
+              message.guild,
+              "GIVEAWAY/WRONG_INFO"
+            ),
+          });
 
         if (r == "done") {
           await client.giveaway.start(
@@ -212,7 +244,12 @@ module.exports.start = async (client, message, args) => {
             }
           );
           await message.channel
-            .send(await client.lang.get(message.guild, "GIVEAWAY/CREAT_GIV"))
+            .send({
+              content: await client.lang.get(
+                message.guild,
+                "GIVEAWAY/CREAT_GIV"
+              ),
+            })
             .then((m) => setTimeout(() => m.delete(), 2000));
         }
       });
@@ -256,16 +293,18 @@ module.exports.start = async (client, message, args) => {
         },
       });
       await message.channel
-        .send(await client.lang.get(message.guild, "GIVEAWAY/CREAT_GIV"))
+        .send({
+          content: await client.lang.get(message.guild, "GIVEAWAY/CREAT_GIV"),
+        })
         .then((m) => setTimeout(() => m.delete(), 2000));
     }
   });
 };
 module.exports.end = async (client, message, args) => {
   if (!args[0]) {
-    return message.channel.send(
-      await client.lang.get(message.guild, "GIVEAWAY/PROVIDE_ID")
-    );
+    return message.channel.send({
+      content: await client.lang.get(message.guild, "GIVEAWAY/PROVIDE_ID"),
+    });
   }
 
   let giveaway =
@@ -276,18 +315,26 @@ module.exports.end = async (client, message, args) => {
       (g) => g.messageID === args[0] && g.guildID === message.guild.id
     );
   if (!giveaway) {
-    return message.channel.send(
-      await client.lang.get(message.guild, "GIVEAWAY/UNABLE_FIND", args)
-    );
+    return message.channel.send({
+      content: await client.lang.get(
+        message.guild,
+        "GIVEAWAY/UNABLE_FIND",
+        args
+      ),
+    });
   }
   client.giveaway
     .edit(giveaway.messageID, {
       setEndTimestamp: Date.now(),
     })
     .then(async () => {
-      message.channel.send(
-        await client.lang.get(message.guild, "GIVEAWAY/WILL_END", client)
-      );
+      message.channel.send({
+        content: await client.lang.get(
+          message.guild,
+          "GIVEAWAY/WILL_END",
+          client
+        ),
+      });
     })
     .catch(async (e) => {
       if (
@@ -295,20 +342,22 @@ module.exports.end = async (client, message, args) => {
           `Giveaway with message ID ${giveaway.messageID} is already ended.`
         )
       ) {
-        message.channel.send(
-          await client.lang.get(message.guild, "GIVEAWAY/ALREADY_END")
-        );
+        message.channel.send({
+          content: await client.lang.get(message.guild, "GIVEAWAY/ALREADY_END"),
+        });
       } else {
         console.error(e);
-        message.channel.send(await client.lang.get(message.guild, "ERROR"));
+        message.channel.send({
+          content: await client.lang.get(message.guild, "ERROR"),
+        });
       }
     });
 };
 module.exports.reroll = async (client, message, args) => {
   if (!args[0]) {
-    return message.channel.send(
-      await client.lang.get(message.guild, "GIVEAWAY/PROVIDE_ID")
-    );
+    return message.channel.send({
+      content: await client.lang.get(message.guild, "GIVEAWAY/PROVIDE_ID"),
+    });
   }
   let giveaway =
     client.giveawaysManager.giveaways.find(
@@ -318,16 +367,20 @@ module.exports.reroll = async (client, message, args) => {
       (g) => g.messageID === args[0] && g.guildID === message.guild.id
     );
   if (!giveaway) {
-    return message.channel.send(
-      await client.lang.get(message.guild, "GIVEAWAY/UNABLE_FIND", args)
-    );
+    return message.channel.send({
+      content: await client.lang.get(
+        message.guild,
+        "GIVEAWAY/UNABLE_FIND",
+        args
+      ),
+    });
   }
   client.giveaway
     .reroll(giveaway.messageID)
     .then(async () => {
-      message.channel.send(
-        await client.lang.get(message.guild, "GIVEAWAY/REROLL")
-      );
+      message.channel.send({
+        content: await client.lang.get(message.guild, "GIVEAWAY/REROLL"),
+      });
     })
     .catch(async (e) => {
       if (
@@ -335,12 +388,14 @@ module.exports.reroll = async (client, message, args) => {
           `Giveaway with message ID ${giveaway.messageID} is not ended.`
         )
       ) {
-        message.channel.send(
-          await client.lang.get(message.guild, "GIVEAWAY/ALREADY_END")
-        );
+        message.channel.send({
+          content: await client.lang.get(message.guild, "GIVEAWAY/ALREADY_END"),
+        });
       } else {
         console.error(e);
-        message.channel.send(await client.lang.get(message.guild, "ERROR"));
+        message.channel.send({
+          content: await client.lang.get(message.guild, "ERROR"),
+        });
       }
     });
 };

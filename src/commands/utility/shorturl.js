@@ -34,6 +34,6 @@ module.exports = class shorturl extends Command {
     const embed = new AndoiEmbed(message.author)
       .setTitle("shorturl")
       .setDescription(`**Old url:** ${url}\n **New url:** ${data.shorturl}`);
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   }
 };

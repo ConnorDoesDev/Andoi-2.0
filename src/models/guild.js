@@ -8,6 +8,7 @@ module.exports = model(
     premium: {
       enabled: { type: Boolean, default: false },
       redeemedAt: String,
+      redeemedBy: String,
       expiresAt: String,
       plan: String,
     },

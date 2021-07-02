@@ -73,7 +73,11 @@ module.exports = class PingCommand extends Command {
     `;
 
     const embed = new AndoiEmbed(message.author)
-      .setTitle(await this.lang.get(message.guild, "CORE/ANDOI_STATS"))
+      .setTitle(
+        await this.lang.get(message.guild, "CORE/ANDOI_STATS", {
+          pack: this.client.pack,
+        })
+      )
       .addField(
         await this.lang.get(message.guild, "CORE/CLIENT"),
         `\`\`\`asciidoc\n${clientStats}\`\`\``
@@ -83,8 +87,9 @@ module.exports = class PingCommand extends Command {
         `\`\`\`asciidoc\n${serverStats}\`\`\``
       )
       .setTimestamp()
+      .setImage("https://share.creavite.co/xlDP4VYcm1hSpUnu.gif")
       .setColor("BLUE");
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
     message.channel.stopTyping();
   }
 };

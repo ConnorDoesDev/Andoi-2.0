@@ -41,6 +41,6 @@ module.exports = class CaptchaCommand extends Command {
       .setTitle(await this.lang.get(message.guild, "FUN/SOLVE_CAPTCHA"))
       .setImage(data.message);
 
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   }
 };

@@ -26,6 +26,6 @@ module.exports = class extends Command {
     const data = await fetch("https://api.adviceslip.com/advice").then((res) =>
       res.json()
     );
-    return message.channel.send(data.slip.advice);
+    return message.channel.send({ content: data.slip.advice });
   }
 };
