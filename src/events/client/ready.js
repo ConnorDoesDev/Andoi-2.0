@@ -53,7 +53,7 @@ module.exports = class ReadyEvent extends Event {
                     )
                   );
 
-                user.send(embed).catch(() => {});
+                user.send({ embeds: [embed]}).catch(() => {});
               }
 
               result.premium.enabled = false;

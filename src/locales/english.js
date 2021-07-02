@@ -38,7 +38,7 @@ module.exports = {
     CPU_USAGE: "CPU usage",
     RAM: "Ram",
     RAM_USAGE: "Ram Usage",
-    ANDOI_STATS: "Andoi's Statistics",
+    ANDOI_STATS: (pack) => `Andoi v${pack.version}`,
     OPTIONAL_HELP:
       "Everything in <> is a required parameter, [] is a optional parameter",
     INVALID_COMMAND: "Invalid command.",

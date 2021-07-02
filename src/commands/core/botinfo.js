@@ -73,7 +73,11 @@ module.exports = class PingCommand extends Command {
     `;
 
     const embed = new AndoiEmbed(message.author)
-      .setTitle(await this.lang.get(message.guild, "CORE/ANDOI_STATS"))
+      .setTitle(
+        await this.lang.get(message.guild, "CORE/ANDOI_STATS", {
+          pack: this.client.pack,
+        })
+      )
       .addField(
         await this.lang.get(message.guild, "CORE/CLIENT"),
         `\`\`\`asciidoc\n${clientStats}\`\`\``
