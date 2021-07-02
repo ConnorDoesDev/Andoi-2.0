@@ -32,17 +32,20 @@ module.exports = class RedeeemCommand extends Command {
       guild: message.guild.id,
     });
     if (guildConfig?.premium?.enabled) {
-      return message.send(
-        await this.client.lang.get(message.guild, "CORE/HAS_PREMIUM")
-      );
+      return message.channel.send({
+        content: await this.client.lang.get(message.guild, "CORE/HAS_PREMIUM"),
+      });
     }
     const premium = await premiumModel.findOne({
       code: code,
     });
     if (!premium) {
-      return message.send(
-        await this.client.lang.get(message.guild, "CORE/INVALID_PREMIUM")
-      );
+      return message.send({
+        content: await this.client.lang.get(
+          message.guild,
+          "CORE/INVALID_PREMIUM"
+        ),
+      });
     }
 
     const moment = require("moment");
