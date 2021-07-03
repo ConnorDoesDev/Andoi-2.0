@@ -22,8 +22,16 @@ class buttonroles {
     const color = "blurple";
     for (const item of arr) {
       const label = item.name;
-      const emoji = item.emoji;
+      const regex = new RegExp(/(<a?)?:\w+:(\d{18}>)?/g);
+      let emojie;
+      if (regex.test(item.emoji)) {
+        const e = Util.parseEmoji(item.emoji);
+        emojie = item.emoji.replace(/(<a?)?:\w+:(\d{18}>)?/g, e.id);
+      } else {
+        emojie = item.emoji;
+      }
       const role = item.role_id;
+      const emoji = emojie;
       this.roles.push({ color: color, label: label, emoji: emoji, role: role });
     }
     return this;
@@ -62,8 +70,16 @@ class buttonroles {
     const roles = m.roles;
     for (const item of roleconf) {
       const label = item.name;
-      const emoji = item.emoji;
+      const regex = new RegExp(/(<a?)?:\w+:(\d{18}>)?/g);
+      let emojie;
+      if (regex.test(item.emoji)) {
+        const e = Util.parseEmoji(item.emoji);
+        emojie = item.emoji.replace(/(<a?)?:\w+:(\d{18}>)?/g, e.id);
+      } else {
+        emojie = item.emoji;
+      }
       const role = item.role_id;
+      const emoji = emojie;
       roles.push({ color: "blurple", label: label, emoji: emoji, role: role });
     }
     const buttons = [];
