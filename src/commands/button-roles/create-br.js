@@ -78,7 +78,7 @@ module.exports = class PingCommand extends Command {
       message,
       content: embed,
       role: brmanager,
-      channelID: message.channel.id,
+      channelID: channel.id,
       emojicontent: emojiMsg,
       rolecontent: roleMsg,
     });
