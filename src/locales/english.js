@@ -81,6 +81,7 @@ module.exports = {
   },
   FUN: {
     MC_ACHIEVEMENT: "Minecraft achievement",
+    COINFLIP: ({ result, user }) => `${user.username} flipped ${result}`,
     SOLVE_CAPTCHA: "Solve the captcha!",
   },
   GIVEAWAY: {
