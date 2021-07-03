@@ -273,7 +273,14 @@ function createDescription(roles, emojis) {
   const strings = [];
 
   for (let i = 0; i < roles.length; i++) {
-    strings.push(`${emojis[i]}: <@&${roles[i]}>`);
+    let emoji;
+    if (parseInt(emojis[i])) {
+      const emo = Util.parseEmoji(emojis[i]);
+      emoji = `<:${emo.name}:${emo.id}>`;
+    } else {
+      emoji = emojis[i];
+    }
+    strings.push(`${emoji}: <@&${roles[i]}>`);
   }
 
   return strings.join("\n");
