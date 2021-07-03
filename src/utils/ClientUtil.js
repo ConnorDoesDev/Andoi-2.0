@@ -5,7 +5,7 @@ const { MessageEmbed, MessageAttachment } = require("discord.js");
 const Command = require("../struct/Command");
 const Event = require("../struct/Event");
 const moment = require("moment");
-
+const fetch = require("node-fetch");
 module.exports = class ClientUtil {
   constructor(client) {
     this.client = client;
@@ -121,5 +121,34 @@ module.exports = class ClientUtil {
 
   attachment(buffer, name) {
     return new MessageAttachment(buffer, name ? name : "");
+  }
+  base64(text, mode = "encode") {
+    if (mode === "encode") return Buffer.from(text).toString("base64");
+    if (mode === "decode")
+      return Buffer.from(text, "base64").toString("utf8") || null;
+    throw new TypeError(`${mode} is not a supported base64 mode.`);
+  }
+  async binary(text, mode = "encode") {
+    if (mode === "encode") {
+      const data = await fetch(
+        `https://some-random-api.ml/binary?text=${text}`
+      ).then((res) => res.json());
+      return data.binary;
+    }
+    if (mode === "decode") {
+      const data = await fetch(
+        `https://some-random-api.ml/binary?decode=${text}`
+      ).then((res) => res.json());
+      return data.text;
+    }
+  }
+  makeid(length) {
+    var result = "";
+    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
   }
 };

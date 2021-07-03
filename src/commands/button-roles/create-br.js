@@ -78,7 +78,7 @@ module.exports = class PingCommand extends Command {
       message,
       content: embed,
       role: brmanager,
-      channelID: message.channel.id,
+      channelID: channel.id,
       emojicontent: emojiMsg,
       rolecontent: roleMsg,
     });
@@ -121,11 +121,6 @@ function parseEmojis(msg) {
   let content = msg.trim().split(/ +/g);
 
   content = content.filter((s) => {
-    // Remove custom emojis
-    if (s.split(":").length === 1 ? false : true) {
-      const emo = Util.parseEmoji(s);
-      return emo.id;
-    }
     return true;
   });
 
