@@ -1,6 +1,7 @@
 const Event = require("../../struct/Event");
 const Guild = require("../../models/guild");
 const AndoiEmbed = require("../../struct/AndoiEmbed");
+require("dotenv/config");
 module.exports = class ReadyEvent extends Event {
   constructor(...args) {
     super(...args, {
@@ -53,7 +54,7 @@ module.exports = class ReadyEvent extends Event {
                     )
                   );
 
-                user.send({ embeds: [embed]}).catch(() => {});
+                user.send({ embeds: [embed] }).catch(() => {});
               }
 
               result.premium.enabled = false;
