@@ -22,11 +22,11 @@ module.exports = class SnakeCommand extends GameCommand {
       gameOptions: {
         message,
         embed: {
-          title: await message.t("GAMES/SNAKE"),
+          title: await this.client.lang.get(message.guild, "GAMES/SNAKE"),
           color: "RANDOM",
           timestamp: true,
-          gameOverTitle: await message.t("GAMES/END"),
-          score: await message.t("GAMES/SCORE"),
+          gameOverTitle: await this.client.lang.get(message.guild, "GAMES/END"),
+          score: await this.client.lang.get(message.guild, "GAMES/SCORE"),
         },
         emojis: {
           empty: "⬛", //zone emoji

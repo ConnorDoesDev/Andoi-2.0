@@ -26,7 +26,10 @@ module.exports = class PingCommand extends Command {
     const btn = require("../../struct/buttonRoles");
     await btn.delete({ client: this.client, messageID: args[0] });
     message.channel.send({
-      content: await message.t("BUTTON_ROLES/DELETE_GOOD"),
+      content: await this.client.lang.get(
+        message.guild,
+        "BUTTON_ROLES/DELETE_GOOD"
+      ),
     });
   }
 };

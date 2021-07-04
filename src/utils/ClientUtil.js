@@ -4,7 +4,9 @@ const glob = promisify(require("glob"));
 const { MessageEmbed, MessageAttachment } = require("discord.js");
 const Command = require("../struct/Command");
 const Event = require("../struct/Event");
+const Interaction = require("../struct/Interaction");
 const moment = require("moment");
+require("dotenv/config");
 const fetch = require("node-fetch");
 module.exports = class ClientUtil {
   constructor(client) {
@@ -101,7 +103,7 @@ module.exports = class ClientUtil {
         if (!this.isClass(File))
           return this.client.log.error(
             "event",
-            `Event ${name} dorsn't export a class.`
+            `Event ${name} doesn't export a class.`
           );
         const event = new File(this.client, name.toLowerCase());
         if (!(event instanceof Event))
@@ -110,9 +112,33 @@ module.exports = class ClientUtil {
             `${name} doesn't belong in events folder.`
           );
         this.client.events.set(event.name, event);
-        event.emitter[event.type](name, (...args) => event.run(...args));
+        event.emitter[event.type](event.name, (...args) => event.run(...args));
       }
     });
+  }
+  async handleInteractions() {
+    return glob(`${this.directory}interactions/**/*.js`).then(
+      (interactions) => {
+        for (const interactionFile of interactions) {
+          delete require.cache[interactionFile];
+          const { name } = path.parse(interactionFile);
+          const File = require(interactionFile);
+          if (!this.isClass(File))
+            throw new TypeError(`Interaction ${name} doesn't export a class.`);
+          const interaction = new File(this.client, name.toLowerCase());
+          if (!(interaction instanceof Interaction))
+            throw new TypeError(
+              `Interaction ${name} doesn't belong in Interactions directory.`
+            );
+          this.client.interactions.set(interaction.name, interaction);
+          process.env.dev
+            ? this.client.guilds.cache
+                .get("740295580886106233")
+                .commands.create(interaction)
+            : this.client.application?.commands.create(interaction);
+        }
+      }
+    );
   }
 
   embed() {

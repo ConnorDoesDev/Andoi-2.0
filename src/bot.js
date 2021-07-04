@@ -3,6 +3,7 @@ const AndoiEmbed = require("./struct/AndoiEmbed");
 const bot = new Bot();
 
 bot.build();
+require("./utils/GuildDB")(bot);
 bot.giveaway.on("giveawayReactionAdded", async (giveaway, member, reaction) => {
   if (giveaway.data.extraData?.role) {
     const guild = bot.guilds.cache.get(member.guild.id);

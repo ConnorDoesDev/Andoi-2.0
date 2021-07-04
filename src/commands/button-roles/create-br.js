@@ -32,19 +32,22 @@ module.exports = class PingCommand extends Command {
     const ch = this.findChannel(message, args, false);
     if (!ch) {
       return message.channel.send(
-        await message.t("BUTTON_ROLES/PROVIDE_CHANNEL")
+        await this.client.lang.get(
+          message.guild,
+          "BUTTON_ROLES/PROVIDE_CHANNEL"
+        )
       );
     }
 
     const roleMsgs = await message.awaitReply(
-      await message.t("BUTTON_ROLES/PROVIDE_ROLE"),
+      await this.client.lang.get(message.guild, "BUTTON_ROLES/PROVIDE_ROLE"),
       filter
     );
     const roleMsg = roleMsgs;
     roles = parseRoles(roleMsg, guild);
 
     const emojiMsgs = await message.awaitReply(
-      await message.t("BUTTON_ROLES/PROVIDE_EMOJI"),
+      await this.client.lang.get(message.guild, "BUTTON_ROLES/PROVIDE_EMOJI"),
       filter
     );
 
@@ -54,12 +57,15 @@ module.exports = class PingCommand extends Command {
     const channel = guild.channels.cache.get(ch.id);
     if (!channel) {
       return message.channel.send({
-        content: await message.t("BUTTON_ROLES/CHANNEL_NOT"),
+        content: await this.client.lang.get(
+          message.guild,
+          "BUTTON_ROLES/CHANNEL_NOT"
+        ),
       });
     }
 
     const embed = new AndoiEmbed(this.client.user)
-      .setTitle(await message.t("BUTTON_ROLES/BTN"))
+      .setTitle(await this.client.lang.get(message.guild, "BUTTON_ROLES/BTN"))
       .setDescription(`${createDescription(roles, emojis)}`);
     const reactions = [];
 

@@ -180,7 +180,7 @@ class Snake {
       })
       .then(async (m) => {
         const filter = (m) => m.user.id == this.options.message.author.id;
-        const collector = m.createMessageComponentInteractionCollector(filter);
+        const collector = m.createMessageComponentCollector({ filter });
         collector.on("collect", async (btn) => {
           const snakeHead = this.snake[0];
           const nextPos = { x: snakeHead.x, y: snakeHead.y };

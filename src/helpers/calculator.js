@@ -228,8 +228,8 @@ module.exports = async (message) => {
       ],
     })
     .then(async (msg) => {
-      async function edit() {
-        msg.edit({
+      async function edit(btn) {
+        btn.update({
           content: stringify,
           components: [
             { type: 1, components: [ac, e1, e2, uppercase] },
@@ -240,94 +240,93 @@ module.exports = async (message) => {
           ],
         });
       }
-      const calc = msg.createMessageComponentInteractionCollector(filter, {
+      const calc = msg.createMessageComponentCollector({
+        filter,
         time: 60000,
       });
 
       calc.on("collect", async (btn) => {
-        btn.defer(true);
-        btn.deleteReply();
         if (btn.customID === calculator_1) {
           str += "1";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_2) {
           str += "2";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_3) {
           str += "3";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_4) {
           str += "4";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_5) {
           str += "5";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_6) {
           str += "6";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_7) {
           str += "7";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_8) {
           str += "8";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_9) {
           str += "9";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_0) {
           str += "0";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_plus) {
           str += "+";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_minus) {
           str += "-";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_devide) {
           str += "/";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_uppercase) {
           str += "^";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_star) {
           str += "*";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_dot) {
           str += ".";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_ac) {
           str = " ";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_e1) {
           str += "(";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_e2) {
           str += ")";
           stringify = "```\n" + str + "\n```";
-          edit();
+          edit(btn);
         } else if (btn.customID === calculator_equal) {
           try {
             str += " = " + require("mathjs").evaluate(str) + "";
             stringify = "```\n" + str + "\n```";
-            edit();
+            edit(btn);
             str = "";
             stringify = "```\n" + str + "\n```";
           } catch (e) {

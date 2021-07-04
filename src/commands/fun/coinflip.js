@@ -29,7 +29,10 @@ module.exports = class PingCommand extends Command {
     const embed = new AndoiEmbed(message.author)
       .setColor("GREEN")
       .setDescription(
-        await message.t("FUN/COINFLIP", { result, user: message.author })
+        await this.client.lang.get(message.guild, "FUN/COINFLIP", {
+          result,
+          user: message.author,
+        })
       );
     message.channel.send({ embeds: [embed] });
   }

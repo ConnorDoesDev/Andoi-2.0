@@ -12,7 +12,8 @@ module.exports = class languageManager {
    * @returns {String}
    */
   async get(guild, value, extra_args) {
-    const lang = await guild.get("language", "english");
+    const langg = await this.client.getConfig(guild);
+    const lang = langg.language;
     const file = require(`../locales/${lang}.js`);
     if (value.includes("/")) {
       const splitCat = value.split("/")[0];
@@ -36,7 +37,8 @@ module.exports = class languageManager {
    * @returns {file} Language
    */
   async getFile(guild) {
-    const lang = await guild.get("language", "english");
+    const langg = await this.client.getConfig(guild);
+    const lang = langg.language;
 
     return require(`../locales/${lang}.js`);
   }
