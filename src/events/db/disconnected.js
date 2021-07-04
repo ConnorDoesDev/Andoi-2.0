@@ -4,6 +4,7 @@ const { connection } = require("mongoose");
 module.exports = class DBError extends Event {
   constructor(...args) {
     super(...args, {
+      name: "disconnected",
       emitter: connection,
     });
   }

@@ -9,8 +9,7 @@ const { performance } = require("perf_hooks");
 const GiveawaysManager = require("./Mongogiveaways");
 const apiLoader = require("../loaders/ApiLoader");
 const langManager = require("./LanguageManager");
-require("../extenders/Message");
-require("../extenders/Guild");
+const gModel = require("../models/guild");
 const pack = require("../../package.json");
 class Bot extends Client {
   constructor() {
@@ -43,7 +42,7 @@ class Bot extends Client {
     this.aliases = new Collection();
 
     this.cooldowns = new Collection();
-
+    this.interactions = new Collection();
     this.events = new Collection();
 
     this.utils = new ClientUtil(this);
@@ -60,7 +59,7 @@ class Bot extends Client {
     this.settings = settings;
     this.messages = { sent: 0, received: 0 };
     this.bootTime = null;
-    this.on("message", (message) => {
+    this.on("messageCreate", (message) => {
       if (message.author.id === this.user.id) {
         return this.messages.sent++;
       } else {
@@ -76,7 +75,17 @@ class Bot extends Client {
 
   async getPrefix(message) {
     try {
-      return await message.guild.get("prefix", "a.");
+      const g = await gModel.findOne({
+        guild: message.guild.id,
+      });
+      if (!g) {
+        const gd = new gModel({
+          guild: message.guild.id,
+        });
+        await gd.save();
+        return gd.prefix;
+      }
+      return g.prefix;
     } catch (err) {
       console.log(err);
     }

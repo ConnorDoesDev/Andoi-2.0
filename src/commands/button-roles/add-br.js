@@ -30,14 +30,14 @@ module.exports = class PingCommand extends Command {
     const filter = (m) => m.author.id === message.author.id;
 
     const roleMsgs = await message.awaitReply(
-      await message.t("BUTTON_ROLES/PROVIDE_ROLE"),
+      await this.client.lang.get(message.guild, "BUTTON_ROLES/PROVIDE_ROLE"),
       filter
     );
     const roleMsg = roleMsgs;
     roles = parseRoles(roleMsg, guild);
 
     const emojiMsgs = await message.awaitReply(
-      await message.t("BUTTON_ROLES/PROVIDE_EMOJI"),
+      await this.client.lang.get(message.guild, "BUTTON_ROLES/PROVIDE_EMOJI"),
       filter
     );
 

@@ -1,5 +1,5 @@
 const Command = require("../../struct/Command");
-const model = require("../../models/wrapper");
+const model = require("../../models/guild");
 const AndoiEmbed = require("../../struct/AndoiEmbed");
 module.exports = class PingCommand extends Command {
   constructor(...args) {

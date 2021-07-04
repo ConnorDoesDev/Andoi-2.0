@@ -3,7 +3,7 @@ module.exports = model(
   "Config",
   new Schema({
     guild: String,
-    prefix: { type: String, default: "a." },
+    prefix: { type: String, default: "a!" },
     language: { type: String, default: "english" },
     premium: {
       enabled: { type: Boolean, default: false },

@@ -5,6 +5,7 @@ module.exports = class DBError extends Event {
   constructor(...args) {
     super(...args, {
       emitter: connection,
+      name: "reconnected",
     });
   }
 

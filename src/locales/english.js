@@ -1,6 +1,19 @@
 const ms = require("ms");
 module.exports = {
   ERROR: "An error has occured please contact the developer!",
+  SETTINGS: {
+    TITLE: (guild) => `${guild.name}'s settings`,
+    PREFIX: "Prefix:",
+    INVALID: (valid) => `Invalid type. Valid types: ${valid.join(", ")}`,
+    NO_CHANGE: (vl) => `What do you want to change? ${vl.join(", ")}`,
+    INFO: "These are the settings. **Tip:** to change something use this command with an `set` or `reset` argument after the command.",
+    INVALID_CHANGE: (val) =>
+      `Invalid setting to change. Valid changes: ${val.join(", ")}`,
+    NO_PREFIX: "No prefix was provided.",
+    INVALID_PREFIX: "Prefix is too long.",
+    SUCCESS_PREFIX: "Successfully changed the prefix.",
+    RESET_PREFIX: "The prefix has been reset.",
+  },
   BUTTON_ROLES: {
     REMOVED_ROLE: (role) => `I have removed the <@&${role}> from you!`,
     ADDED_ROLE: (role) => `I have added the role <@&${role}> to you!`,
@@ -21,6 +34,7 @@ module.exports = {
       `Hey ${user.username}, Premium in ${guildPremium.name} has Just expired.\n\nThank you for purchasing premium Previously! We hope you enjoyed what you purchased.`,
     DAY: "day",
     DAYS: "days",
+
     HOUR: "Hour",
     HOURS: "Hours",
     SERVERS: "Servers",
@@ -83,6 +97,7 @@ module.exports = {
     MC_ACHIEVEMENT: "Minecraft achievement",
     COINFLIP: ({ result, user }) => `${user.username} flipped ${result}`,
     SOLVE_CAPTCHA: "Solve the captcha!",
+    WYR: "Would you rather.",
   },
   GIVEAWAY: {
     WHAT_PRIZE: "What is the prize?",

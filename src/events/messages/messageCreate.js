@@ -2,6 +2,11 @@ const Event = require("../../struct/Event");
 const { Collection } = require("discord.js");
 const AndoiEmbed = require("../../struct/AndoiEmbed");
 module.exports = class MessageEvent extends Event {
+  constructor(...args) {
+    super(...args, {
+      name: "messageCreate",
+    });
+  }
   async run(message) {
     if (!message.channel.permissionsFor(this.client.user).has("SEND_MESSAGES"))
       return;

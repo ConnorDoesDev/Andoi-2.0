@@ -29,7 +29,10 @@ module.exports = class PingCommand extends Command {
     const playingSong = song;
     if (!playingSong)
       return message.reply({
-        content: await message.t("SEARCHER/NO_SONG_PRO"),
+        content: await this.client.lang.get(
+          message.guild,
+          "SEARCHER/NO_SONG_PRO"
+        ),
       });
     const embed = new AndoiEmbed(message.author);
     const {
@@ -53,7 +56,8 @@ module.exports = class PingCommand extends Command {
         .setAuthor("Genius", "https://i.imgur.com/NmCTsoF.png")
         .setDescription(
           body.length >= 1900
-            ? `${body.substr(0, 1900)}\n\n[${await message.t(
+            ? `${body.substr(0, 1900)}\n\n[${await this.client.lang.get(
+                message.guild,
                 "SEARCHER/FULL_LYRICS"
               )}](http://genius.com${path})`
             : body
@@ -66,7 +70,9 @@ module.exports = class PingCommand extends Command {
         .send({ embeds: [embed] })
         .then(() => message.channel.stopTyping());
     } else {
-      return message.reply({ content: message.t("SEARCHER/NO_SONG") });
+      return message.reply({
+        content: this.client.lang.get(message.guild, "SEARCHER/NO_SONG"),
+      });
     }
   }
 };
