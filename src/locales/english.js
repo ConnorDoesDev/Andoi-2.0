@@ -34,7 +34,7 @@ module.exports = {
       `Hey ${user.username}, Premium in ${guildPremium.name} has Just expired.\n\nThank you for purchasing premium Previously! We hope you enjoyed what you purchased.`,
     DAY: "day",
     DAYS: "days",
-
+    INVITE: "Invite",
     HOUR: "Hour",
     HOURS: "Hours",
     SERVERS: "Servers",
@@ -98,6 +98,11 @@ module.exports = {
     COINFLIP: ({ result, user }) => `${user.username} flipped ${result}`,
     SOLVE_CAPTCHA: "Solve the captcha!",
     WYR: "Would you rather.",
+  },
+  INTERACTIONS: {
+    INVALID_STAGE: "That is not a voice channel.",
+    SUCCESS_TOGETHER: (invite) => `Here is your [invite](${invite}).`,
+    TOGETHER: "Discord Together",
   },
   GIVEAWAY: {
     WHAT_PRIZE: "What is the prize?",

@@ -21,7 +21,7 @@ module.exports = class extends Event {
         .catch(() => {});
       if (!interaction.guildID) return;
       try {
-        const command = this.client.interactions.get(interaction.command.name);
+        const command = this.client.interactions.get(interaction.command?.name);
         if (!command) return;
         await command.run(
           interaction,
@@ -30,7 +30,7 @@ module.exports = class extends Event {
       } catch (err) {
         interaction.reply({
           content: "Something went terribly wrong.",
-          empheral: true,
+          ephemeral: true,
         });
         console.log(err);
       }
