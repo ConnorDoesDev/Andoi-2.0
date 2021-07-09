@@ -26,6 +26,7 @@ module.exports = class Command {
     this.voice = Boolean(options.voice) || false;
     this.sameVoice = Boolean(options.sameVoice) || false;
     this.premium = Boolean(options.premium) || false;
+    this.playing = Boolean(options.playing) || false;
     this.lang = new langManager(this.client);
     this.options = options;
   }

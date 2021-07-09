@@ -79,7 +79,7 @@ module.exports = class PingInteraction extends InteractionClass {
     const choice = choices.find((ch) => ch.value === args[0]);
     const ch = args[1];
     const channel = interaction.guild.channels.cache.get(ch);
-    if (channel.type !== "voice") {
+    if (channel.type !== "GUILD_VOICE") {
       return interaction.reply({
         content: lang.INTERACTIONS.INVALID_STAGE,
         ephemeral: true,

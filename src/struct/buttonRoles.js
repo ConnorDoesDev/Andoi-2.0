@@ -90,7 +90,7 @@ class buttonroles {
           .setStyle(buttonObject.color)
           .setEmoji(buttonObject.emoji)
           .setLabel(buttonObject.label)
-          .setCustomID(`br:${buttonObject.role}`)
+          .setCustomId(`br:${buttonObject.role}`)
       );
     }
     for (let i = 0; i < Math.ceil(roles.length / 5); i++) {
@@ -145,7 +145,7 @@ class buttonroles {
           .setStyle(buttonObject.color)
           .setEmoji(buttonObject.emoji)
           .setLabel(buttonObject.label)
-          .setCustomID(`br:${buttonObject.role}`)
+          .setCustomId(`br:${buttonObject.role}`)
       );
     }
     for (let i = 0; i < Math.ceil(newRoles.length / 5); i++) {
@@ -202,7 +202,7 @@ class buttonroles {
           .setStyle(buttonObject.color)
           .setEmoji(buttonObject.emoji)
           .setLabel(buttonObject.label)
-          .setCustomID(`br:${buttonObject.role}`)
+          .setCustomId(`br:${buttonObject.role}`)
       );
     }
     for (let i = 0; i < Math.ceil(role.roles.length / 5); i++) {
@@ -229,7 +229,7 @@ class buttonroles {
   static async buttonclick(client, button) {
     if (!client) throw new Error("client not provided in buttonclick!");
     if (!button) throw new Error("Button not provided!");
-    const id = button.customID;
+    const id = button.customId;
     if (id.startsWith("br")) {
       let member;
       const fetchMem = await button.guild.members.fetch(

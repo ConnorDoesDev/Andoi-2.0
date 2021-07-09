@@ -14,7 +14,7 @@ module.exports = class MessageEvent extends Event {
     const mentionRegex = new RegExp(`^<@!?${this.client.user.id}>$`);
     const mentionRegexPrefix = new RegExp(`^<@!?${this.client.user.id}> `);
     let dataPrefix;
-    if (message.channel.type === "dm") {
+    if (message.channel.type === "DM") {
       dataPrefix = "!";
     } else {
       dataPrefix = await this.client.getPrefix(message);
@@ -54,24 +54,6 @@ module.exports = class MessageEvent extends Event {
         return message.channel.send({
           content: `${this.client.settings.emotes.warning} This command can only be run in a nsfw channel.`,
         });
-      }
-
-      if (command.args.length > args.length || (command.args && !args.length)) {
-        const ee = command.args;
-        const ex = `${prefix}${command.name} ${ee
-          .map((e) => `<${e}>`)
-          .join(", ")}`;
-        const embed = new AndoiEmbed(message.author)
-          .setTitle("Incorrect usage!")
-          .setColor("RED")
-          .setDescription(
-            `${this.client.emotes.error} Missing arguments: ${command.args.join(
-              "`, `"
-            )}`
-          )
-          .addField("Example: ", ex);
-
-        return message.channel.send({ embeds: [embed] });
       }
 
       if (command.voice && !message.member.voice.channel) {
@@ -121,6 +103,23 @@ module.exports = class MessageEvent extends Event {
           }
         }
       }
+      if (command.args.length > args.length || (command.args && !args.length)) {
+        const ee = command.args;
+        const ex = `${prefix}${command.name} ${ee
+          .map((e) => `<${e}>`)
+          .join(", ")}`;
+        const embed = new AndoiEmbed(message.author)
+          .setTitle("Incorrect usage!")
+          .setColor("RED")
+          .setDescription(
+            `${this.client.emotes.error} Missing arguments: ${command.args.join(
+              "`, `"
+            )}`
+          )
+          .addField("Example: ", ex);
+
+        return message.channel.send({ embeds: [embed] });
+      }
       if (!this.client.cooldowns.has(command.name)) {
         this.client.cooldowns.set(command.name, new Collection());
       }
@@ -141,6 +140,11 @@ module.exports = class MessageEvent extends Event {
         }
         timestamps.set(message.author.id, now);
         setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+      }
+      if (command.playing && !this.client.player.getQueue(message)) {
+        return message.channel.send({
+          content: "There is nothing playing.",
+        });
       }
 
       try {
