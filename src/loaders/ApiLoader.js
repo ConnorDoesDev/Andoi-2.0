@@ -9,7 +9,6 @@ module.exports = class APILoader extends Loader {
       },
       client
     );
-
     this.apis = {};
   }
 
@@ -19,7 +18,7 @@ module.exports = class APILoader extends Loader {
       this.client.apis = this.apis;
       return true;
     } catch (e) {
-      this.logError(e);
+      this.client.log.error('initialise apis', e)
     }
     return false;
   }
@@ -38,14 +37,13 @@ module.exports = class APILoader extends Loader {
         this.addAPI(new NewAPI())
           .then((s) => (s ? success++ : failed++))
           .catch((e) => {
-            this.client.logError(e);
+            this.client.log.error('adding apis', e);
             failed++;
           });
       },
-      this.logError.bind(this)
     ).then(() => {
       if (failed)
-        this.log.info(
+        this.client.log.info(
           "apiLoader",
           `${success} API wrappers loaded, ${failed} failed.`
         );
@@ -63,7 +61,7 @@ module.exports = class APILoader extends Loader {
    */
   async addAPI(api) {
     if (!(api instanceof APIWrapper)) {
-      this.log.error(
+      this.client.log.error(
         "apiLoader",
         `${api.name} failed to load - Not an APIWrapper`
       );
@@ -71,7 +69,7 @@ module.exports = class APILoader extends Loader {
     }
 
     if (api.canLoad() !== true) {
-      this.log.error(
+      this.client.log.error(
         "apiLoader",
         `${api.name} failed to load - ${
           api.canLoad() || "canLoad function did not return true."
@@ -83,7 +81,7 @@ module.exports = class APILoader extends Loader {
     if (
       !api.envVars.every((variable) => {
         if (!process.env[variable])
-          this.log.error(
+          this.client.log.error(
             "apiLoader",
             `${api.name} failed to load - Required environment variable "${variable}" is not set.`
           );
