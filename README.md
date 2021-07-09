@@ -9,7 +9,11 @@
 
 - [Support Server](https://discord.gg/DXWq4Pt)
 
-## Host
+## SelfHost
+
+Andoi Developers, Contributors and other people which help to make Andoi the best, are not providing any selfhost support. If you dm anyone from staff, or code helpers you will propably get blocked, noob lol
+
+## Hosted instance
 
 Andoi is hosted with a DigitalOcean vps
 
