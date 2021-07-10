@@ -131,6 +131,7 @@ module.exports = class ReadyEvent extends Event {
         `a!help | ${channels} channels`,
         `a!help | v${this.client.pack.version}`,
         "With people",
+        'a!help | github.com/Andoi-official/Andoi-2.0'
       ];
       const activityArray = [
         "WATCHING",

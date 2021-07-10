@@ -25,10 +25,10 @@ module.exports = class PingCommand extends Command {
    * @param {Array} args
    */
   async run(message, args) {
-    const lang = this.lang.getFile(message.guild);
-    if (parseInt(args[0] > 400))
+    const lang = await this.lang.getFile(message.guild);
+    if (parseInt(args[0]) > 400)
       return message.channel.send({ content: lang.MUSIC.TO_LOUD });
-    this.client.player.setVolume(message, args[0]);
+    this.client.player.setVolume(message, parseInt(args[0]));
     message.channel.send({ content: lang.MUSIC.SUCCESS_VOLUME(args[0]) });
   }
 };

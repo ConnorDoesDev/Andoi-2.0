@@ -90,7 +90,7 @@ class buttonroles {
           .setStyle(buttonObject.color)
           .setEmoji(buttonObject.emoji)
           .setLabel(buttonObject.label)
-          .setCustomId(`br:${buttonObject.role}`)
+          .setCustomID(`br:${buttonObject.role}`)
       );
     }
     for (let i = 0; i < Math.ceil(roles.length / 5); i++) {
@@ -145,7 +145,7 @@ class buttonroles {
           .setStyle(buttonObject.color)
           .setEmoji(buttonObject.emoji)
           .setLabel(buttonObject.label)
-          .setCustomId(`br:${buttonObject.role}`)
+          .setCustomID(`br:${buttonObject.role}`)
       );
     }
     for (let i = 0; i < Math.ceil(newRoles.length / 5); i++) {
@@ -202,7 +202,7 @@ class buttonroles {
           .setStyle(buttonObject.color)
           .setEmoji(buttonObject.emoji)
           .setLabel(buttonObject.label)
-          .setCustomId(`br:${buttonObject.role}`)
+          .setCustomID(`br:${buttonObject.role}`)
       );
     }
     for (let i = 0; i < Math.ceil(role.roles.length / 5); i++) {

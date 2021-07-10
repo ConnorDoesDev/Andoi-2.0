@@ -29,7 +29,8 @@ module.exports = class PingCommand extends Command {
     const { guild } = message;
     const filter = (m) => m.author.id === message.author.id;
 
-    const roleMsgs = await message.awaitReply(
+    const roleMsgs = await this.awaitReply(
+      message,
       await this.client.lang.get(message.guild, "BUTTON_ROLES/PROVIDE_ROLE"),
       filter
     );
@@ -37,6 +38,7 @@ module.exports = class PingCommand extends Command {
     roles = parseRoles(roleMsg, guild);
 
     const emojiMsgs = await message.awaitReply(
+      message,
       await this.client.lang.get(message.guild, "BUTTON_ROLES/PROVIDE_EMOJI"),
       filter
     );
@@ -59,6 +61,15 @@ module.exports = class PingCommand extends Command {
       client: this.client,
       roleconf: reactions,
     });
+  }
+  async awaitReply(msg, question, filter, limit = 60000) {
+    let e = new AndoiEmbed().setDescription(question).setColor("RANDOM");
+    await msg.channel.send({ embeds: [e] });
+
+    return msg.channel
+      .awaitMessages({ filter, max: 1, time: limit, errors: ["time"] })
+      .then((collected) => collected.first().content)
+      .catch(() => false);
   }
 };
 

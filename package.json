@@ -1,6 +1,6 @@
 {
   "name": "andoi",
-  "version": "0.5.0-alpha",
+  "version": "0.5.1-alpha",
   "description": "official andoi bot!",
   "main": "./src/bot.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "common-tags": "^1.8.0",
     "discord-giveaways": "^4.5.1",
     "discord.js": "github:discordjs/discord.js",
-    "distube": "^3.0.0-alpha.13",
+    "distube": "^3.0.0-alpha.14",
     "dotenv": "^8.2.0",
     "figlet": "^1.5.0",
     "glob": "^7.1.6",

@@ -202,4 +202,7 @@ module.exports = {
     DAY: "Days",
     ROLE_REQ: "Role requirements:",
   },
+  BADGES: {
+    NO_BADGES: 'You dont have any badges!'
+  }
 };

@@ -112,9 +112,9 @@ module.exports = class MessageEvent extends Event {
           .setTitle("Incorrect usage!")
           .setColor("RED")
           .setDescription(
-            `${this.client.emotes.error} Missing arguments: ${command.args.join(
+            `${this.client.emotes.error} Missing arguments: \`${command.args.join(
               "`, `"
-            )}`
+            )}\``
           )
           .addField("Example: ", ex);
 
