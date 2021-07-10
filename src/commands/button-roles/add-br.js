@@ -63,7 +63,7 @@ module.exports = class PingCommand extends Command {
     });
   }
   async awaitReply(msg, question, filter, limit = 60000) {
-    let e = new MessageEmbed().setDescription(question).setColor("RANDOM");
+    let e = new AndoiEmbed().setDescription(question).setColor("RANDOM");
     await msg.channel.send(e);
 
     return msg.channel
