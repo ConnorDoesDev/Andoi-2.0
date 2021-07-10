@@ -1,7 +1,6 @@
 const Command = require("../../struct/Command");
-const util = require("util");
 const AndoiEmbed = require("../../struct/AndoiEmbed");
-const user = require('../../models/user')
+const user = require("../../models/user");
 module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
@@ -15,7 +14,7 @@ module.exports = class extends Command {
       userPerms: [],
       botPerms: [],
       nsfw: false,
-      args: ["badge"],
+      args: ["badge", "user"],
       voice: false,
       sameVoice: false,
       aliases: ["gbdg"],
@@ -23,13 +22,33 @@ module.exports = class extends Command {
   }
 
   async run(message, args) {
-    if(!args[0]) return message.channel.send({content: 'Give user ID'})
-    if(!args[1] || isNaN(args[1])) return message.channel.send({content: 'Give user ID'})
+    const member = this.findMember(message, args, true);
+    if (!member) return message.channel.send("Invalid user");
     const findmodel = await user.findOne({
-        user: args[0]
-    })
-    findmodel.badges.push(parseInt(args[1]))
-    findmodel.save()
-    message.reply('done')
+      user: member?.id,
+    });
+
+    const badges = {
+      0: "<:verified:851096269912801291> - Beta user",
+      1: "<:bgift:851096270038761482> - Premium",
+      2: "<:partner:863349017862078474> - Partner",
+      3: "<:staff:863348556416942080> - Staff",
+      4: "<:contributor:863348796606775296> - Contributor",
+      5: "<:bughunter:863349423366209537> - Bug hunter",
+      6: "<:contributor:863348796606775296> - Developer",
+    };
+    const badge = badges[parseInt(args[0])];
+    if (findModel) {
+      findmodel?.badges?.push(parseInt(args[0]));
+      findmodel.save();
+    } else {
+      await new user({
+        user: member.id,
+        badges: [parseInt(args[0])],
+      }).save();
+    }
+    message.reply({
+      content: `Successfully gave ${member} the badge ${badge}`,
+    });
   }
 };
