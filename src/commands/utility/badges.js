@@ -26,13 +26,13 @@ module.exports = class PingCommand extends Command {
         user: message.author.id
     })
     const badges = {
-        0: 'Beta user',
-        1: 'Premium',
-        2: 'Partner',
-        3: 'Staff',
-        4: 'Contributor',
-        5: 'Bug hunter',
-        6: 'Developer'
+        0: '<:verified:851096269912801291> - Beta user',
+        1: '<:bgift:851096270038761482> - Premium',
+        2: '<:partner:863349017862078474> - Partner',
+        3: '<:staff:863348556416942080> - Staff',
+        4: '<:contributor:863348796606775296> - Contributor',
+        5: '<:bughunter:863349423366209537> - Bug hunter',
+        6: '<:contributor:863348796606775296> - Developer'
     }
     if(!tryfind){
         const usr = new user({
