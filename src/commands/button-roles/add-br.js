@@ -67,7 +67,7 @@ module.exports = class PingCommand extends Command {
     await msg.channel.send({ embeds: [e] });
 
     return msg.channel
-      .awaitMessages(filter, { max: 1, time: limit, errors: ["time"] })
+      .awaitMessages({ filter, max: 1, time: limit, errors: ["time"] })
       .then((collected) => collected.first().content)
       .catch(() => false);
   }
