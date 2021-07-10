@@ -39,14 +39,16 @@ module.exports = class PingCommand extends Command {
       );
     }
 
-    const roleMsgs = await message.awaitReply(
+    const roleMsgs = await this.awaitReply(
+      message,
       await this.client.lang.get(message.guild, "BUTTON_ROLES/PROVIDE_ROLE"),
       filter
     );
     const roleMsg = roleMsgs;
     roles = parseRoles(roleMsg, guild);
 
-    const emojiMsgs = await message.awaitReply(
+    const emojiMsgs = await this.awaitReply(
+      message,
       await this.client.lang.get(message.guild, "BUTTON_ROLES/PROVIDE_EMOJI"),
       filter
     );
@@ -88,6 +90,15 @@ module.exports = class PingCommand extends Command {
       emojicontent: emojiMsg,
       rolecontent: roleMsg,
     });
+  }
+  async awaitReply(msg, question, filter, limit = 60000) {
+    let e = new MessageEmbed().setDescription(question).setColor("RANDOM");
+    await msg.channel.send(e);
+
+    return msg.channel
+      .awaitMessages(filter, { max: 1, time: limit, errors: ["time"] })
+      .then((collected) => collected.first().content)
+      .catch(() => false);
   }
 };
 function createDescription(roles, emojis) {
