@@ -47,7 +47,7 @@ module.exports = class PingCommand extends Command {
             const embed = new AndoiEmbed()
             .setSuccess();
             let str = '';
-            tryfind.badges.forEach(badge => str+=`${badges[badge]}, `)
+            tryfind.badges.forEach(badge => str+=`${badges[badge]}\n`)
             embed.setDescription(str);
             message.channel.send({embeds:[embed]})
         }
