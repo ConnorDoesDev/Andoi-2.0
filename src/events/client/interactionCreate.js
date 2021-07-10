@@ -17,11 +17,11 @@ module.exports = class extends Event {
     }
     if (interaction.isCommand()) {
       await this.client.application?.commands
-        .fetch(interaction.commandID)
+        .fetch(interaction.commandId)
         .catch(() => {});
-      if (!interaction.guildID) return;
+      if (!interaction.guildId) return;
       try {
-        const command = this.client.interactions.get(interaction.command.name);
+        const command = this.client.interactions.get(interaction.command?.name);
         if (!command) return;
         await command.run(
           interaction,
@@ -30,7 +30,7 @@ module.exports = class extends Event {
       } catch (err) {
         interaction.reply({
           content: "Something went terribly wrong.",
-          empheral: true,
+          ephemeral: true,
         });
         console.log(err);
       }

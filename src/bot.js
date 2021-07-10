@@ -23,3 +23,4 @@ bot.giveaway.on("giveawayReactionAdded", async (giveaway, member, reaction) => {
     }
   }
 });
+module.exports = bot;

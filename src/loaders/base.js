@@ -23,7 +23,4 @@ module.exports = class Loader {
     return this.client.log.info(str, next);
   }
 
-  logError(str) {
-    return this.client.log.error(str, next);
-  }
 };

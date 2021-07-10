@@ -13,7 +13,7 @@ module.exports = class extends Event {
     if (!channel) return;
     const embed = new AndoiEmbed()
       .setTitle("New server here is some info!")
-      .addField("Owner:", this.client.users.cache.get(guild.fetchOwnerID()).tag)
+      .addField("Owner:", this.client.users.cache.get(guild.fetchOwnerId()).tag)
       .addField("Members:", guild.members.cache.size);
 
     channel.send({ embeds: [embed] });

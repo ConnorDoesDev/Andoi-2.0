@@ -78,6 +78,7 @@ module.exports = class PingCommand extends Command {
           pack: this.client.pack,
         })
       )
+      .setURL(this.client.settings.links.github)
       .addField(
         await this.lang.get(message.guild, "CORE/CLIENT"),
         `\`\`\`asciidoc\n${clientStats}\`\`\``
@@ -85,6 +86,10 @@ module.exports = class PingCommand extends Command {
       .addField(
         await this.lang.get(message.guild, "CORE/SERVER"),
         `\`\`\`asciidoc\n${serverStats}\`\`\``
+      )
+      .addField(
+        await this.lang.get(message.guild, "CORE/INVITE"),
+        `[Andoi](${this.client.settings.links.bot})`
       )
       .setTimestamp()
       .setImage("https://share.creavite.co/xlDP4VYcm1hSpUnu.gif")

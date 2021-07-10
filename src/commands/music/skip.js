@@ -1,20 +1,21 @@
 const Command = require("../../struct/Command");
+const AndoiEmbed = require("../../struct/AndoiEmbed");
 const { Message } = require("discord.js");
 module.exports = class PingCommand extends Command {
   constructor(...args) {
     super(...args, {
-      name: "calculator",
-      desc: "Calculate big brain stuff",
-      category: "fun",
+      name: "skip",
+      desc: "Skip a song.",
+      category: "music",
       guildOnly: true,
       ownerOnly: false,
       userPerms: [],
       botPerms: [],
       nsfw: false,
       args: false,
-      voice: false,
-      sameVoice: false,
-      aliases: ["calc"],
+      voice: true,
+      sameVoice: true,
+      playing: true,
     });
   }
   /**
@@ -22,7 +23,10 @@ module.exports = class PingCommand extends Command {
    * @param {Array} args
    */
   async run(message, args) {
-    const helper = require("../../helpers/calculator");
-    await helper(message);
+    const lang = await this.lang.getFile(message.guild);
+
+    this.client.player.skip(message);
+
+    message.channel.send({ content: lang.MUSIC.SKIP });
   }
 };

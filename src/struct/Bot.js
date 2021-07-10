@@ -11,13 +11,30 @@ const apiLoader = require("../loaders/ApiLoader");
 const langManager = require("./LanguageManager");
 const gModel = require("../models/guild");
 const pack = require("../../package.json");
+const { DisTube } = require("distube");
 class Bot extends Client {
   constructor() {
     super({
       allowedMentions: { parse: ["users", "roles"], repliedUser: true },
-      intents: Intents.ALL,
+      intents: [
+        Intents.FLAGS.GUILDS,
+        Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILD_BANS,
+        Intents.FLAGS.GUILD_EMOJIS,
+        Intents.FLAGS.GUILD_INTEGRATIONS,
+        Intents.FLAGS.GUILD_MEMBERS,
+        Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+        Intents.FLAGS.GUILD_VOICE_STATES,
+      ],
     });
-    this.pack = pack;
+    /**
+     * managers
+     */
+    this.player = new DisTube(this, {
+      emitNewSongsOnly: true,
+      leaveOnFinish: true,
+      youtubeCookie: process.env.YT_COOKIE,
+    });
     this.giveaway = new GiveawaysManager(this, {
       storage: false,
       updateCountdownEvery: 5000,
@@ -37,28 +54,35 @@ class Bot extends Client {
       },
     });
     this.lang = new langManager(this);
+    /**
+     * collections
+     */
     this.commands = new Collection();
-
     this.aliases = new Collection();
-
     this.cooldowns = new Collection();
     this.interactions = new Collection();
     this.events = new Collection();
-
+    /**
+     * Utils
+     */
     this.utils = new ClientUtil(this);
     this.emotes = emotes;
-
+    this.pack = pack;
+    this.log = Logger;
+    this.bootTime = null;
+    this.messages = { sent: 0, received: 0 };
+    this.settings = settings;
     this.apis = {};
+    /**
+     * permissions
+     */
     this.defaultPerms = new Permissions([
       "SEND_MESSAGES",
       "VIEW_CHANNEL",
     ]).freeze();
-
-    this.log = Logger;
-
-    this.settings = settings;
-    this.messages = { sent: 0, received: 0 };
-    this.bootTime = null;
+    /**
+     * events
+     */
     this.on("messageCreate", (message) => {
       if (message.author.id === this.user.id) {
         return this.messages.sent++;
@@ -71,7 +95,6 @@ class Bot extends Client {
       return;
     });
   }
-  embed() {}
 
   async getPrefix(message) {
     try {

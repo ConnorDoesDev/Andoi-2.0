@@ -29,12 +29,46 @@ module.exports = {
     CHANNEL_NOT: "Channel was not found.",
     BTN: "Andoi Button Roles",
   },
+  MUSIC: {
+    PLAYING_NOW: (song) => `Now playing: ${song.name}`,
+    ADDED_SONG: (song) => `Added ${song.name} to the queue.`,
+    EMPTY_VC: "I left the voice channel as i was the only person in it.",
+    AUTHOR: "Author:",
+    VIEWS: "Views:",
+    DURATION: "Duration:",
+    REQUEST: "Requested By: ",
+    RESULTS_QUERY: (message) => `Here are your search results for ${message}`,
+    SEARCH_FOOTER: "Send the number of the song you want to play.",
+    NO_RESULTS: (msg) => `No results for ${msg}`,
+    CANCEL_SEARCH: "Cancelled searching.",
+    LEFT_NO: "I have left the voice channel as there where no more songs.",
+    ADD_LIST: (list) =>
+      `Added \`${list.name}\` playlist (${list.songs.length} songs) to the queue.`,
+    STOP: "I have stopped the music.",
+    SHUFFLE: "Shuffled the songs!",
+    SKIP: "Skipped the song!",
+    PAUSE: "Paused the music!",
+    RESUME: "Resumed the music!",
+    NOT_PAUSED: "The queue is not paused.",
+    ALREADY_PAUSED: "The queue is already paused.",
+    QUEUE: (guild) => `Server queue - ${guild.name}`,
+    CURRENT_PLAY: `Currently playing:`,
+    QUEUE_DESC: (songs) =>
+      `${songs
+        .map(
+          (track, i) => `**#${i + 1}** - ${track.name} | ${track.uploader.name}`
+        )
+        .slice(0, 5)
+        .join("\n")}`,
+    TO_LOUD: "The amount that is provided is to loud.",
+    SUCCESS_VOLUME: (amount) => `Volume is now set to ${amount}%`,
+  },
   CORE: {
     PREM_EXPIRE: ({ user, guildPremium }) =>
       `Hey ${user.username}, Premium in ${guildPremium.name} has Just expired.\n\nThank you for purchasing premium Previously! We hope you enjoyed what you purchased.`,
     DAY: "day",
     DAYS: "days",
-
+    INVITE: "Invite",
     HOUR: "Hour",
     HOURS: "Hours",
     SERVERS: "Servers",
@@ -98,6 +132,11 @@ module.exports = {
     COINFLIP: ({ result, user }) => `${user.username} flipped ${result}`,
     SOLVE_CAPTCHA: "Solve the captcha!",
     WYR: "Would you rather.",
+  },
+  INTERACTIONS: {
+    INVALID_STAGE: "That is not a voice channel.",
+    SUCCESS_TOGETHER: (invite) => `Here is your [invite](${invite}).`,
+    TOGETHER: "Discord Together",
   },
   GIVEAWAY: {
     WHAT_PRIZE: "What is the prize?",
@@ -163,4 +202,7 @@ module.exports = {
     DAY: "Days",
     ROLE_REQ: "Role requirements:",
   },
+  BADGES: {
+    NO_BADGES: 'You dont have any badges!'
+  }
 };
