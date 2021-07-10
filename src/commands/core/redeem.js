@@ -4,6 +4,7 @@ const { Message } = require("discord.js");
 const guildModel = require("../../models/guild");
 const premiumModel = require("../../models/premium");
 const voucher = require("voucher-code-generator");
+const user = require('../../models/user')
 module.exports = class RedeeemCommand extends Command {
   constructor(...args) {
     super(...args, {
@@ -78,6 +79,14 @@ module.exports = class RedeeemCommand extends Command {
         )
       )
       .setFooter(message.guild.name);
+
+      const userModel = await user.findOne({
+        user: message.author.id
+      })
+      if(userModel && !userModel.badges.includes(1)){
+        userModel.badges.push(1)
+        userModel.save()
+      }
     message.channel.send({ embeds: [embed] });
   }
 };
