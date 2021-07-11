@@ -25,6 +25,8 @@ class Bot extends Client {
         Intents.FLAGS.GUILD_MEMBERS,
         Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
         Intents.FLAGS.GUILD_VOICE_STATES,
+        Intents.FLAGS.DIRECT_MESSAGES,
+        Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
       ],
     });
     /**
@@ -33,6 +35,11 @@ class Bot extends Client {
     this.player = new DisTube(this, {
       emitNewSongsOnly: true,
       leaveOnFinish: true,
+      customFilters: {
+        rickroll:
+          "bass=g=33,apulsator=hz=0.06,vibrato=f=2.5,tremolo,asetrate=48000*0.8",
+        cursed: "vibrato=f=6.5,tremolo,aresample=48000,asetrate=48000*1.25",
+      },
       youtubeCookie: process.env.YT_COOKIE,
     });
     this.giveaway = new GiveawaysManager(this, {

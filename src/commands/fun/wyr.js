@@ -33,11 +33,11 @@ module.exports = class WyrCommand extends Command {
     let btn1 = new MessageButton()
       .setEmoji(arr[0])
       .setStyle("PRIMARY")
-      .setCustomID("1");
+      .setCustomId("1");
 
     let btn2 = new MessageButton()
       .setEmoji(arr[1])
-      .setCustomID("2")
+      .setCustomId("2")
       .setStyle("PRIMARY");
     let row = new MessageActionRow().addComponents([btn1, btn2]);
     const embed = new AndoiEmbed()
@@ -69,13 +69,13 @@ module.exports = class WyrCommand extends Command {
         collect.stop();
         btn1 = new MessageButton()
           .setEmoji(arr[0])
-          .setCustomID("1")
+          .setCustomId("1")
           .setDisabled(true)
           .setStyle("PRIMARY");
 
         btn2 = new MessageButton()
           .setEmoji(arr[1])
-          .setCustomID("2")
+          .setCustomId("2")
           .setDisabled(true)
           .setStyle("PRIMARY");
         row = new MessageActionRow().addComponents([btn1, btn2]);
@@ -85,13 +85,13 @@ module.exports = class WyrCommand extends Command {
         collect.stop();
         btn1 = new MessageButton()
           .setEmoji(arr[0])
-          .setCustomID("1")
+          .setCustomId("1")
           .setDisabled(true)
           .setStyle("PRIMARY");
 
         btn2 = new MessageButton()
           .setEmoji(arr[1])
-          .setCustomID("2")
+          .setCustomId("2")
           .setDisabled(true)
           .setStyle("PRIMARY");
         row = new MessageActionRow().addComponents([btn1, btn2]);

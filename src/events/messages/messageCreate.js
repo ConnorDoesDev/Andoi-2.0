@@ -8,17 +8,10 @@ module.exports = class MessageEvent extends Event {
     });
   }
   async run(message) {
-    if (!message.channel.permissionsFor(this.client.user).has("SEND_MESSAGES"))
-      return;
-
+    if (message.channel.type === "DM") return;
     const mentionRegex = new RegExp(`^<@!?${this.client.user.id}>$`);
     const mentionRegexPrefix = new RegExp(`^<@!?${this.client.user.id}> `);
-    let dataPrefix;
-    if (message.channel.type === "DM") {
-      dataPrefix = "!";
-    } else {
-      dataPrefix = await this.client.getPrefix(message);
-    }
+    let dataPrefix = await this.client.getPrefix(message);
     if (message.content.match(mentionRegex))
       return message.channel.send({
         content: `My current prefix is \`${dataPrefix}\``,
@@ -50,28 +43,32 @@ module.exports = class MessageEvent extends Event {
         });
       }
 
-      if (command.nsfw && !message.channel.nsfw) {
-        return message.channel.send({
-          content: `${this.client.settings.emotes.warning} This command can only be run in a nsfw channel.`,
-        });
-      }
-
-      if (command.voice && !message.member.voice.channel) {
-        return message.channel.send({
-          content: `${this.client.settings.emotes.warning} You must be in a voice channel to use this command.`,
-        });
-      }
-
-      if (
-        command.sameVoice &&
-        message.member.voice.channel.id !== message.guild.me.voice.channel.id
-      ) {
-        return message.channel.send({
-          content: `${this.client.settings.emotes.warning} You need to be in the same voice channel as mine to use this command.`,
-        });
-      }
-
       if (message.guild) {
+        if (command.nsfw && !message.channel.nsfw) {
+          return message.channel.send({
+            content: `${this.client.settings.emotes.warning} This command can only be run in a nsfw channel.`,
+          });
+        }
+
+        if (command.voice && !message.member.voice.channel) {
+          return message.channel.send({
+            content: `${this.client.settings.emotes.warning} You must be in a voice channel to use this command.`,
+          });
+        }
+        const guildConfig = await this.client.getConfig(message.guild);
+        if (command.premium && !guildConfig?.premium?.enabled) {
+          return message.channel.send({
+            content: `${this.client.emotes.error} This command is premium only!`,
+          });
+        }
+        if (
+          command.sameVoice &&
+          message.member.voice.channel.id !== message.guild.me.voice.channel.id
+        ) {
+          return message.channel.send({
+            content: `${this.client.settings.emotes.warning} You need to be in the same voice channel as mine to use this command.`,
+          });
+        }
         const userPermCheck = command.userPerms
           ? this.client.defaultPerms.add(command.userPerms)
           : this.client.defaultPerms;
@@ -112,9 +109,9 @@ module.exports = class MessageEvent extends Event {
           .setTitle("Incorrect usage!")
           .setColor("RED")
           .setDescription(
-            `${this.client.emotes.error} Missing arguments: \`${command.args.join(
-              "`, `"
-            )}\``
+            `${
+              this.client.emotes.error
+            } Missing arguments: \`${command.args.join("`, `")}\``
           )
           .addField("Example: ", ex);
 
