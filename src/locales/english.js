@@ -1,6 +1,61 @@
 const ms = require("ms");
 module.exports = {
   ERROR: "An error has occured please contact the developer!",
+  APP: {
+    MAX_QUESTIONS: (maxQuestions) =>
+      `You can only add ${maxQuestions} question's!`,
+    SUCCESS_ADD: "Added those question successfully",
+    INVALID_OPTION:
+      "Invalid option! Available options: `logs, enable, disable, acceptedrole`.",
+    CHANNEL_SELECT:
+      "What is the channel gonna be? example: [channel mention] [channel name] [channel id]",
+    CHANNEL_NOW: (finalChan) =>
+      `The application logs are now ${finalChan} (${finalChan.name})`,
+    INVALID_CHANNEL: "Invalid channel! Cancelling....",
+    ENABLE: `The application system is now enabled.`,
+    DISABLE: `The application system is now disabled.`,
+    ROLE_SELECT:
+      "What is the role gonna be? example: [role mention] [role name] [role id]",
+    INVALID_ROLE: "Invalid role! Cancelling....",
+    ROLE_NOW: (finalChan1) =>
+      `The application approved role is now ${finalChan1.name} (${finalChan1.id})`,
+    NO_QUEST: `The current server does not have any questions to apply to.`,
+    NO_APPLY_CONF: `I could not find the guild's apply Log channel. Please make sure to let an admin know.`,
+    PRIVACY_DM:
+      "Your application will go through in your dms due to privacy reasons.",
+    COULD_NOT_DM: (message) =>
+      `Couldn't send you the questions, your dms are closed - ${message.author}`,
+    INTERVIEW_CANCEL: "Interview has been cancelled.",
+    PENDING: "Your application is now pending!",
+    APPROVE_DENY: (db) =>
+      `Approve or decline by doing \`a!approve ${db.appID}\` or \`a!decline ${db.appID}\``,
+    APPLICATION: "application",
+    NO_ID_PROVIDE:
+      "No application id was provided. How to get one? Use the command `a!review` to find the application ID.",
+    NOT_FIND_ID: "Could not find this application.",
+    ALREADY_APPROVE: "This application was already approved",
+    ALREADY_DENY: "This application was already denied",
+    PROVIDE_NUM: "Provide the number of the question to remove",
+    NO_QUESTIONS: "There are no questions",
+    QUESTION_NOT_EXIST: "That question does not exist!",
+    REM_QUESTIONS_DB: "Succesfully removed a question from the database.",
+    NO_APPS: "No Pending Applications Found",
+    SUBMITTER: "Submitter",
+    APP_REV: "Application review",
+    QUESTIONS: "**Questions**",
+    APPROVED: (id, message, reason) =>
+      `I have sucessfully approved this Application.\n\n**Application ID:** ${id}\n**Approved by:** ${message.author.tag}\n**Reason:** ${reason}`,
+    APPROVED_DM: (id, message, reason, member) =>
+      `Hey ${member.user.tag}, your form was Approved!\n\n**Application ID:** ${id}\n**Approved by:** ${message.author.tag}\n**Reason:** ${reason}`,
+    NVM_DM: (member) =>
+      `Never Mind... I was able to approve the Application but couldn't dm ${member.user.tag} since their DMs are closed.'`,
+    DENIED: (id, message, reason) =>
+      `I have sucessfully declined this application.\n\n**Application ID:** ${id}\n**Declined by:** ${message.author.tag}\n**Reason:** ${reason}`,
+    NVM_DENY_DM: (member) =>
+      `Never Mind... I was able to deny the Application but couldn't dm ${member.user.tag} since their DMs are closed.'`,
+    DENY_DM: (id, message, reason, member) =>
+      `Hey ${member.user.tag}, your application was Declined.\n\n**Application ID:** ${id}\n**Declined by:** ${message.author.tag}\n**Reason:** ${reason}`,
+  },
   SETTINGS: {
     TITLE: (guild) => `${guild.name}'s settings`,
     PREFIX: "Prefix:",
@@ -51,6 +106,15 @@ module.exports = {
     RESUME: "Resumed the music!",
     NOT_PAUSED: "The queue is not paused.",
     ALREADY_PAUSED: "The queue is already paused.",
+    INVALID: "You did not provide a number of a song",
+    ENABLE_FILTER: (prefix) =>
+      `List of all filters enabled or disabled.\nUse \`${prefix}filter\` to add a filter to a song.`,
+    FILTER_NOT_EXIST:
+      "This filter doesn't exist! Tip: use a!filters to view all the filters!",
+    ADDING_FILTER:
+      "I'm **adding** the filter to the music, please wait... Note : the longer the music is, the longer this will take.",
+    DISABLING_FILTER:
+      "I'm **disabling** the filter on the music, please wait... Note : the longer the music is playing, the longer this will take.",
     QUEUE: (guild) => `Server queue - ${guild.name}`,
     CURRENT_PLAY: `Currently playing:`,
     QUEUE_DESC: (songs) =>
@@ -203,6 +267,6 @@ module.exports = {
     ROLE_REQ: "Role requirements:",
   },
   BADGES: {
-    NO_BADGES: 'You dont have any badges!'
-  }
+    NO_BADGES: "You dont have any badges!",
+  },
 };
