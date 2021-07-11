@@ -29,21 +29,50 @@ module.exports = class PingCommand extends Command {
 
     const disabledEmoji = this.client.emotes.error;
     const enabledEmoji = this.client.emotes.success;
-
+    const allFilters = [
+      "Bassboost",
+      "8D",
+      "Vaporwave",
+      "Nightcore",
+      "Phaser",
+      "Tremolo",
+      "Vibrato",
+      "Reverse",
+      "Treble",
+      "Normalizer",
+      "Surrounding",
+      "Pulsator",
+      "Subboost",
+      "Karaoke",
+      "Flanger",
+      "Gate",
+      "Haas",
+      "Mcompand",
+      "cursed",
+      "rickroll",
+    ];
     const filtersStatuses = [[], []];
-
-    Object.keys(filters).forEach((filterName) => {
-      const array =
+    this.client.player.getQueue(message).filters.forEach((filter) => {
+      const arr =
         filtersStatuses[0].length > filtersStatuses[1].length
           ? filtersStatuses[1]
           : filtersStatuses[0];
-      array.push(
-        filters[filterName] +
-          " : " +
-          (this.client.player.getQueue(message).filters[filterName]
-            ? enabledEmoji
-            : disabledEmoji)
-      );
+      arr.push(`${filter.toLowerCase()} ${enabledEmoji}`);
+    });
+    allFilters.forEach((filter) => {
+      if (
+        filtersStatuses[0].includes(`${filter.toLowerCase()} ${enabledEmoji}`)
+      )
+        return;
+      if (
+        filtersStatuses[1].includes(`${filter.toLowerCase()} ${enabledEmoji}`)
+      )
+        return;
+      const arr =
+        filtersStatuses[0].length > filtersStatuses[1].length
+          ? filtersStatuses[1]
+          : filtersStatuses[0];
+      arr.push(`${filter} ${disabledEmoji}`);
     });
 
     message.channel.send({

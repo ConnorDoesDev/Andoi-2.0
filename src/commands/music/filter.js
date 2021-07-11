@@ -36,8 +36,8 @@ module.exports = class PingCommand extends Command {
         content: `${this.client.emotes.error} - ${lang.MUSIC.FILTER_NOT_EXIST}`,
       });
 
-    const filterRealName = Object.keys(client.filters).find(
-      (f) => client.filters[f] === filterToUpdate
+    const filterRealName = Object.keys(filters).find(
+      (f) => filters[f] === filterToUpdate
     );
 
     const queueFilters = this.client.player.getQueue(message).filters;
@@ -45,7 +45,7 @@ module.exports = class PingCommand extends Command {
     filtersUpdated[filterRealName] = queueFilters[filterRealName]
       ? false
       : true;
-    this.client.player.setFilters(message, filtersUpdated);
+    this.client.player.setFilter(message, args[0]);
 
     if (filtersUpdated[filterRealName])
       message.channel.send({
