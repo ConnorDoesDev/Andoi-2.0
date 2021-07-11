@@ -45,7 +45,7 @@ module.exports = class PingCommand extends Command {
     filtersUpdated[filterRealName] = queueFilters[filterRealName]
       ? false
       : true;
-    client.player.setFilters(message, filtersUpdated);
+    this.client.player.setFilters(message, filtersUpdated);
 
     if (filtersUpdated[filterRealName])
       message.channel.send({
