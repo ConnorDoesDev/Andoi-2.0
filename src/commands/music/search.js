@@ -24,6 +24,29 @@ module.exports = class PingCommand extends Command {
    * @param {Array} args
    */
   async run(message, args) {
-    this.client.player.search(args.join(" "));
+    const results = await this.client.player.search(args.join(" "));
+    if (!results || results.length === 0)
+      return this.player.emit("searchNoResults", message, args.join(" "));
+    const query = args.join(" ");
+    this.client.player.emit("searchResults", message, results, query);
+    const ansewers = await message.channel
+      .awaitMessages({
+        filter: (res) => res.author.id === message.author.id,
+        max: 1,
+      })
+      .then((answers) => {
+        const ans = answers.first();
+        if (!ans || ans === "cancel") {
+          this.client.player.emit("searchCancel", message, query);
+          return;
+        }
+        const index = parseInt(ans.content, 10);
+        if (isNaN(index) || index > results.length || index < 1) {
+          this.client.player.emit("searchInvalidAnswer", message, ans, query);
+          return;
+        }
+        const result = results[index - 1];
+        this.client.player.play(message, result.url);
+      });
   }
 };

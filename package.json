@@ -1,6 +1,6 @@
 {
   "name": "andoi",
-  "version": "0.5.1-alpha",
+  "version": "0.5.5",
   "description": "official andoi bot!",
   "main": "./src/bot.js",
   "scripts": {

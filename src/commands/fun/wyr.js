@@ -33,11 +33,11 @@ module.exports = class WyrCommand extends Command {
     let btn1 = new MessageButton()
       .setEmoji(arr[0])
       .setStyle("PRIMARY")
-      .setCustomID("1");
+      .setCustomId("1");
 
     let btn2 = new MessageButton()
       .setEmoji(arr[1])
-      .setCustomID("2")
+      .setCustomId("2")
       .setStyle("PRIMARY");
     let row = new MessageActionRow().addComponents([btn1, btn2]);
     const embed = new AndoiEmbed()
@@ -65,33 +65,33 @@ module.exports = class WyrCommand extends Command {
     });
 
     collect.on("collect", (msge) => {
-      if (msge.customID === "1") {
+      if (msge.customId === "1") {
         collect.stop();
         btn1 = new MessageButton()
           .setEmoji(arr[0])
-          .setCustomID("1")
+          .setCustomId("1")
           .setDisabled(true)
           .setStyle("PRIMARY");
 
         btn2 = new MessageButton()
           .setEmoji(arr[1])
-          .setCustomID("2")
+          .setCustomId("2")
           .setDisabled(true)
           .setStyle("PRIMARY");
         row = new MessageActionRow().addComponents([btn1, btn2]);
 
         msge.update({ embeds: [editEmbed], components: [row] });
-      } else if (msge.customID === "2") {
+      } else if (msge.customId === "2") {
         collect.stop();
         btn1 = new MessageButton()
           .setEmoji(arr[0])
-          .setCustomID("1")
+          .setCustomId("1")
           .setDisabled(true)
           .setStyle("PRIMARY");
 
         btn2 = new MessageButton()
           .setEmoji(arr[1])
-          .setCustomID("2")
+          .setCustomId("2")
           .setDisabled(true)
           .setStyle("PRIMARY");
         row = new MessageActionRow().addComponents([btn1, btn2]);

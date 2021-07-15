@@ -29,7 +29,7 @@ const MessageButtonStylesAliases = createEnum([
   "PRIMARY",
   "SECONDARY",
   "SUCCESS",
-  "DESTRUCTIVE",
+  "DANGER",
   "LINK",
 ]);
 
@@ -86,7 +86,7 @@ module.exports = class MessageButton extends BaseMessageComponent {
     return this;
   }
 
-  setCustomID(id) {
+  setCustomId(id) {
     this.custom_id = verifyString(id);
     return this;
   }
@@ -113,11 +113,11 @@ module.exports = class MessageButton extends BaseMessageComponent {
 
   toJSON() {
     return {
-      type: MessageComponentTypes.BUTTON,
       style: this.style,
       label: this.label,
       emoji: this.emoji,
       disabled: this.disabled,
+      type: MessageComponentTypes[this.type],
       url: this.url,
       custom_id: this.custom_id,
     };

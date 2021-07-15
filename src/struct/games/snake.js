@@ -4,7 +4,7 @@ const HEIGHT = 10;
 const gameBoard = [];
 const apple = { x: 1, y: 1 };
 const AndoiEmbed = require("../AndoiEmbed");
-const { MessageButton } = require("discord.js");
+const MessageButton = require("discord.js").MessageButton;
 function getRandomString(length) {
   var randomChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   var result = "";
@@ -132,51 +132,49 @@ class Snake {
     let lock1 = new MessageButton()
       .setLabel("\u200b")
       .setStyle("SECONDARY")
-      .setCustomID("saybye")
+      .setCustomId("saybye")
       .setDisabled(true);
 
     let w = new MessageButton()
       .setEmoji(this.options.emojis.up)
       .setStyle("PRIMARY")
-      .setCustomID(w1);
+      .setCustomId(w1);
 
     let lock2 = new MessageButton()
       .setLabel("\u200b")
       .setStyle("SECONDARY")
-      .setCustomID("h")
+      .setCustomId("h")
       .setDisabled(true);
 
     let a = new MessageButton()
       .setEmoji(this.options.emojis.right)
       .setStyle("PRIMARY")
-      .setCustomID(a1);
+      .setCustomId(a1);
 
     let s = new MessageButton()
       .setEmoji(this.options.emojis.down)
       .setStyle("PRIMARY")
-      .setCustomID(s1);
+      .setCustomId(s1);
 
     let d = new MessageButton()
       .setEmoji(this.options.emojis.left)
       .setStyle("PRIMARY")
-      .setCustomID(d1);
+      .setCustomId(d1);
     let stopy = new MessageButton()
       .setLabel("Stop")
       .setStyle("DANGER")
-      .setCustomID(stop1);
+      .setCustomId(stop1);
+    const actionRow1 = new Discord.MessageActionRow().addComponents([
+      lock1,
+      w,
+      lock2,
+      stopy,
+    ]);
+    const actionRow2 = new Discord.MessageActionRow().addComponents([a, s, d]);
     this.message.channel
       .send({
         embeds: [embed],
-        components: [
-          {
-            type: 1,
-            components: [lock1, w, lock2, stopy],
-          },
-          {
-            type: 1,
-            components: [a, s, d],
-          },
-        ],
+        components: [actionRow1, actionRow2],
       })
       .then(async (m) => {
         const filter = (m) => m.user.id == this.options.message.author.id;
@@ -184,31 +182,31 @@ class Snake {
         collector.on("collect", async (btn) => {
           const snakeHead = this.snake[0];
           const nextPos = { x: snakeHead.x, y: snakeHead.y };
-          if (btn.customID === a1) {
+          if (btn.customId === a1) {
             let nextX = snakeHead.x - 1;
             if (nextX < 0) {
               nextX = WIDTH - 1;
             }
             nextPos.x = nextX;
-          } else if (btn.customID === w1) {
+          } else if (btn.customId === w1) {
             let nextY = snakeHead.y - 1;
             if (nextY < 0) {
               nextY = HEIGHT - 1;
             }
             nextPos.y = nextY;
-          } else if (btn.customID === s1) {
+          } else if (btn.customId === s1) {
             let nextY = snakeHead.y + 1;
             if (nextY >= HEIGHT) {
               nextY = 0;
             }
             nextPos.y = nextY;
-          } else if (btn.customID === d1) {
+          } else if (btn.customId === d1) {
             let nextX = snakeHead.x + 1;
             if (nextX >= WIDTH) {
               nextX = 0;
             }
             nextPos.x = nextX;
-          } else if (btn.customID === stop1) {
+          } else if (btn.customId === stop1) {
             this.gameOver(m, btn);
             collector.stop();
           }
@@ -241,50 +239,48 @@ class Snake {
     let lock1 = new MessageButton()
       .setLabel("\u200b")
       .setStyle("SECONDARY")
-      .setCustomID("saybye")
+      .setCustomId("saybye")
       .setDisabled(true);
 
     let w = new MessageButton()
       .setEmoji(this.options.emojis.up)
       .setStyle("PRIMARY")
-      .setCustomID(w1);
+      .setCustomId(w1);
 
     let lock2 = new MessageButton()
       .setLabel("\u200b")
       .setStyle("SECONDARY")
-      .setCustomID("h")
+      .setCustomId("h")
       .setDisabled(true);
 
     let a = new MessageButton()
       .setEmoji(this.options.emojis.right)
       .setStyle("PRIMARY")
-      .setCustomID(a1);
+      .setCustomId(a1);
 
     let s = new MessageButton()
       .setEmoji(this.options.emojis.down)
       .setStyle("PRIMARY")
-      .setCustomID(s1);
+      .setCustomId(s1);
 
     let d = new MessageButton()
       .setEmoji(this.options.emojis.left)
       .setStyle("PRIMARY")
-      .setCustomID(d1);
+      .setCustomId(d1);
     let stopy = new MessageButton()
-      .setLabel("Stop")
+      .setLabel("stop")
       .setStyle("DANGER")
-      .setCustomID(stop1);
+      .setCustomId(stop1);
+    const actionRow1 = new Discord.MessageActionRow().addComponents([
+      lock1,
+      w,
+      lock2,
+      stopy,
+    ]);
+    const actionRow2 = new Discord.MessageActionRow().addComponents([a, s, d]);
     btn.update({
       embeds: [editEmbed],
-      components: [
-        {
-          type: 1,
-          components: [lock1, w, lock2, stopy],
-        },
-        {
-          type: 1,
-          components: [a, s, d],
-        },
-      ],
+      components: [actionRow1, actionRow2],
     });
   }
 
@@ -292,42 +288,42 @@ class Snake {
     let lock1 = new MessageButton()
       .setLabel("\u200b")
       .setStyle("SECONDARY")
-      .setCustomID("saybye")
+      .setCustomId("saybye")
       .setDisabled(true);
 
     let lock2 = new MessageButton()
       .setLabel("\u200b")
       .setStyle("SECONDARY")
-      .setCustomID("h")
+      .setCustomId("h")
       .setDisabled(true);
     let w = new MessageButton()
       .setEmoji(this.options.emojis.up)
       .setStyle("PRIMARY")
-      .setCustomID(w1)
+      .setCustomId(w1)
       .setDisabled(true);
 
     let a = new MessageButton()
       .setEmoji(this.options.emojis.right)
       .setStyle("PRIMARY")
-      .setCustomID(a1)
+      .setCustomId(a1)
       .setDisabled(true);
 
     let s = new MessageButton()
       .setEmoji(this.options.emojis.down)
       .setStyle("PRIMARY")
-      .setCustomID(s1)
+      .setCustomId(s1)
       .setDisabled(true);
 
     let d = new MessageButton()
       .setEmoji(this.options.emojis.left)
       .setStyle("PRIMARY")
-      .setCustomID(d1)
+      .setCustomId(d1)
       .setDisabled(true);
 
     let stopy = new MessageButton()
       .setLabel("Stop")
       .setStyle("DANGER")
-      .setCustomID(stop1)
+      .setCustomId(stop1)
       .setDisabled(true);
 
     this.inGame = false;
@@ -336,19 +332,16 @@ class Snake {
       .setTitle(this.options.embed.gameOverTitle || "Game Over")
       .setDescription(this.options.embed.score + this.score)
       .setTimestamp();
-
+    const actionRow1 = new Discord.MessageActionRow().addComponents([
+      lock1,
+      w,
+      lock2,
+      stopy,
+    ]);
+    const actionRow2 = new Discord.MessageActionRow().addComponents([a, s, d]);
     btn.update({
       embeds: [editEmbed],
-      components: [
-        {
-          type: 1,
-          components: [lock1, w, lock2, stopy],
-        },
-        {
-          type: 1,
-          components: [a, s, d],
-        },
-      ],
+      components: [actionRow1, actionRow2],
     });
   }
 }

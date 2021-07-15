@@ -38,7 +38,7 @@ module.exports = class extends Command {
       6: "<:contributor:863348796606775296> - Developer",
     };
     const badge = badges[parseInt(args[0])];
-    if (findModel) {
+    if (findmodel) {
       findmodel?.badges?.push(parseInt(args[0]));
       findmodel.save();
     } else {
