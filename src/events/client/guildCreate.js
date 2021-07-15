@@ -8,7 +8,7 @@ module.exports = class extends Event {
   }
 
   run(guild) {
-    const channelID = this.client.settings.guild_log;
+    const channelID = this.client.settings.channels.guild_log;
     const channel = this.client.channels.cache.get(channelID);
     if (!channel) return;
     const embed = new AndoiEmbed()

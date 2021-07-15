@@ -37,6 +37,59 @@ module.exports = {
         });
       },
     },
+    chatbot: {
+      name: "chatbot",
+      async set(client, message, args) {
+        const prefix = args[0];
+        if (!prefix)
+          return message.channel.send({
+            content: await client.lang.get(message.guild, "SETTINGS/NO_CHAN"),
+          });
+        const ch = findChannel(message, args, false);
+        if (!ch)
+          return message.channel.send({
+            content: await client.lang.get(
+              message.guild,
+              "SETTINGS/INVALID_CHAN"
+            ),
+          });
+        await client.updateConfig(message.guild, {
+          chatbot: ch.id,
+        });
+        return message.channel.send({
+          content: await client.lang.get(
+            message.guild,
+            "SETTINGS/CHATBOT_SUCCESS"
+          ),
+        });
+      },
+      async reset(client, message, args) {
+        await client.updateConfig(message.guild, {
+          chatbot: null,
+        });
+        return message.channel.send({
+          content: await client.lang.get(
+            message.guild,
+            "SETTINGS/CHATBOT_RESET"
+          ),
+        });
+      },
+    },
   },
-  valid: ["prefix"],
+  valid: ["prefix", "chatbot"],
 };
+
+function findChannel(message, args, allowauthor = false) {
+  let channel;
+
+  channel =
+    message.mentions.channels.first() ||
+    message.guild.channels.cache.get(args[0]) ||
+    message.guild.channels.cache.find((r) => r.name === args[0]) ||
+    message.guild.channels.cache.find((r) => r.name.startsWith(args[0]));
+
+  if (!channel && allowauthor) {
+    channel = message.channel;
+  }
+  return channel;
+}

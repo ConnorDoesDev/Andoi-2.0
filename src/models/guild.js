@@ -12,5 +12,6 @@ module.exports = model(
       expiresAt: String,
       plan: String,
     },
+    chatbot: { type: String, default: null },
   })
 );
