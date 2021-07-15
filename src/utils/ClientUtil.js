@@ -131,7 +131,7 @@ module.exports = class ClientUtil {
               `Interaction ${name} doesn't belong in Interactions directory.`
             );
           this.client.interactions.set(interaction.name, interaction);
-          process.env.dev
+          process.env.dev === "false"
             ? this.client.guilds.cache
                 .get("740295580886106233")
                 .commands.create(interaction)
