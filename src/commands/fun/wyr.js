@@ -65,7 +65,7 @@ module.exports = class WyrCommand extends Command {
     });
 
     collect.on("collect", (msge) => {
-      if (msge.customID === "1") {
+      if (msge.customId === "1") {
         collect.stop();
         btn1 = new MessageButton()
           .setEmoji(arr[0])
@@ -81,7 +81,7 @@ module.exports = class WyrCommand extends Command {
         row = new MessageActionRow().addComponents([btn1, btn2]);
 
         msge.update({ embeds: [editEmbed], components: [row] });
-      } else if (msge.customID === "2") {
+      } else if (msge.customId === "2") {
         collect.stop();
         btn1 = new MessageButton()
           .setEmoji(arr[0])

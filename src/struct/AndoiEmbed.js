@@ -6,7 +6,7 @@ const { MessageEmbed } = require("discord.js");
  * @param {User} [user] - The user that executed the command that resulted in this embed
  * @param {object} [data] - Data to set in the rich embed
  */
-module.exports = class AndoiEbed extends MessageEmbed {
+module.exports = class AndoiEmbed extends MessageEmbed {
   constructor(user, data = {}) {
     super(data);
     this.setTimestamp();

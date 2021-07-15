@@ -68,6 +68,10 @@ module.exports = {
     INVALID_PREFIX: "Prefix is too long.",
     SUCCESS_PREFIX: "Successfully changed the prefix.",
     RESET_PREFIX: "The prefix has been reset.",
+    NO_CHAN: "No channel was provided.",
+    INVALID_CHAN: "Invalid channel was provided.",
+    CHATBOT_SUCCESS: "The chatbot channel is successfully changed.",
+    CHATBOT_RESET: "The chatbot channel has been reset.",
   },
   BUTTON_ROLES: {
     REMOVED_ROLE: (role) => `I have removed the <@&${role}> from you!`,

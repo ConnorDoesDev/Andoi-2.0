@@ -1,6 +1,7 @@
 const Event = require("../../struct/Event");
 const { Collection } = require("discord.js");
 const AndoiEmbed = require("../../struct/AndoiEmbed");
+const fetch = require("node-fetch");
 module.exports = class MessageEvent extends Event {
   constructor(...args) {
     super(...args, {
@@ -9,6 +10,8 @@ module.exports = class MessageEvent extends Event {
   }
   async run(message) {
     if (message.channel.type === "DM") return;
+    if (message.author.bot) return;
+    if (await this.chatbot(message)) return;
     const mentionRegex = new RegExp(`^<@!?${this.client.user.id}>$`);
     const mentionRegexPrefix = new RegExp(`^<@!?${this.client.user.id}> `);
     let dataPrefix = await this.client.getPrefix(message);
@@ -152,6 +155,25 @@ module.exports = class MessageEvent extends Event {
           content: `> ${this.client.emotes.warn} There was an error while executing this command: \`${err.message}\``,
         });
       }
+    }
+  }
+  async chatbot(message) {
+    const guildConfig = await this.client.getConfig(message.guild);
+    if (!guildConfig?.chatbot) return;
+    if (message.channel.id === guildConfig?.chatbot) {
+      const data = await fetch(
+        `https://api.affiliateplus.xyz/api/chatbot?message=${encodeURIComponent(
+          message.content
+        )}&botname=${encodeURIComponent(
+          "Andoi"
+        )}&ownername=${encodeURIComponent("Tovade")}&user=${encodeURIComponent(
+          message.author.id
+        )}`
+      ).then((res) => res.json());
+      message.channel.send({ content: data.message });
+      return true;
+    } else {
+      return false;
     }
   }
 };
