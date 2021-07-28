@@ -14,6 +14,7 @@ module.exports = class HelpCommand extends Command {
    */
   async run(message, [command]) {
     const prefix = await this.client.getPrefix(message);
+    const lang = await this.lang.getFile(message.guild);
     const embed = new AndoiEmbed()
       .setColor(this.client.settings.embed_main)
       .setAuthor(
@@ -29,47 +30,39 @@ module.exports = class HelpCommand extends Command {
 
       if (!cmd)
         return message.channel.send({
-          content: await this.client.lang.get(
-            message.guild,
-            "CORE/INVALID_COMMAND"
-          ),
+          content: lang.CORE.INVALID_COMMAND,
         });
 
       embed.setAuthor(
-        await this.client.lang.get(message.guild, "CORE/OPTIONAL_HELP"),
+        lang.CORE.OPTIONAL_HELP,
         message.author.displayAvatarURL({ dynamic: true })
       );
       embed.setTitle(
         `\`${prefix}${cmd.name} ${cmd.usage.length ? cmd.usage : ""}\``
       );
+      embed.addField(lang.CORE.DESC, cmd.desc);
       embed.addField(
-        await this.client.lang.get(message.guild, "CORE/DESC"),
-        cmd.desc
-      );
-      embed.addField(
-        await this.client.lang.get(message.guild, "CORE/ALIAS"),
+        lang.CORE.ALIAS,
         cmd.aliases.length
           ? cmd.aliases.map((cmd) => `\`${cmd}\``).join(" ")
-          : await this.client.lang.get(message.guild, "CORE/NO_ALIAS")
+          : lang.CORE.NO_ALIAS
       );
       embed.addField(
-        await this.client.lang.get(message.guild, "CORE/USAGE"),
+        lang.CORE.USAGE,
         cmd.usage.length
           ? "`" + prefix + cmd.name + cmd.usage + "`"
-          : await this.client.lang.get(message.guild, "CORE/NO_USAGE")
+          : lang.CORE.NO_USAGE
       );
       embed.addField(
-        await this.client.lang.get(message.guild, "CORE/EXAMPLE"),
+        lang.CORE.EXAMPLE,
         cmd.example.length
           ? cmd.example.map((m) => `\`${prefix}${cmd.name} ${m}\``)
-          : await this.client.lang.get(message.guild, "CORE/NO_EXAMPLE")
+          : lang.CORE.NO_EXAMPLE
       );
 
       return message.channel.send({ embeds: [embed] });
     } else {
-      embed.setDescription(
-        await this.client.lang.get(message.guild, "CORE/MORE_CMD_INFO", prefix)
-      );
+      embed.setDescription(lang.CORE.OPTIONAL_HELP(prefix));
 
       let categories;
       if (!this.client.isOwner(message.author.id)) {

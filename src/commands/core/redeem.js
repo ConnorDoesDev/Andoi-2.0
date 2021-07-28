@@ -4,7 +4,7 @@ const { Message } = require("discord.js");
 const guildModel = require("../../models/guild");
 const premiumModel = require("../../models/premium");
 const voucher = require("voucher-code-generator");
-const user = require('../../models/user')
+const user = require("../../models/user");
 module.exports = class RedeeemCommand extends Command {
   constructor(...args) {
     super(...args, {
@@ -29,12 +29,13 @@ module.exports = class RedeeemCommand extends Command {
    */
   async run(message, args) {
     const code = args[0];
+    const lang = await this.lang.getFile(message.guild);
     const guildConfig = await guildModel.findOne({
       guild: message.guild.id,
     });
     if (guildConfig?.premium?.enabled) {
       return message.channel.send({
-        content: await this.client.lang.get(message.guild, "CORE/HAS_PREMIUM"),
+        content: lang.CORE.HAS_PREMIUM,
       });
     }
     const premium = await premiumModel.findOne({
@@ -42,10 +43,7 @@ module.exports = class RedeeemCommand extends Command {
     });
     if (!premium) {
       return message.channel.send({
-        content: await this.client.lang.get(
-          message.guild,
-          "CORE/INVALID_PREMIUM"
-        ),
+        content: lang.CORE.INVALID_PREMIUM,
       });
     }
 
@@ -68,25 +66,21 @@ module.exports = class RedeeemCommand extends Command {
     const embed = new AndoiEmbed(message.author)
       .setSuccess()
       .setDescription(
-        await this.client.lang.get(
-          message.guild,
-          "CORE/REDEEMED_SUCCESSFULLY",
-          {
-            id,
-            guildname: message.guild.name,
-            expires: expire,
-          }
-        )
+        lang.CORE.REDEEMED_SUCCESSFULLY({
+          id,
+          guildname: message.guild.name,
+          expires: expire,
+        })
       )
       .setFooter(message.guild.name);
 
-      const userModel = await user.findOne({
-        user: message.author.id
-      })
-      if(userModel && !userModel.badges.includes(1)){
-        userModel.badges.push(1)
-        userModel.save()
-      }
+    const userModel = await user.findOne({
+      user: message.author.id,
+    });
+    if (userModel && !userModel.badges.includes(1)) {
+      userModel.badges.push(1);
+      userModel.save();
+    }
     message.channel.send({ embeds: [embed] });
   }
 };

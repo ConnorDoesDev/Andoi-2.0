@@ -15,24 +15,16 @@ module.exports = class PingCommand extends Command {
     const msg = await message.channel.send({
       content: `${this.client.emotes.loading}`,
     });
+    const lang = await this.lang.getFile(message.guild);
     const timeDiff = msg.createdTimestamp - message.createdTimestamp;
     const wsp = this.client.ws.ping;
     let dataPing = Date.now();
     await model.findOne({});
     let dataPingNow = Date.now();
     let dataRealPing = dataPingNow - dataPing;
-    const api_laten = await this.client.lang.get(
-      message.guild,
-      "CORE/API_LATENCY"
-    );
-    const msg_laten = await this.client.lang.get(
-      message.guild,
-      "CORE/MESSAGE_LATENCY"
-    );
-    const db_laten = await this.client.lang.get(
-      message.guild,
-      "CORE/DATABASE_LATENCY"
-    );
+    const api_laten = lang.CORE.API_LATENCY;
+    const msg_laten = lang.CORE.MESSAGE_LATENCY;
+    const db_laten = lang.CORE.DATABASE_LATENCY;
     const embed = new AndoiEmbed()
       .setColor(this.client.settings.embed_main)
       .setDescription(

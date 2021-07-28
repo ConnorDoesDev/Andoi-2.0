@@ -12,6 +12,7 @@ const langManager = require("./LanguageManager");
 const gModel = require("../models/guild");
 const pack = require("../../package.json");
 const { DisTube } = require("distube");
+const { ImageManipulationManager, AnimalManager } = require("andoi.js");
 class Bot extends Client {
   constructor() {
     super({
@@ -25,13 +26,16 @@ class Bot extends Client {
         Intents.FLAGS.GUILD_MEMBERS,
         Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
         Intents.FLAGS.GUILD_VOICE_STATES,
-        Intents.FLAGS.DIRECT_MESSAGES,
         Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
+        Intents.FLAGS.GUILD_INVITES,
       ],
+      partials: ["GUILD_MEMBER", "MESSAGE", "CHANNEL", "REACTION", "USER"],
     });
     /**
      * managers
      */
+    this.images = new ImageManipulationManager(this);
+    this.animals = new AnimalManager(this);
     this.player = new DisTube(this, {
       emitNewSongsOnly: true,
       leaveOnFinish: true,
@@ -76,6 +80,7 @@ class Bot extends Client {
     this.emotes = emotes;
     this.pack = pack;
     this.log = Logger;
+    this.env = process.env;
     this.bootTime = null;
     this.messages = { sent: 0, received: 0 };
     this.settings = settings;
