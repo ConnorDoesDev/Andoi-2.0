@@ -18,3 +18,9 @@ Andoi Developers, Contributors and other people which help to make Andoi the bes
 Andoi is hosted with a DigitalOcean vps
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=36476b1c2227&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+
+Wanna support me? use the money you get with the referal link above!
+
+## Credits
+
+[TundraBot](https://github.com/joshuayuen99/TundraBot)

@@ -62,7 +62,7 @@ module.exports = class HelpCommand extends Command {
 
       return message.channel.send({ embeds: [embed] });
     } else {
-      embed.setDescription(lang.CORE.OPTIONAL_HELP(prefix));
+      embed.setDescription(lang.CORE.OPTIONAL_HELP);
 
       let categories;
       if (!this.client.isOwner(message.author.id)) {

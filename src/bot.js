@@ -3,7 +3,7 @@ const AndoiEmbed = require("./struct/AndoiEmbed");
 const bot = new Bot();
 
 bot.build();
-require("./utils/GuildDB")(bot);
+require("./utils/db")(bot);
 bot.giveaway.on("giveawayReactionAdded", async (giveaway, member, reaction) => {
   if (giveaway.data.extraData?.role) {
     const lang = await bot.lang.getFile(member.guild);
@@ -24,4 +24,6 @@ bot.giveaway.on("giveawayReactionAdded", async (giveaway, member, reaction) => {
     }
   }
 });
+
 module.exports = bot;
+require("./dashboard/server");

@@ -14,13 +14,13 @@ module.exports = class extends Event {
     await this.createData(guild);
     const owner = await guild.fetchOwner();
     const embed = new AndoiEmbed()
-      .setTitle("New server here is some info!")
+      .setTitle("I left a server here is some info!")
       .addField("Owner:", owner.user.username)
       .addField("Members:", guild.members.cache.size);
 
     channel.send({ embeds: [embed] });
   }
-  async createData(guild) {
-    await this.client.createConfig(guild);
+  async deleteData(guild) {
+    await this.client.deleteConfig(guild);
   }
 };

@@ -2,6 +2,7 @@ const Event = require("../../struct/Event");
 const { Collection } = require("discord.js");
 const AndoiEmbed = require("../../struct/AndoiEmbed");
 const fetch = require("node-fetch");
+const messageM = require("../../models/message");
 module.exports = class MessageEvent extends Event {
   constructor(...args) {
     super(...args, {
@@ -12,6 +13,18 @@ module.exports = class MessageEvent extends Event {
     if (message.channel.type === "DM") return;
     if (message.author.bot) return;
     if (await this.chatbot(message)) return;
+    const newMessage = new messageM({
+      messageID: message.id,
+      text: message.content,
+      userID: message.author.id,
+      username: message.author.username,
+      guildID: message.guild.id,
+      channelID: message.channel.id,
+    });
+
+    await newMessage.save().catch((err) => {
+      console.error("Error saving message to database: ", err);
+    });
 
     const mentionRegex = new RegExp(`^<@!?${this.client.user.id}>$`);
     const mentionRegexPrefix = new RegExp(`^<@!?${this.client.user.id}> `);
@@ -158,22 +171,26 @@ module.exports = class MessageEvent extends Event {
     }
   }
   async chatbot(message) {
-    const guildConfig = await this.client.getConfig(message.guild);
-    if (!guildConfig?.chatbot) return;
-    if (message.channel.id === guildConfig?.chatbot) {
-      const data = await fetch(
-        `https://api.affiliateplus.xyz/api/chatbot?message=${encodeURIComponent(
-          message.content
-        )}&botname=${encodeURIComponent(
-          "Andoi"
-        )}&ownername=${encodeURIComponent("Tovade")}&user=${encodeURIComponent(
-          message.author.id
-        )}`
-      ).then((res) => res.json());
-      message.channel.send({ content: data.message });
-      return true;
-    } else {
-      return false;
+    try {
+      const guildConfig = await this.client.getConfig(message.guild);
+      if (!guildConfig?.chatbot) return;
+      if (message.channel.id === guildConfig?.chatbot) {
+        const data = await fetch(
+          `https://api.affiliateplus.xyz/api/chatbot?message=${encodeURIComponent(
+            message.content
+          )}&botname=${encodeURIComponent(
+            "Andoi"
+          )}&ownername=${encodeURIComponent(
+            "Tovade"
+          )}&user=${encodeURIComponent(message.author.id)}`
+        ).then((res) => res.json());
+        message.channel.send({ content: data.message });
+        return true;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 };
