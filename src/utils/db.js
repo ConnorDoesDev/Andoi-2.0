@@ -12,11 +12,14 @@ module.exports = (client) => {
     if (typeof data != "object") data = {};
     for (const key in settings) {
       if (settings.hasOwnProperty(key)) {
-        if (data[key] != settings[key]) data[key] = settings[key];
-        else return;
+        if (data[key] != settings[key]) {
+          data[key] = settings[key];
+        } else {
+          continue;
+        }
       }
     }
-    return await data.updateOne(settings).catch((err) => console.log(err));
+    return Config.findOneAndUpdate({ guild: guild.id }, data, { new: true });
   };
   client.createConfig = async (guild) => {
     const newConfig = new Config({

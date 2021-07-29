@@ -13,5 +13,22 @@ module.exports = model(
       plan: String,
     },
     chatbot: { type: String, default: null },
+    welcomeMessage: {
+      enabled: { type: Boolean, default: false },
+      message: {
+        type: String,
+        default:
+          "Welcome {user.username} to {server.name} hope you have a good day staying!",
+      },
+      channelID: { type: String, default: null },
+    },
+    leaveMessage: {
+      enabled: { type: Boolean, default: false },
+      message: {
+        type: String,
+        default: "Bye {user.username} we will miss you",
+      },
+      channelID: { type: String, default: null },
+    },
   })
 );
