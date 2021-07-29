@@ -1,6 +1,9 @@
 const ms = require("ms");
 module.exports = {
   ERROR: "An error has occured please contact the developer!",
+  IMAGE: {
+    INVALID_NUMBER: "You provided an argument that is not an number",
+  },
   APP: {
     MAX_QUESTIONS: (maxQuestions) =>
       `You can only add ${maxQuestions} question's!`,

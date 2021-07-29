@@ -22,7 +22,7 @@ module.exports = class extends Command {
   }
 
   async run(message, args) {
-    const member = this.findMember(message, args, true);
+    const member = await this.findMember(message, args, true);
     if (!member) return message.channel.send("Invalid user");
     const findmodel = await user.findOne({
       user: member?.id,

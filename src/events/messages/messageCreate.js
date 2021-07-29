@@ -12,6 +12,7 @@ module.exports = class MessageEvent extends Event {
     if (message.channel.type === "DM") return;
     if (message.author.bot) return;
     if (await this.chatbot(message)) return;
+
     const mentionRegex = new RegExp(`^<@!?${this.client.user.id}>$`);
     const mentionRegexPrefix = new RegExp(`^<@!?${this.client.user.id}> `);
     let dataPrefix = await this.client.getPrefix(message);
@@ -25,7 +26,6 @@ module.exports = class MessageEvent extends Event {
       : dataPrefix;
 
     if (!message.content.startsWith(prefix)) return;
-
     const [commandName, ...args] = message.content
       .slice(prefix.length)
       .trim()

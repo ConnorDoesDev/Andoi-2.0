@@ -44,7 +44,7 @@ module.exports = class Command {
    * @param {Boolean} allowAuthor
    * @returns {GuildMember} GuildMember
    */
-  findMember(message, args, allowAuthor = false) {
+  async findMember(message, args, allowAuthor = false) {
     let member;
 
     member =
@@ -53,7 +53,9 @@ module.exports = class Command {
       message.guild.members.cache.find((m) => m.user.id === args[0]) ||
       message.guild.members.cache.find((m) => m.user.tag === args[0]) ||
       message.guild.members.cache.find((m) => m.user.username === args[0]);
-
+    if (member?.partial) {
+      member = await member.fetch();
+    }
     if (!member && allowAuthor) {
       member = message.member;
     }

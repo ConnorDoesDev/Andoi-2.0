@@ -26,71 +26,46 @@ module.exports = class PingCommand extends Command {
    */
   async run(message, args) {
     message.channel.startTyping();
+    const lang = await this.lang.getFile(message.guild);
     const d = moment.duration(this.client.uptime);
     const days =
       d.days() == 1
-        ? `${d.days()} ${await this.lang.get(message.guild, "CORE/DAY")}`
-        : `${d.days()} ${await this.lang.get(message.guild, "CORE/DAYS")}`;
+        ? `${d.days()} ${lang.CORE.DAY}`
+        : `${d.days()} ${lang.CORE.DAYS}`;
     const hours =
       d.hours() == 1
-        ? `${d.hours()} ${await this.lang.get(message.guild, "CORE/HOUR")}`
-        : `${d.hours()} ${await this.lang.get(message.guild, "CORE/HOURS")}`;
+        ? `${d.hours()} ${lang.CORE.HOUR}`
+        : `${d.hours()} ${lang.CORE.HOURS}`;
     const clientStats = stripIndent`
-    ${await this.lang.get(message.guild, "CORE/SERVERS")}   :: ${
-      this.client.guilds.cache.size
-    }
-    ${await this.lang.get(message.guild, "CORE/USERS")}     :: ${
-      this.client.users.cache.size
-    }
-    ${await this.lang.get(message.guild, "CORE/CHANNELS")}  :: ${
-      this.client.channels.cache.size
-    }
+    ${lang.CORE.SERVERS}   :: ${this.client.guilds.cache.size}
+    ${lang.CORE.USERS}     :: ${this.client.users.cache.size}
+    ${lang.CORE.CHANNELS}  :: ${this.client.channels.cache.size}
     ${await this.lang.get(message.guild, "CORE/PING")}      :: ${Math.round(
       this.client.ws.ping
     )}ms
-    ${await this.lang.get(
-      message.guild,
-      "CORE/UPTIME"
-    )}    :: ${days} and ${hours}
-    ${await this.lang.get(message.guild, "CORE/COMMANDS")}  :: ${
-      this.client.commands.size
-    }
-    ${await this.lang.get(message.guild, "CORE/EVENTS")}    :: ${
-      this.client.events.size
-    } 
+    ${lang.CORE.UPTIME}    :: ${days} and ${hours}
+    ${lang.CORE.COMMANDS}  :: ${this.client.commands.size}
+    ${lang.CORE.EVENTS}    :: ${this.client.events.size} 
     `;
     const { totalMemMb, usedMemMb } = await mem.info();
     const serverStats = stripIndent`
-    ${await this.lang.get(message.guild, "CORE/OS")}        :: ${await os.oos()}
-    ${await this.lang.get(message.guild, "CORE/CPU")}       :: ${cpu.model()}
-    ${await this.lang.get(message.guild, "CORE/CORES")}     :: ${cpu.count()}
-    ${await this.lang.get(
-      message.guild,
-      "CORE/CPU_USAGE"
-    )} :: ${await cpu.usage()} %
-    ${await this.lang.get(message.guild, "CORE/RAM")}       :: ${totalMemMb} MB
-    ${await this.lang.get(message.guild, "CORE/RAM_USAGE")} :: ${usedMemMb} MB 
+    ${lang.CORE.OS}        :: ${await os.oos()}
+    ${lang.CORE.CPU}       :: ${cpu.model()}
+    ${lang.CORE.CORES}     :: ${cpu.count()}
+    ${lang.CORE.CPU_USAGE} :: ${await cpu.usage()} %
+    ${lang.CORE.RAM}       :: ${totalMemMb} MB
+    ${lang.CORE.RAM_USAGE} :: ${usedMemMb} MB 
     `;
 
     const embed = new AndoiEmbed(message.author)
-      .setTitle(
-        await this.lang.get(message.guild, "CORE/ANDOI_STATS", {
-          pack: this.client.pack,
-        })
-      )
+      .setTitle(lang.CORE.ANDOI_STATS({ pack: this.client.pack }))
       .setURL(this.client.settings.links.github)
-      .addField(
-        await this.lang.get(message.guild, "CORE/CLIENT"),
-        `\`\`\`asciidoc\n${clientStats}\`\`\``
-      )
+      .addField(lang.CORE.CLIENT, `\`\`\`asciidoc\n${clientStats}\`\`\``)
       .addField(
         await this.lang.get(message.guild, "CORE/SERVER"),
         `\`\`\`asciidoc\n${serverStats}\`\`\``
       )
-      .addField(
-        await this.lang.get(message.guild, "CORE/INVITE"),
-        `[Andoi](${this.client.settings.links.bot})`
-      )
+      .addField(lang.CORE.INVITE, `[Andoi](${this.client.settings.links.bot})`)
       .setTimestamp()
       .setImage("https://share.creavite.co/xlDP4VYcm1hSpUnu.gif")
       .setColor("BLUE");

@@ -24,7 +24,7 @@ module.exports = class CaptchaCommand extends Command {
    * @param {Array} args
    */
   async run(message, args) {
-    const user = this.findMember(message, args, true).user;
+    const user = await this.findMember(message, args, true).user;
 
     await this.start(
       message,
