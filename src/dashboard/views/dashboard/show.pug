@@ -2,6 +2,7 @@ doctype html
 html(lang="en")
     head
         include ../includes/header.pug
+        include ../includes/mixins.pug
         script(src="/js/sidebar.js", defer)
         script(src="/js/guild.js", defer)
         script(src="https://d3js.org/d3.v6.min.js", defer)
@@ -11,15 +12,28 @@ html(lang="en")
         link(rel="stylesheet", href="/css/sidebar.css")
         link(rel="stylesheet", href="/css/modules.css")
         link(rel="stylesheet", href="/css/dashboard.css")
+        script(type="text/javascript" defer).
+            const joinsLog = [!{savedLog.joins}];
+            const leavesLog = [!{savedLog.leaves}];
+        script(src='https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js', defer)
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/highlight.min.js', defer)
+        script(src='/js/charts.js', defer)
+        script(src='/js/sidebar.js', defer)
+        script(src='/js/guild.js', defer)
+
+        link(rel='stylesheet', href='https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css')
+        link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/styles/ascetic.min.css')
+        link(rel='stylesheet', href='/css/sidebar.css')
+
     body
         .container-fluid.d-flex.flex-column.flow-grow-1.vh-100.overflow-hidden.px-0.mx-0
             include ../includes/navbar.pug
 
             .row.flex-grow-1.overflow-hidden
-                #sidebar.d-flex.flex-column.overflow-hidden.mh-100.bg-light.pr-0
+                #sidebar.d-flex.flex-column.overflow-hidden.mh-100.pr-0
                     include ../includes/sidebar.pug
 
-                #sidebarExtension.d-flex.flex-column.overflow-hidden.mh-100.bg-light.pb-4
+                #sidebarExtension.d-flex.flex-column.overflow-hidden.mh-100.pb-4
                     header.text-center.pt-4
                         .large-icon.bg-white.round
                             if guild.icon
@@ -33,7 +47,11 @@ html(lang="en")
                         .category Modules
                         a#general.cursor-pointer #[i.fas.fa-star.pr-1] General
 
+                        .category Other
+                        a#auditLog.cursor-pointer #[i.fas.fa-book.pr-1.text-muted] Audit Log
+
                 .col.mh-100.overflow-auto.pl-0
 
                     include modules/overview
                     include modules/general
+                    include extensions/audit-log

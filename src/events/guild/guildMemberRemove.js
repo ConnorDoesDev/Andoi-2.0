@@ -1,4 +1,5 @@
 const Event = require("../../struct/Event");
+const logs = require("../../utils/logs");
 module.exports = class extends Event {
   constructor(...args) {
     super(...args, {
@@ -7,6 +8,7 @@ module.exports = class extends Event {
   }
 
   async run(member) {
+    await logs.add(member.guild.id, "leaves");
     const guild = member.guild;
     const settings = await this.client.getConfig(guild);
     if (settings?.leaveMessage?.enabled) {
