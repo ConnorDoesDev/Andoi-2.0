@@ -8,7 +8,7 @@ module.exports = model(
         type: String,
         unique: true,
       },
-      text: { type: String, required: true },
+      text: { type: String },
       userID: String,
       username: String,
       guildID: String,

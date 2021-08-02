@@ -8,12 +8,19 @@ const middleware = require("./modules/middleware.js");
 const rootRoutes = require("./routes/root-routes");
 const authRoutes = require("./routes/auth-routes");
 const dashboardRoutes = require("./routes/dashboard-routes");
-
+const rateLimit = require("express-rate-limit");
+const RateLimitStore = require("rate-limit-mongo");
 const app = express();
-
+const ratelimit = rateLimit({
+  max: 300,
+  message: "You are being rate limited.",
+  store: new RateLimitStore({ uri: process.env.mongo_uri }),
+  windowMs: 60 * 1000,
+});
 app.set("views", __dirname + "/views");
 app.set("view engine", "pug");
 
+app.use(ratelimit);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(cookies.express("a", "b", "c"));

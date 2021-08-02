@@ -1,71 +1,49 @@
 .icon,
 .icon img {
   font-size: x-large;
-  color: black;
-  transition: border-radius 0.25s ease-in-out;
 
   height: 52px;
   width: 52px;
-  margin: auto auto;
+
+  transition: border-radius 0.3s ease-in-out;
 }
 .icon:hover,
 .icon img:hover {
   border-radius: 15% !important;
-  transition: scale(1);
-  color: rgb(0, 123, 255);
 }
-a:hover {
-  text-decoration: none !important;
-}
-
 .abbr {
-  padding-top: 8px;
+  padding-top: 7.5px;
 }
 
-#server-list {
-  padding-right: 10px;
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-  scrollbar-width: none; /* Firefox */
-}
-#server-list::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
-}
-
-#hamburger-container {
-  margin-top: auto;
-}
 .hamburger {
   cursor: pointer;
-}
+  font-size: xxx-large;
 
-.custom-toggler {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
-
-  height: 32px;
-  width: 32px;
-
-  margin: 0 auto;
+  bottom: 0;
+  position: absolute;
 }
 
 #sidebar {
   padding: 10px;
-  width: 100px;
+  background-color: var(--background-tertiary);
 }
 #sidebar,
 #sidebarExtension {
-  background-color: gray;
+  height: 100vh;
+  float: left;
 }
 
 /* extension */
 #sidebarExtension {
-  width: 225px;
-  transition: all 0.3s, opacity 0.15s;
+  width: 275px;
+  transition: 0.3s;
   opacity: 1;
-  border-left: 1px solid lightgray;
+  background-color: var(--background-secondary);
 }
 #sidebarExtension .large-icon {
   display: block;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
   width: 50%;
 }
 #sidebarExtension .large-icon,
@@ -76,12 +54,17 @@ a:hover {
   height: 96px;
 }
 #sidebarExtension .abbr {
-  padding-top: 26px;
+  padding-top: 25px;
 }
+#sidebarExtension h4 {
+  cursor: pointer;
+}
+
 #sidebarExtension.closed {
   width: 0;
-  padding: 0 0;
-  border-left: none;
+  padding: 0px 0;
+}
+#sidebarExtension.closed {
   opacity: 0;
 }
 
@@ -93,20 +76,24 @@ a:hover {
   border-radius: 5px;
 
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.7);
+  color: var(--font);
 }
+.tabs a.active,
 .tabs a:hover {
-  background-color: white;
-  color: rgba(0, 0, 0, 1);
+  background-color: var(--background-primary);
 }
+
 .tabs .category {
   padding: 24px 0 4px 24px;
   font-size: 12px;
   text-transform: uppercase;
   font-weight: 700;
 
-  color: black;
+  color: gray;
   cursor: pointer;
 
   transition: color 0.3s ease-in-out;
+}
+.tabs .category:hover {
+  color: var(--heading);
 }

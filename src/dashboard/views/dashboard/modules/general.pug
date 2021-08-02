@@ -85,7 +85,7 @@ section#generalModule.module.css-transitions-only-after-page-load
                         p
                             strong Chatbot channel
                         div 
-                           select#chatbot(name="chatbotChannel" selected=savedGuild.chatbot) 
+                           select#welcomeMessageChannel.form-control(name="chatbotChannel" selected=savedGuild.chatbot) 
                                     -   var channels = Array.from(guild.channels.cache.filter(c => c.type === "GUILD_TEXT").values()).sort((a, b) => {
                                         -   if (a.name < b.name) return -1;
                                         -   else if (a.name > b.name) return 1;
@@ -104,7 +104,8 @@ section#generalModule.module.css-transitions-only-after-page-load
                                                 option(value=channel.id selected) ##{channel.name}
                                             else 
                                                 option(value=channel.id)  ##{channel.name} 
-                                            .invalid-feedback Please select a channel
+                                        option(value=null) No channel
+                                    .invalid-feedback Please select a channel
             div.text-center
                 button.submitButton.btn.btn-primary.text-center #[i.fas.fa-rocket] Save
 script(src="/js/general.js", defer)

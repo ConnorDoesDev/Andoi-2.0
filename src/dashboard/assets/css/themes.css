@@ -1,0 +1,22 @@
+:root,
+:root[theme="ASCETIC"] {
+  --primary: black;
+
+  --heading: black;
+  --font: black;
+
+  --background-primary: white;
+  --background-secondary: #f8f9fa;
+  --background-tertiary: #f8f9fa;
+}
+
+:root[theme="DISCORD"] {
+  --primary: #7289da;
+
+  --heading: white;
+  --font: #99aab5;
+
+  --background-primary: #36393f;
+  --background-secondary: #2f3136;
+  --background-tertiary: #202225;
+}

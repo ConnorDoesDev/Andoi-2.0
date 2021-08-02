@@ -23,19 +23,22 @@ module.exports = class extends Command {
 
   async run(message, args) {
     const toEval = args.join(" ");
+    const time = Date.now();
     try {
       await eval("(async () =>  { " + toEval + " } )();").then((e) => {
         let evaluated = e;
         evaluated = util.inspect(evaluated, { depth: 0 });
-        const type = typeof evaluated;
+        const type = typeof e;
+        const timeNow = Date.now();
+        const totaltime = timeNow - time;
         const embed = new AndoiEmbed(message.author)
           .setTitle("Eval Command")
-          .addField("**Input:**", `\`\`\`js\n${toEval}\`\`\``)
-          .addField("**Output:**", ` \`\`\`js\n${evaluated}\`\`\``)
+          .setDescription(`\`\`\`js\n${evaluated}\`\`\``)
           .addField(
             "**Type:**",
             ` \`\`\`js\n${this.client.utils.capitalise(type)}\`\`\``
           )
+          .addField("**Time taken:**", `\`\`\`js\n${totaltime}ms\`\`\``)
           .setColor("BLUE")
           .setTimestamp()
           .setFooter(message.author.username);

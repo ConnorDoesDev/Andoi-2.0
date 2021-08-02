@@ -3,7 +3,9 @@ const moment = require("moment");
 const Message = require("../../models/message");
 const { validateGuild } = require("../modules/middleware");
 const client = require("../../bot");
-
+const log = require("../modules/audit-logs");
+const logs = require("../../utils/logs");
+const logModel = require("../../models/logs");
 const router = express.Router();
 
 router.get("/dashboard", (req, res) => {
@@ -79,7 +81,9 @@ router.get("/servers/:id", validateGuild, async (req, res) => {
     savedGuild: data.guild,
     hourlyMessages: data.hourlyMessages,
     messageCounts: data.messageCounts,
+    users: client.users.cache,
     owner,
+    savedLog: await logs.get(req.params.id),
   });
 });
 
@@ -119,6 +123,15 @@ router.put("/servers/:id/:module", validateGuild, async (req, res) => {
       const guild = client.guilds.cache.get(id);
       await client.updateConfig(guild, settings);
     }
+    const guild = client.guilds.cache.get(id);
+    const savedGuild = await client.getConfig(guild);
+    await log.change(id, {
+      at: new Date(),
+      by: res.locals.user.id,
+      module,
+      new: savedGuild[module],
+      old: req.body[module],
+    });
 
     res.redirect(`/servers/${id}`);
   } catch (err) {

@@ -1,11 +1,33 @@
-.css-transitions-only-after-page-load * {
-  transition: none !important;
-  -webkit-transition: none !important;
-  -moz-transition: none !important;
-  -ms-transition: none !important;
-  -o-transition: none !important;
+body {
+  overflow-x: hidden;
+  background-color: var(--background-primary);
+  color: var(--font);
 }
 
-.tooltip {
-  pointer-events: none;
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: var(--heading);
+}
+
+code.hljs {
+  background-color: var(--background-secondary);
+}
+
+.user-avatar {
+  max-width: 36px;
+}
+
+.navbar a {
+  color: var(--heading);
+}
+
+.table {
+  color: var(--heading);
+}
+
+.dropdown-menu {
+  background-color: inherit;
 }
