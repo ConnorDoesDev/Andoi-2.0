@@ -26,6 +26,10 @@
 #sidebar {
   padding: 10px;
   background-color: var(--background-tertiary);
+  scrollbar-width: none; /* Firefox */
+}
+#sidebar::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 #sidebar,
 #sidebarExtension {
