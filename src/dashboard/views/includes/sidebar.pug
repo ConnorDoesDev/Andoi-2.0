@@ -1,8 +1,8 @@
-#sidebar.float-left.overflow-auto
+#sidebar.float-left
   a(href='/dashboard')
     .icon.round.shadow
       img.round(alt=user.username, src=user.avatarUrl(64))
-  hr
+  hr.overflow-auto
   each guild in guilds
     a(href='/servers/' + guild.id)
       .icon.round.shadow.my-2(data-toggle='tooltip', data-placement='right', title=guild.name)
