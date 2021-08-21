@@ -360,10 +360,10 @@ module.exports.reroll = async (client, message, args) => {
     });
   }
   let giveaway =
-    client.giveawaysManager.giveaways.find(
+    client.giveaway.giveaways.find(
       (g) => g.prize === args.join(" ") && g.guildID === message.guild.id
     ) ||
-    client.giveawaysManager.giveaways.find(
+    client.giveaway.giveaways.find(
       (g) => g.messageID === args[0] && g.guildID === message.guild.id
     );
   if (!giveaway) {
